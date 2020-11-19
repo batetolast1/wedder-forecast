@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Main page test</title>
 </head>
 <body>
     <h1>Hello world</h1>
+
+    <div sec:authorize="isAnonymous()">
+        This content is only shown to anonymous users.
+    </div>
+
+    <div sec:authorize="isAuthenticated()">
+        <span th:text="${#authentication.getPrincipal().getUsername()}"></span>
+        <span th:text="${#authentication.getPrincipal().authorities}"></span>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Log out"/>
+        </form>
+    </div>
+
 </body>
 </html>
