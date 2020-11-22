@@ -54,7 +54,7 @@ public class DailyWeather {
     // PRESSURE
 
     // The average Mean Sea Level Pressure (mb (millibars))
-    // sample data: "mslPres": 1027.1,
+    // sample data: "mslPresAvg": 1027.1,
     @Column(name = "msl_pres_avg")
     private Float mslPresAvg;
 

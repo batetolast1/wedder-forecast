@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Locale;
 
 @Entity
 @Table(name = "locations")
@@ -20,9 +19,11 @@ public class Location {
     private Long id;
 
     // A 2-character ISO 3166-1 Alpha-2 country code
-    @Enumerated(EnumType.STRING)
-    private Locale.IsoCountryCode countryCode;
+    @Column(name = "country_code")
+    private String countryCode;
 
     // Unspecified postal code;  Any spaces in the postal code must be URL encoded as %20
+
+    @Column(name = "postal_code")
     private String postalCode;
 }
