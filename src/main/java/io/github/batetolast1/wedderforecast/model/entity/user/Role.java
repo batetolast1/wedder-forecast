@@ -1,6 +1,5 @@
 package io.github.batetolast1.wedderforecast.model.entity.user;
 
-import io.github.batetolast1.wedderforecast.model.entity.BaseEntity;
 import io.github.batetolast1.wedderforecast.model.entity.user.enums.UserRole;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,11 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Role extends BaseEntity {
+public class Role {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
