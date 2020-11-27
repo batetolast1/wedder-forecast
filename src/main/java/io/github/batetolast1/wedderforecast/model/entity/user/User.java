@@ -1,6 +1,7 @@
 package io.github.batetolast1.wedderforecast.model.entity.user;
 
-import io.github.batetolast1.wedderforecast.model.entity.results.SearchResult;
+import io.github.batetolast1.wedderforecast.model.entity.results.DailyResult;
+import io.github.batetolast1.wedderforecast.model.entity.results.HourlyResult;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -47,7 +48,10 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
-    private Set<SearchResult> searchResults = new HashSet<>();
+    private Set<DailyResult> dailyResults = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<HourlyResult> hourlyResults = new HashSet<>();
 
     @PrePersist
     public void prePersist() {
