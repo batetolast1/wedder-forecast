@@ -18,12 +18,15 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // A 2-character ISO 3166-1 Alpha-2 country code
+    /**
+     * A 2-character ISO 3166-1 Alpha-2 country code
+     */
     @Column(name = "country_code")
     private String countryCode;
 
-    // Unspecified postal code;  Any spaces in the postal code must be URL encoded as %20
-
+    /**
+     * Unspecified postal code;  any spaces in the postal code must be URL encoded as %20
+     */
     @Column(name = "postal_code")
     private String postalCode;
 }
