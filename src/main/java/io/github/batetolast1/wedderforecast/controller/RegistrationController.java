@@ -1,6 +1,6 @@
 package io.github.batetolast1.wedderforecast.controller;
 
-import io.github.batetolast1.wedderforecast.dto.RegistrationDataDTO;
+import io.github.batetolast1.wedderforecast.dto.RegistrationDataDto;
 import io.github.batetolast1.wedderforecast.service.RegistrationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -24,12 +24,12 @@ public class RegistrationController {
     @GetMapping
     public ModelAndView prepareRegistrationPage() {
         ModelAndView modelAndView = new ModelAndView("register/form");
-        modelAndView.addObject("registrationData", new RegistrationDataDTO());
+        modelAndView.addObject("registrationData", new RegistrationDataDto());
         return modelAndView;
     }
 
     @PostMapping
-    public ModelAndView processRegistrationPage(@Valid @ModelAttribute("registrationData") RegistrationDataDTO registrationData,
+    public ModelAndView processRegistrationPage(@Valid @ModelAttribute("registrationData") RegistrationDataDto registrationData,
                                                 BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("register/form");

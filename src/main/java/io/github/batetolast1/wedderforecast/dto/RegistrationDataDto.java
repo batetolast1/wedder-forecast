@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Getter
 @Setter
-public class RegistrationDataDTO {
+public class RegistrationDataDto {
 
     @NotBlank
     @Size(min = 3, max = 16)

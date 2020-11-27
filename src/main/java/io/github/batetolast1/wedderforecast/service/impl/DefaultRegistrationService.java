@@ -1,6 +1,6 @@
 package io.github.batetolast1.wedderforecast.service.impl;
 
-import io.github.batetolast1.wedderforecast.dto.RegistrationDataDTO;
+import io.github.batetolast1.wedderforecast.dto.RegistrationDataDto;
 import io.github.batetolast1.wedderforecast.model.entity.user.Role;
 import io.github.batetolast1.wedderforecast.model.entity.user.User;
 import io.github.batetolast1.wedderforecast.model.entity.user.enums.UserRole;
@@ -25,7 +25,7 @@ public class DefaultRegistrationService implements RegistrationService {
     private final ModelMapper modelMapper;
 
     @Override
-    public void register(RegistrationDataDTO registrationData) {
+    public void register(RegistrationDataDto registrationData) {
         User user = modelMapper.map(registrationData, User.class);
         user.setActive(Boolean.TRUE);
 

@@ -1,8 +1,8 @@
 package io.github.batetolast1.wedderforecast.service;
 
-import io.github.batetolast1.wedderforecast.dto.RegistrationDataDTO;
+import io.github.batetolast1.wedderforecast.dto.RegistrationDataDto;
 
 public interface RegistrationService {
 
-    void register(RegistrationDataDTO registrationData);
+    void register(RegistrationDataDto registrationData);
 }
