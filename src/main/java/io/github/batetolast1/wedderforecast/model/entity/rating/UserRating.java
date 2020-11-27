@@ -5,7 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "user_ratings")
@@ -13,25 +16,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserRating {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class UserRating extends Rating {
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "overall")
     private UserRatingValue overall;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "temp")
-    private UserRatingValue temp;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "precip")
-    private UserRatingValue precip;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "cld_wind")
-    private UserRatingValue cldWind;
 }

@@ -5,7 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "system_ratings")
@@ -13,33 +16,32 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class SystemRating {
+public class SystemRating extends Rating {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer totalPoints = 0;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "overall")
     private SystemRatingValue overall;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "temp")
     private SystemRatingValue temp;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "pres")
     private SystemRatingValue pres;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "precip")
     private SystemRatingValue precip;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "cld_wind")
-    private SystemRatingValue cldWind;
+    private SystemRatingValue cld;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "hum")
+    private SystemRatingValue wind;
+
+    @Enumerated(EnumType.STRING)
     private SystemRatingValue hum;
+
+    public void addPoints(int points) {
+        this.totalPoints += points;
+    }
 }
