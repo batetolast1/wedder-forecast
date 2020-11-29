@@ -1,5 +1,7 @@
 package io.github.batetolast1.wedderforecast.model.entity.weather;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import io.github.batetolast1.wedderforecast.converter.StringToLocalDateTimeConverter;
 import io.github.batetolast1.wedderforecast.model.entity.location.Location;
 import io.github.batetolast1.wedderforecast.model.entity.rating.SystemRating;
 import lombok.Getter;
@@ -7,9 +9,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
-@MappedSuperclass
+@Entity
+@Table(name = "weathers")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "weather_type")
 
 @NoArgsConstructor
 @Getter
@@ -30,5 +35,6 @@ public class Weather {
      * Timestamp is assumed to be in local time for the area or point of observation.
      * Sample data: "timestamp": "2016-01-01T01:00:00+01:00"
      */
-    private ZonedDateTime timestamp;
+    @JsonDeserialize(converter = StringToLocalDateTimeConverter.class)
+    private LocalDateTime timestamp;
 }

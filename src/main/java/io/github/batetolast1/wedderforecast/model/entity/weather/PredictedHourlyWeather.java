@@ -3,14 +3,11 @@ package io.github.batetolast1.wedderforecast.model.entity.weather;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "predicted_hourly_weathers")
+@DiscriminatorValue("PredictedHourlyWeather")
 
 @NoArgsConstructor
 @Getter
@@ -18,29 +15,29 @@ import javax.persistence.Table;
 public class PredictedHourlyWeather extends HourlyWeather {
 
     @Column(name = "temp_deviation")
-    private StandardDeviation tempDeviation;
+    private Double tempDeviation;
 
     @Column(name = "feels_like_deviation")
-    private StandardDeviation feelsLikeDeviation;
+    private Double feelsLikeDeviation;
 
     @Column(name = "heat_index_deviation")
-    private StandardDeviation heatIndexDeviation;
+    private Double heatIndexDeviation;
 
     @Column(name = "msl_pres_deviation")
-    private StandardDeviation mslPresDeviation;
+    private Double mslPresDeviation;
 
     @Column(name = "precip_deviation")
-    private StandardDeviation precipDeviation;
+    private Double precipDeviation;
 
     @Column(name = "snowfall_deviation")
-    private StandardDeviation snowfallDeviation;
+    private Double snowfallDeviation;
 
     @Column(name = "cld_avg_deviation")
-    private StandardDeviation cldCvrDeviation;
+    private Double cldCvrDeviation;
 
     @Column(name = "wind_avg_deviation")
-    private StandardDeviation windSpdDeviation;
+    private Double windSpdDeviation;
 
     @Column(name = "rel_avg_deviation")
-    private StandardDeviation relHumDeviation;
+    private Double relHumDeviation;
 }
