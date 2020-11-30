@@ -21,7 +21,7 @@ public class DailyWeather extends Weather {
      * sample data: "tempAvg": 22.6
      */
     @Column(name = "temp_avg")
-    private Double tempAvg = 0.0;
+    private Double tempAvg;
 
     /**
      * The average “feels like” temperature (degrees Fahrenheit)
