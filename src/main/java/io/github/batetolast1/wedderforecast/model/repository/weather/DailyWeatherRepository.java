@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface DailyWeatherRepository extends WeatherRepository<DailyWeather> {
 
-    boolean existsByLocation(Location location);
+    boolean existsByLocationAndTimestamp(Location location, LocalDateTime timestamp);
 
     Optional<DailyWeather> findByLocationAndTimestamp(Location location, LocalDateTime timestamp);
 }
