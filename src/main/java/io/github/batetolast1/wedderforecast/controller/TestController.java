@@ -3,6 +3,7 @@ package io.github.batetolast1.wedderforecast.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.batetolast1.wedderforecast.dto.LocationDto;
 import io.github.batetolast1.wedderforecast.dto.RequestSimpleResultDto;
 import io.github.batetolast1.wedderforecast.dto.ResponseSimpleResultDto;
 import io.github.batetolast1.wedderforecast.model.entity.weather.DailyWeather;
@@ -27,8 +28,10 @@ public class TestController {
     @ResponseBody
     public ResponseSimpleResultDto getTestSimpleSearchResult() {
         var requestSimpleSearchResultDto = new RequestSimpleResultDto();
-        requestSimpleSearchResultDto.setCountryCode("PL");
-        requestSimpleSearchResultDto.setPostalCode("61-054");
+        LocationDto locationDto = new LocationDto();
+        locationDto.setPostalCode("61-054");
+        locationDto.setCountryCode("PL");
+        requestSimpleSearchResultDto.setLocationDto(locationDto);
         requestSimpleSearchResultDto.setDay(5);
         requestSimpleSearchResultDto.setMonth(6);
         requestSimpleSearchResultDto.setYear(2021);

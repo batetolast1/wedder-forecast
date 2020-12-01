@@ -10,6 +10,6 @@ import lombok.Setter;
 public class LocationDto {
 
     private Long id;
-    private String countryCode;
     private String postalCode;
+    private String countryCode;
 }

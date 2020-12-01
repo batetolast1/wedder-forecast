@@ -9,8 +9,7 @@ import lombok.Setter;
 @Setter
 public class RequestSimpleResultDto {
 
-    private String countryCode;
-    private String postalCode;
+    LocationDto locationDto;
     private int day;
     private int month;
     private int year;
