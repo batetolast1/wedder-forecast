@@ -75,11 +75,13 @@ public class DefaultWeatherSourceApiService implements WeatherSourceApiService {
                 log.debug("URI {}", uri);
 
                 List<DailyWeather> dailyWeathers = fetchDailyWeathers(uri);
-                dailyWeathers.forEach(dailyWeather -> {
-                    dailyWeather.setLocation(location);
-                    dailyWeather.setSystemRating(ratingService.rateDailyWeather(dailyWeather));
-                });
-                dailyWeatherRepository.saveAll(dailyWeathers);
+                if (dailyWeathers != null) {
+                    dailyWeathers.forEach(dailyWeather -> {
+                        dailyWeather.setLocation(location);
+                        dailyWeather.setSystemRating(ratingService.rateDailyWeather(dailyWeather));
+                    });
+                    dailyWeatherRepository.saveAll(dailyWeathers);
+                }
             }
         }
     }
@@ -110,11 +112,13 @@ public class DefaultWeatherSourceApiService implements WeatherSourceApiService {
                 log.debug("URI {}", uri);
 
                 List<HourlyWeather> hourlyWeathers = fetchHourlyWeathersForYear(uri);
-                hourlyWeathers.forEach(hourlyWeather -> {
-                    hourlyWeather.setLocation(location);
-                    hourlyWeather.setSystemRating(ratingService.rateHour(hourlyWeather));
-                });
-                hourlyWeatherRepository.saveAll(hourlyWeathers);
+                if (hourlyWeathers != null) {
+                    hourlyWeathers.forEach(hourlyWeather -> {
+                        hourlyWeather.setLocation(location);
+                        hourlyWeather.setSystemRating(ratingService.rateHourlyWeather(hourlyWeather));
+                    });
+                    hourlyWeatherRepository.saveAll(hourlyWeathers);
+                }
             }
         }
     }

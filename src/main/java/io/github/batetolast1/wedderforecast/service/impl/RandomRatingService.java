@@ -29,7 +29,7 @@ public class RandomRatingService implements RatingService {
     }
 
     @Override
-    public SystemRating rateHour(HourlyWeather hourlyWeather) {
+    public SystemRating rateHourlyWeather(HourlyWeather hourlyWeather) {
         SystemRating systemRating = generateRandomSystemRating();
         systemRatingRepository.save(systemRating);
         return systemRating;
@@ -37,20 +37,17 @@ public class RandomRatingService implements RatingService {
 
     private SystemRating generateRandomSystemRating() {
         SystemRating systemRating = new SystemRating();
-        rateOverall(systemRating);
         rateTemp(systemRating);
-        ratePres(systemRating);
+        rateFeelsLike(systemRating);
+        rateHeatIndex(systemRating);
+        rateMslPres(systemRating);
         ratePrecip(systemRating);
-        rateCld(systemRating);
-        rateWind(systemRating);
-        rateHum(systemRating);
+        rateSnowfall(systemRating);
+        rateCldCvr(systemRating);
+        rateWindSpd(systemRating);
+        rateRelHum(systemRating);
+        rateOverall(systemRating);
         return systemRating;
-    }
-
-    private void rateOverall(SystemRating systemRating) {
-        SystemRatingValue systemRatingValue = generateRandomSystemRatingValue();
-        systemRating.setOverall(systemRatingValue);
-        systemRating.addPoints(systemRatingValue.getPoints());
     }
 
     private void rateTemp(SystemRating systemRating) {
@@ -59,9 +56,21 @@ public class RandomRatingService implements RatingService {
         systemRating.addPoints(systemRatingValue.getPoints());
     }
 
-    private void ratePres(SystemRating systemRating) {
+    private void rateFeelsLike(SystemRating systemRating) {
         SystemRatingValue systemRatingValue = generateRandomSystemRatingValue();
-        systemRating.setPres(systemRatingValue);
+        systemRating.setFeelsLike(systemRatingValue);
+        systemRating.addPoints(systemRatingValue.getPoints());
+    }
+
+    private void rateHeatIndex(SystemRating systemRating) {
+        SystemRatingValue systemRatingValue = generateRandomSystemRatingValue();
+        systemRating.setHeatIndex(systemRatingValue);
+        systemRating.addPoints(systemRatingValue.getPoints());
+    }
+
+    private void rateMslPres(SystemRating systemRating) {
+        SystemRatingValue systemRatingValue = generateRandomSystemRatingValue();
+        systemRating.setMslPres(systemRatingValue);
         systemRating.addPoints(systemRatingValue.getPoints());
     }
 
@@ -71,21 +80,33 @@ public class RandomRatingService implements RatingService {
         systemRating.addPoints(systemRatingValue.getPoints());
     }
 
-    private void rateCld(SystemRating systemRating) {
+    private void rateSnowfall(SystemRating systemRating) {
         SystemRatingValue systemRatingValue = generateRandomSystemRatingValue();
-        systemRating.setCld(systemRatingValue);
+        systemRating.setSnowfall(systemRatingValue);
         systemRating.addPoints(systemRatingValue.getPoints());
     }
 
-    private void rateWind(SystemRating systemRating) {
+    private void rateCldCvr(SystemRating systemRating) {
         SystemRatingValue systemRatingValue = generateRandomSystemRatingValue();
-        systemRating.setWind(systemRatingValue);
+        systemRating.setCldCvr(systemRatingValue);
         systemRating.addPoints(systemRatingValue.getPoints());
     }
 
-    private void rateHum(SystemRating systemRating) {
+    private void rateWindSpd(SystemRating systemRating) {
         SystemRatingValue systemRatingValue = generateRandomSystemRatingValue();
-        systemRating.setHum(systemRatingValue);
+        systemRating.setWindSpd(systemRatingValue);
+        systemRating.addPoints(systemRatingValue.getPoints());
+    }
+
+    private void rateRelHum(SystemRating systemRating) {
+        SystemRatingValue systemRatingValue = generateRandomSystemRatingValue();
+        systemRating.setRelHum(systemRatingValue);
+        systemRating.addPoints(systemRatingValue.getPoints());
+    }
+
+    private void rateOverall(SystemRating systemRating) {
+        SystemRatingValue systemRatingValue = generateRandomSystemRatingValue();
+        systemRating.setOverall(systemRatingValue);
         systemRating.addPoints(systemRatingValue.getPoints());
     }
 

@@ -8,5 +8,5 @@ public interface RatingService {
 
     SystemRating rateDailyWeather(DailyWeather dailyWeather);
 
-    SystemRating rateHour(HourlyWeather hourlyWeather);
+    SystemRating rateHourlyWeather(HourlyWeather hourlyWeather);
 }

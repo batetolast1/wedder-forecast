@@ -10,11 +10,14 @@ import lombok.Setter;
 @Setter
 public class SystemRatingDto {
 
-    private SystemRatingValue overall;
     private SystemRatingValue temp;
-    private SystemRatingValue pres;
+    private SystemRatingValue feelsLike;
+    private SystemRatingValue heatIndex;
+    private SystemRatingValue mslPres;
     private SystemRatingValue precip;
-    private SystemRatingValue cld;
-    private SystemRatingValue wind;
-    private SystemRatingValue hum;
+    private SystemRatingValue snowfall;
+    private SystemRatingValue cldCvr;
+    private SystemRatingValue windSpd;
+    private SystemRatingValue relHum;
+    private SystemRatingValue overall;
 }

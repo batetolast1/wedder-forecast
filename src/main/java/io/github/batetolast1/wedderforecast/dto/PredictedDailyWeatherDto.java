@@ -22,6 +22,7 @@ public class PredictedDailyWeatherDto {
     private Double cldCvrAvg;
     private Double windSpdAvg;
     private Double relHumAvg;
+
     private Double tempAvgDeviation;
     private Double feelsLikeAvgDeviation;
     private Double heatIndexAvgDeviation;
