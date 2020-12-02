@@ -8,13 +8,11 @@ import io.github.batetolast1.wedderforecast.model.entity.weather.HourlyWeather;
 import io.github.batetolast1.wedderforecast.model.repository.rating.SystemRatingRepository;
 import io.github.batetolast1.wedderforecast.service.RatingService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
 @Service
-@Primary
 
 @RequiredArgsConstructor
 public class RandomRatingService implements RatingService {
