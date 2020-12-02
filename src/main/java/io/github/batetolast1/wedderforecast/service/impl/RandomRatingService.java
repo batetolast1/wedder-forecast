@@ -1,6 +1,7 @@
 package io.github.batetolast1.wedderforecast.service.impl;
 
 import io.github.batetolast1.wedderforecast.model.entity.rating.SystemRating;
+import io.github.batetolast1.wedderforecast.model.entity.rating.enums.OverallSystemRatingValue;
 import io.github.batetolast1.wedderforecast.model.entity.rating.enums.SystemRatingValue;
 import io.github.batetolast1.wedderforecast.model.entity.weather.DailyWeather;
 import io.github.batetolast1.wedderforecast.model.entity.weather.HourlyWeather;
@@ -105,9 +106,8 @@ public class RandomRatingService implements RatingService {
     }
 
     private void rateOverall(SystemRating systemRating) {
-        SystemRatingValue systemRatingValue = generateRandomSystemRatingValue();
-        systemRating.setOverall(systemRatingValue);
-        systemRating.addPoints(systemRatingValue.getPoints());
+        OverallSystemRatingValue overall = generateRandomOverallSystemRatingValue();
+        systemRating.setOverall(overall);
     }
 
     private SystemRatingValue generateRandomSystemRatingValue() {
@@ -121,6 +121,25 @@ public class RandomRatingService implements RatingService {
             case 3 -> SystemRatingValue.NEUTRAL;
             case 4 -> SystemRatingValue.SATISFIED;
             default -> SystemRatingValue.VERY_SATISFIED;
+        };
+    }
+
+    private OverallSystemRatingValue generateRandomOverallSystemRatingValue() {
+        int value = random.ints(1, 11)
+                .findFirst()
+                .orElse(10);
+
+        return switch (value) {
+            case 1 -> OverallSystemRatingValue.ONE;
+            case 2 -> OverallSystemRatingValue.TWO;
+            case 3 -> OverallSystemRatingValue.THREE;
+            case 4 -> OverallSystemRatingValue.FOUR;
+            case 5 -> OverallSystemRatingValue.FIVE;
+            case 6 -> OverallSystemRatingValue.SIX;
+            case 7 -> OverallSystemRatingValue.SEVEN;
+            case 8 -> OverallSystemRatingValue.EIGHT;
+            case 9 -> OverallSystemRatingValue.NINE;
+            default -> OverallSystemRatingValue.TEN;
         };
     }
 }

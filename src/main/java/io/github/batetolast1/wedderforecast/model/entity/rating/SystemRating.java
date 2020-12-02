@@ -1,5 +1,6 @@
 package io.github.batetolast1.wedderforecast.model.entity.rating;
 
+import io.github.batetolast1.wedderforecast.model.entity.rating.enums.OverallSystemRatingValue;
 import io.github.batetolast1.wedderforecast.model.entity.rating.enums.SystemRatingValue;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,7 +49,7 @@ public class SystemRating extends Rating {
     private SystemRatingValue relHum;
 
     @Enumerated(EnumType.STRING)
-    private SystemRatingValue overall;
+    private OverallSystemRatingValue overall;
 
     public void addPoints(int points) {
         this.totalPoints += points;

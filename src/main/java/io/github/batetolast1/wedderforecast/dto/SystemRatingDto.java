@@ -1,5 +1,6 @@
 package io.github.batetolast1.wedderforecast.dto;
 
+import io.github.batetolast1.wedderforecast.model.entity.rating.enums.OverallSystemRatingValue;
 import io.github.batetolast1.wedderforecast.model.entity.rating.enums.SystemRatingValue;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,5 +20,5 @@ public class SystemRatingDto {
     private SystemRatingValue cldCvr;
     private SystemRatingValue windSpd;
     private SystemRatingValue relHum;
-    private SystemRatingValue overall;
+    private OverallSystemRatingValue overall;
 }
