@@ -21,8 +21,9 @@ public class DefaultRegistrationService implements RegistrationService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final PasswordEncoder passwordEncoder;
+
     private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void register(RegistrationDataDto registrationData) {
