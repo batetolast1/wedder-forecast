@@ -6,26 +6,29 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.batetolast1.wedderforecast.dto.LocationDto;
 import io.github.batetolast1.wedderforecast.dto.RequestSimpleResultDto;
 import io.github.batetolast1.wedderforecast.dto.ResponseSimpleResultDto;
+import io.github.batetolast1.wedderforecast.model.entity.location.Location;
 import io.github.batetolast1.wedderforecast.model.entity.weather.DailyWeather;
+import io.github.batetolast1.wedderforecast.model.repository.location.LocationRepository;
+import io.github.batetolast1.wedderforecast.service.LocationService;
 import io.github.batetolast1.wedderforecast.service.ResultService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/test")
 
 @RequiredArgsConstructor
 public class TestController {
 
     private final ResultService resultService;
+    private final LocationRepository locationRepository;
+    private final LocationService locationService;
 
     @GetMapping("/simple-result")
-    @ResponseBody
     public ResponseSimpleResultDto getTestSimpleSearchResult() {
         var requestSimpleSearchResultDto = new RequestSimpleResultDto();
         LocationDto locationDto = new LocationDto();
@@ -40,7 +43,6 @@ public class TestController {
     }
 
     @GetMapping("/deserialize-daily-weather")
-    @ResponseBody
     public List<DailyWeather> deserializeSampleDailyWeather() throws JsonProcessingException {
         String json = """
                 [
@@ -60,5 +62,22 @@ public class TestController {
                 """;
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(json, new TypeReference<>() {});
+    }
+
+    @GetMapping("/find-location-by-postal-code-and-country-code")
+    public Location findLocationByPostalCodeAndCountryCode() {
+        LocationDto locationDto = new LocationDto();
+        locationDto.setPostalCode("61-054");
+        locationDto.setCountryCode("PL");
+        return locationRepository.findByPostalCodeAndCountryCode(locationDto.getPostalCode(), locationDto.getCountryCode())
+                .orElse(null);
+    }
+
+    @GetMapping("/get-location")
+    public Location getLocation() {
+        LocationDto locationDto = new LocationDto();
+        locationDto.setPostalCode("61-054");
+        locationDto.setCountryCode("PL");
+        return locationService.getLocation(locationDto);
     }
 }

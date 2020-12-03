@@ -8,13 +8,14 @@ import io.github.batetolast1.wedderforecast.model.entity.weather.PredictedDailyW
 import io.github.batetolast1.wedderforecast.model.repository.results.SimpleResultRepository;
 import io.github.batetolast1.wedderforecast.service.LocationService;
 import io.github.batetolast1.wedderforecast.service.ResultService;
-import io.github.batetolast1.wedderforecast.service.WeatherSourceApiService;
 import io.github.batetolast1.wedderforecast.service.WeatherService;
+import io.github.batetolast1.wedderforecast.service.WeatherSourceApiService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 
@@ -32,6 +33,11 @@ public class DefaultResultService implements ResultService {
     public ResponseSimpleResultDto getSimpleSearchResult(RequestSimpleResultDto requestSimpleResultDto) {
         Location location = locationService.getLocation(requestSimpleResultDto.getLocationDto());
         LocalDate localDate = LocalDate.of(requestSimpleResultDto.getYear(), requestSimpleResultDto.getMonth(), requestSimpleResultDto.getDay());
+
+        Optional<SimpleResult> optionalSimpleResult = simpleResultRepository.findByLocationAndLocalDate(location, localDate);
+        if (optionalSimpleResult.isPresent()) {
+            return modelMapper.map(optionalSimpleResult.get(), ResponseSimpleResultDto.class);
+        }
 
         weatherSourceApiService.getDailyWeathers(location, localDate);
 

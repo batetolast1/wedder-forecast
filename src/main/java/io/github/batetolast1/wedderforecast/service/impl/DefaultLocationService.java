@@ -5,11 +5,15 @@ import io.github.batetolast1.wedderforecast.model.entity.location.Location;
 import io.github.batetolast1.wedderforecast.model.repository.location.LocationRepository;
 import io.github.batetolast1.wedderforecast.service.LocationService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 
+@Log4j2
 @RequiredArgsConstructor
 public class DefaultLocationService implements LocationService {
 
@@ -19,8 +23,12 @@ public class DefaultLocationService implements LocationService {
 
     @Override
     public Location getLocation(LocationDto locationDto) {
-        return locationRepository
-                .findByPostalCodeAndCountryCode(locationDto.getCountryCode(), locationDto.getPostalCode())
-                .orElse(locationRepository.save(modelMapper.map(locationDto, Location.class)));
+        Optional<Location> optionalLocation = locationRepository.findByPostalCodeAndCountryCode(locationDto.getPostalCode(), locationDto.getCountryCode());
+        if (optionalLocation.isPresent()) {
+            log.debug("Location found in DB");
+            return optionalLocation.get();
+        }
+        log.debug("Location not found in DB");
+        return locationRepository.save(modelMapper.map(locationDto, Location.class));
     }
 }
