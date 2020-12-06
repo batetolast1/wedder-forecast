@@ -24,7 +24,7 @@
     </div>
 
     <div>
-        <form th:action="@{/}" method="post" th:object="${requestSimpleResultDto}">
+        <form th:action="@{/}" method="post" th:object="${requestFormSimpleResultDto}">
             <label for="postalCode">Postal code:</label>
             <input type="text" th:field="*{locationDto.postalCode}" id="postalCode" name="postalCode"
                    autofocus="autofocus"/>

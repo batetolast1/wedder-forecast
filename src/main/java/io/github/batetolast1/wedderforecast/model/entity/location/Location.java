@@ -19,7 +19,7 @@ public class Location {
     private Long id;
 
     /**
-     * Unspecified postal code;  any spaces in the postal code must be URL encoded as %20
+     * Unspecified postal code; any spaces in the postal code must be URL encoded as %20
      */
     @Column(name = "postal_code")
     private String postalCode;
@@ -29,4 +29,10 @@ public class Location {
      */
     @Column(name = "country_code")
     private String countryCode;
+
+    /**
+     * Place IDs uniquely identify a place in the Google Places database and on Google Maps.
+     * https://developers.google.com/places/web-service/place-id
+     */
+    private String placeId;
 }

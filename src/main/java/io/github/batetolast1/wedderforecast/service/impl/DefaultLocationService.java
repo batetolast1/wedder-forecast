@@ -22,8 +22,19 @@ public class DefaultLocationService implements LocationService {
     private final ModelMapper modelMapper;
 
     @Override
-    public Location getLocation(LocationDto locationDto) {
-        Optional<Location> optionalLocation = locationRepository.findByPostalCodeAndCountryCode(locationDto.getPostalCode(), locationDto.getCountryCode());
+    public Location getLocationByPostalCodeAndCountryCode(LocationDto locationDto) {
+        Optional<Location> optionalLocation = locationRepository.findFirstByPostalCodeAndCountryCode(locationDto.getPostalCode(), locationDto.getCountryCode());
+        if (optionalLocation.isPresent()) {
+            log.debug("Location found in DB");
+            return optionalLocation.get();
+        }
+        log.debug("Location not found in DB");
+        return locationRepository.save(modelMapper.map(locationDto, Location.class));
+    }
+
+    @Override
+    public Location getLocationByPlaceId(LocationDto locationDto) {
+        Optional<Location> optionalLocation = locationRepository.findByPlaceId(locationDto.getPlaceId());
         if (optionalLocation.isPresent()) {
             log.debug("Location found in DB");
             return optionalLocation.get();

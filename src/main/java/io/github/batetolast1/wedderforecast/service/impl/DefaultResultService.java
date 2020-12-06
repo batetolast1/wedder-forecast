@@ -1,6 +1,7 @@
 package io.github.batetolast1.wedderforecast.service.impl;
 
-import io.github.batetolast1.wedderforecast.dto.RequestSimpleResultDto;
+import io.github.batetolast1.wedderforecast.dto.RequestFormSimpleResultDto;
+import io.github.batetolast1.wedderforecast.dto.RequestGoogleMapsSimpleResultDto;
 import io.github.batetolast1.wedderforecast.dto.ResponseSimpleResultDto;
 import io.github.batetolast1.wedderforecast.model.entity.location.Location;
 import io.github.batetolast1.wedderforecast.model.entity.results.SimpleResult;
@@ -30,15 +31,30 @@ public class DefaultResultService implements ResultService {
 
     private final ModelMapper modelMapper;
 
-    public ResponseSimpleResultDto getSimpleSearchResult(RequestSimpleResultDto requestSimpleResultDto) {
-        Location location = locationService.getLocation(requestSimpleResultDto.getLocationDto());
-        LocalDate localDate = LocalDate.of(requestSimpleResultDto.getYear(), requestSimpleResultDto.getMonth(), requestSimpleResultDto.getDay());
+    public ResponseSimpleResultDto getSimpleSearchResultFromForm(RequestFormSimpleResultDto requestFormSimpleResultDto) {
+        Location location = locationService.getLocationByPostalCodeAndCountryCode(requestFormSimpleResultDto.getLocationDto());
+        LocalDate localDate = LocalDate.of(requestFormSimpleResultDto.getYear(), requestFormSimpleResultDto.getMonth(), requestFormSimpleResultDto.getDay());
 
+        return getResponseSimpleResultDto(location, localDate);
+    }
+
+    public ResponseSimpleResultDto getSimpleSearchResultFromGoogleMaps(RequestGoogleMapsSimpleResultDto requestGoogleMapsSimpleResultDto) {
+        Location location = locationService.getLocationByPlaceId(requestGoogleMapsSimpleResultDto.getLocationDto());
+        LocalDate localDate = requestGoogleMapsSimpleResultDto.getLocalDate();
+
+        return getResponseSimpleResultDto(location, localDate);
+    }
+
+    private ResponseSimpleResultDto getResponseSimpleResultDto(Location location, LocalDate localDate) {
         Optional<SimpleResult> optionalSimpleResult = simpleResultRepository.findByLocationAndLocalDate(location, localDate);
         if (optionalSimpleResult.isPresent()) {
             return modelMapper.map(optionalSimpleResult.get(), ResponseSimpleResultDto.class);
         }
 
+        return getNewResponseSimpleResultDto(location, localDate);
+    }
+
+    private ResponseSimpleResultDto getNewResponseSimpleResultDto(Location location, LocalDate localDate) {
         weatherSourceApiService.getDailyWeathers(location, localDate);
 
         PredictedDailyWeather predictedDailyWeather = weatherService.predictDailyWeather(location, localDate);

@@ -1,6 +1,6 @@
 package io.github.batetolast1.wedderforecast.controller;
 
-import io.github.batetolast1.wedderforecast.dto.RequestSimpleResultDto;
+import io.github.batetolast1.wedderforecast.dto.RequestFormSimpleResultDto;
 import io.github.batetolast1.wedderforecast.dto.ResponseSimpleResultDto;
 import io.github.batetolast1.wedderforecast.service.ResultService;
 import lombok.RequiredArgsConstructor;
@@ -21,14 +21,14 @@ public class HomePageController {
     @GetMapping
     public ModelAndView getHomePage() {
         ModelAndView modelAndView = new ModelAndView("index");
-        modelAndView.addObject("requestSimpleResultDto", new RequestSimpleResultDto());
+        modelAndView.addObject("requestFormSimpleResultDto", new RequestFormSimpleResultDto());
         return modelAndView;
     }
 
     @PostMapping()
-    public ModelAndView processSimpleResultForm(RequestSimpleResultDto requestSimpleResultDto) {
+    public ModelAndView processSimpleResultForm(RequestFormSimpleResultDto requestFormSimpleResultDto) {
         ModelAndView modelAndView = new ModelAndView("index");
-        ResponseSimpleResultDto responseSimpleResultDto = resultService.getSimpleSearchResult(requestSimpleResultDto);
+        ResponseSimpleResultDto responseSimpleResultDto = resultService.getSimpleSearchResultFromForm(requestFormSimpleResultDto);
         modelAndView.addObject("responseSimpleResultDto", responseSimpleResultDto);
         return modelAndView;
     }

@@ -4,21 +4,22 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.batetolast1.wedderforecast.dto.LocationDto;
-import io.github.batetolast1.wedderforecast.dto.RequestSimpleResultDto;
+import io.github.batetolast1.wedderforecast.dto.RequestFormSimpleResultDto;
 import io.github.batetolast1.wedderforecast.dto.ResponseSimpleResultDto;
+import io.github.batetolast1.wedderforecast.dto.RequestGoogleMapsSimpleResultDto;
 import io.github.batetolast1.wedderforecast.model.entity.location.Location;
 import io.github.batetolast1.wedderforecast.model.entity.weather.DailyWeather;
 import io.github.batetolast1.wedderforecast.model.repository.location.LocationRepository;
 import io.github.batetolast1.wedderforecast.service.LocationService;
 import io.github.batetolast1.wedderforecast.service.ResultService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/test")
 
 @RequiredArgsConstructor
@@ -29,20 +30,21 @@ public class TestController {
     private final LocationService locationService;
 
     @GetMapping("/simple-result")
+    @ResponseBody
     public ResponseSimpleResultDto getTestSimpleSearchResult() {
-        var requestSimpleSearchResultDto = new RequestSimpleResultDto();
+        RequestFormSimpleResultDto requestFormSimpleResultDto = new RequestFormSimpleResultDto();
         LocationDto locationDto = new LocationDto();
         locationDto.setPostalCode("61-054");
         locationDto.setCountryCode("PL");
-        requestSimpleSearchResultDto.setLocationDto(locationDto);
-        requestSimpleSearchResultDto.setDay(5);
-        requestSimpleSearchResultDto.setMonth(6);
-        requestSimpleSearchResultDto.setYear(2021);
-
-        return resultService.getSimpleSearchResult(requestSimpleSearchResultDto);
+        requestFormSimpleResultDto.setLocationDto(locationDto);
+        requestFormSimpleResultDto.setDay(5);
+        requestFormSimpleResultDto.setMonth(6);
+        requestFormSimpleResultDto.setYear(2021);
+        return resultService.getSimpleSearchResultFromForm(requestFormSimpleResultDto);
     }
 
     @GetMapping("/deserialize-daily-weather")
+    @ResponseBody
     public List<DailyWeather> deserializeSampleDailyWeather() throws JsonProcessingException {
         String json = """
                 [
@@ -65,19 +67,34 @@ public class TestController {
     }
 
     @GetMapping("/find-location-by-postal-code-and-country-code")
+    @ResponseBody
     public Location findLocationByPostalCodeAndCountryCode() {
         LocationDto locationDto = new LocationDto();
         locationDto.setPostalCode("61-054");
         locationDto.setCountryCode("PL");
-        return locationRepository.findByPostalCodeAndCountryCode(locationDto.getPostalCode(), locationDto.getCountryCode())
+        return locationRepository.findFirstByPostalCodeAndCountryCode(locationDto.getPostalCode(), locationDto.getCountryCode())
                 .orElse(null);
     }
 
     @GetMapping("/get-location")
+    @ResponseBody
     public Location getLocation() {
         LocationDto locationDto = new LocationDto();
         locationDto.setPostalCode("61-054");
         locationDto.setCountryCode("PL");
-        return locationService.getLocation(locationDto);
+        return locationService.getLocationByPostalCodeAndCountryCode(locationDto);
+    }
+
+    @GetMapping("/google-maps")
+    public ModelAndView showMap() {
+        ModelAndView modelAndView = new ModelAndView("test/google-maps");
+        modelAndView.addObject("requestGoogleMapsSimpleResultDto", new RequestGoogleMapsSimpleResultDto());
+        return modelAndView;
+    }
+
+    @PostMapping("/google-maps")
+    @ResponseBody
+    public ResponseSimpleResultDto getTestSimpleSearchResultGoogleMaps(@ModelAttribute RequestGoogleMapsSimpleResultDto requestGoogleMapsSimpleResultDto) {
+        return resultService.getSimpleSearchResultFromGoogleMaps(requestGoogleMapsSimpleResultDto);
     }
 }

@@ -7,7 +7,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class RequestSimpleResultDto {
+public class RequestFormSimpleResultDto {
 
     LocationDto locationDto;
     private int day;

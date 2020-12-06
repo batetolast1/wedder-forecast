@@ -5,5 +5,7 @@ import io.github.batetolast1.wedderforecast.model.entity.location.Location;
 
 public interface LocationService {
 
-    Location getLocation(LocationDto locationDto);
+    Location getLocationByPostalCodeAndCountryCode(LocationDto locationDto);
+
+    Location getLocationByPlaceId(LocationDto locationDto);
 }
