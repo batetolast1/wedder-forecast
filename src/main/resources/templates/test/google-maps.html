@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
+      lang="en"
 >
 <head>
     <title>Place Autocomplete</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/googleMaps.css}"/>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAibLFtxSmWFtuJPHl90pTl5FZlgJR6AzM&callback=initMap&libraries=places&v=weekly"
-            defer
-    ></script>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/googleMaps.css}"/>
+            defer></script>
     <script th:src="@{/js/googleMapsAutocomplete.js}"></script>
 </head>
 <body>
