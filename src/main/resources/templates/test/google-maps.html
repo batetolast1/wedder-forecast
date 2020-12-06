@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <title>Place Autocomplete</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAibLFtxSmWFtuJPHl90pTl5FZlgJR6AzM&callback=initMap&libraries=places&v=weekly"
+            defer
+    ></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/googleMaps.css}"/>
+    <script th:src="@{/js/googleMapsAutocomplete.js}"></script>
+</head>
+<body>
+    <div class="pac-card" id="pac-card">
+        <div>
+            <div id="title">Wedder forecast</div>
+            <div id="type-selector" class="pac-controls">
+                <input type="radio" name="type" id="changetype-address" checked="checked"/>
+                <label for="changetype-address">Addresses</label>
+
+                <input type="radio" name="type" id="changetype-establishment"/>
+                <label for="changetype-establishment">Establishments</label>
+            </div>
+        </div>
+        <div id="pac-container">
+            <input id="pac-input" type="text" placeholder="Enter a location"/>
+        </div>
+    </div>
+
+    <div id="map"></div>
+
+    <div id="infowindow-content">
+        <img src="" width="16" height="16" id="place-icon"/>
+        <span id="place-name" class="title"></span><br/>
+        <span id="place-address"></span><br/>
+
+        <form id="form" th:action="@{/test/google-maps}" method="post" th:object="${requestGoogleMapsSimpleResultDto}">
+            <input type="text"
+                   id="postalCode"
+                   name="postalCode"
+                   th:field="*{locationDto.postalCode}"
+                   hidden>
+            <input type="text"
+                   id="countryCode"
+                   name="countryCode"
+                   th:field="*{locationDto.countryCode}"
+                   hidden>
+            <input type="text"
+                   id="placeId"
+                   name="placeId"
+                   th:field="*{locationDto.placeId}"
+                   hidden>
+            <label for="localDate">Select date:</label>
+            <!-- TODO add fetching value, min and max dates using JS -->
+            <input type="date"
+                   id="localDate"
+                   name="localDate"
+                   th:field="*{localDate}"
+                   value="2021-06-05"
+                   min="2020-12-05"
+                   max="2021-12-04">
+            <input type="submit" value="Predict weather!"/>
+        </form>
+    </div>
+</body>
+</html>
