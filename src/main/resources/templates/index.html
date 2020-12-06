@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Main page test</title>
+    <title>Wedder Forecast - let's predict weather for your wedding!</title>
 </head>
 <body>
-    <h1>Hello world</h1>
+    <h1>Wedder Forecast</h1>
+    <h2>Let's predict weather for your wedding!</h2>
 
     <div sec:authorize="isAnonymous()">
-        This content is only shown to anonymous users.
+        As anonymous user you can only request simple forecast with limited amount of data.
     </div>
 
     <div sec:authorize="isAuthenticated()">
@@ -19,6 +21,60 @@
         <form th:action="@{/logout}" method="post">
             <input type="submit" value="Log out"/>
         </form>
+    </div>
+
+    <div>
+        <form th:action="@{/}" method="post" th:object="${requestSimpleResultDto}">
+            <label for="postalCode">Postal code:</label>
+            <input type="text" th:field="*{locationDto.postalCode}" id="postalCode" name="postalCode"
+                   autofocus="autofocus"/>
+            <br/>
+            <label for="countryCode">Country code:</label>
+            <input type="text" th:field="*{locationDto.countryCode}" id="countryCode" name="countryCode"/>
+            <br/>
+            <label for="day">Day:</label>
+            <input type="number" th:field="*{day}" id="day" name="day"/>
+            <br/>
+            <label for="month">Month:</label>
+            <input type="number" th:field="*{month}" id="month" name="day"/>
+            <br/>
+            <label for="year">Year:</label>
+            <input type="number" th:field="*{year}" id="year" name="day"/>
+            <br/>
+            <input type="submit" value="Predict weather!"/>
+        </form>
+    </div>
+
+    <div th:if="${responseSimpleResultDto != null}">
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Postal code</th>
+                <th>Country code</th>
+                <th>Avg temperature</th>
+                <th>Avg "feels like" temperature</th>
+                <th>Precipitation</th>
+                <th>Avg cloud cover</th>
+                <th>Avg wind speed</th>
+                <th>Avg relative humidity</th>
+                <th>Overall rating</th>
+            </tr>
+            <tr>
+                <td th:text="${responseSimpleResultDto.localDate}">Result date</td>
+                <td th:text="${responseSimpleResultDto.locationDto.postalCode}">Result postal code</td>
+                <td th:text="${responseSimpleResultDto.locationDto.countryCode}">Result country code</td>
+                <td th:text="${responseSimpleResultDto.predictedDailyWeatherDto.tempAvg}">Result temp avg</td>
+                <td th:text="${responseSimpleResultDto.predictedDailyWeatherDto.feelsLikeAvg}">Result feels like avg
+                </td>
+                <td th:text="${responseSimpleResultDto.predictedDailyWeatherDto.precip}">Result precip</td>
+                <td th:text="${responseSimpleResultDto.predictedDailyWeatherDto.cldCvrAvg}">Result cldCvr</td>
+                <td th:text="${responseSimpleResultDto.predictedDailyWeatherDto.windSpdAvg}">Result windSpdAvg</td>
+                <td th:text="${responseSimpleResultDto.predictedDailyWeatherDto.relHumAvg}">Result relHumAvg</td>
+                <td th:text="${responseSimpleResultDto.predictedDailyWeatherDto.systemRatingDto.overall}">Result
+                    systemRating overall
+                </td>
+            </tr>
+        </table>
     </div>
 
 </body>

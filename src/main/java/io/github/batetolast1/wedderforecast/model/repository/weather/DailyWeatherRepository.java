@@ -12,5 +12,7 @@ public interface DailyWeatherRepository extends WeatherRepository<DailyWeather> 
 
     boolean existsByLocationAndTimestamp(Location location, LocalDateTime timestamp);
 
+    boolean existsByLocation(Location location);
+
     Optional<DailyWeather> findByLocationAndTimestamp(Location location, LocalDateTime timestamp);
 }

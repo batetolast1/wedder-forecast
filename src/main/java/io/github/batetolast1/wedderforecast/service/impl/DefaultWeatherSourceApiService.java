@@ -67,8 +67,7 @@ public class DefaultWeatherSourceApiService implements WeatherSourceApiService {
 
     @Override
     public void getDailyWeathers(Location location, LocalDate localDate) {
-        if (!isLatestDailyDataFetched(location)) {
-            // TODO fetch only missing data between now and latest available record in DB instead of all data
+        if (!isAnyDataFetched(location)) {
 
             for (int i = 0; i < YEARS_TO_FETCH; i++) {
                 URI uri = buildUriForYearlyDailyWeathers(location, LocalDate.now().minus(i, ChronoUnit.YEARS).minus(1, ChronoUnit.DAYS));
@@ -86,6 +85,11 @@ public class DefaultWeatherSourceApiService implements WeatherSourceApiService {
         }
     }
 
+    private boolean isAnyDataFetched(Location location) {
+        return dailyWeatherRepository.existsByLocation(location);
+    }
+
+    // TODO add getting only missing data between now and latest available record in DB instead of adding duplicates!
     private boolean isLatestDailyDataFetched(Location location) {
         LocalDateTime localDatetime = LocalDate.now().minus(1, ChronoUnit.DAYS).atStartOfDay();
         return dailyWeatherRepository.existsByLocationAndTimestamp(location, localDatetime);
