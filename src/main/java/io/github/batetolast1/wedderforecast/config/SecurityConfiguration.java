@@ -37,16 +37,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web.ignoring()
                 .antMatchers("/css/**")
-                .antMatchers("/js/**");
+                .antMatchers("/js/**")
+                .antMatchers("/images/**")
+                .antMatchers("/h2-console", "/h2-console/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
+                .antMatchers("/simple-result").permitAll()
                 .antMatchers("/test/*").permitAll()
                 .antMatchers("/register").anonymous()
                 .antMatchers("/login").anonymous()
+                .antMatchers("/user").authenticated()
                 .anyRequest().authenticated();
 
         http.formLogin()

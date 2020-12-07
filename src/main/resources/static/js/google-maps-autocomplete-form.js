@@ -11,6 +11,25 @@ function initMap() {
         clickableIcons: false
     });
 
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                };
+                map.setCenter(pos);
+            },
+            () => {
+                window.alert("Error: The Geolocation service failed.");
+            }
+        );
+    } else {
+        // Browser doesn't support Geolocation
+        window.alert("Error: Your browser doesn't support geolocation.");
+    }
+
     const card = document.getElementById("pac-card");
     const input = document.getElementById("pac-input");
 
@@ -88,6 +107,7 @@ function initMap() {
         infowindowContent.children["form"].children["postalCode"].value = postalCode;
         infowindowContent.children["form"].children["countryCode"].value = countryCode;
         infowindowContent.children["form"].children["placeId"].value = place.place_id;
+        infowindowContent.children["form"].children["formattedAddress"].value = place.formatted_address;
         infowindow.open(map, marker);
     });
 
@@ -101,4 +121,30 @@ function initMap() {
 
     setupClickListener("changetype-address", ["address"]);
     setupClickListener("changetype-establishment", ["establishment"]);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const now = new Date();
+    let year = now.getFullYear();
+    let month = now.getMonth();
+    let day = now.getDate();
+    document.getElementById('localDate').value = now.toISOString().split("T")[0];
+    document.getElementById("localDate").min = new Date(year, month, (day + 1)).toISOString().split("T")[0];
+    document.getElementById("localDate").max = new Date((year + 1), month, day).toISOString().split("T")[0];
+});
+
+function disableSendButton(formElement) {
+    let submitBtn = formElement.lastElementChild;
+    submitBtn.value = "Sending... please wait!";
+    submitBtn.disabled = true;
+}
+
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(
+        browserHasGeolocation
+            ? "Error: The Geolocation service failed."
+            : "Error: Your browser doesn't support geolocation."
+    );
+    infoWindow.open(map);
 }

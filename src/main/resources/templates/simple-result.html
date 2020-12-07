@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{pages.simple-result.title}"></title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+</head>
+<body>
+    <nav th:replace="fragments/header :: header">
+        <h1>Header</h1>
+    </nav>
+
+    <h1 th:text="#{pages.result.title}">Simple result</h1>
+
+    <div th:if="${responseSimpleResultDto != null}">
+        <div>
+            <p>Want more details?</p>
+            <a th:href="@{/login}"
+               th:text="#{pages.index.login}"></a><br/>
+            <a th:href="@{/register}"
+               th:text="#{pages.index.register}"></a>
+        </div>
+
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Address</th>
+                <th>Avg temperature</th>
+                <th>Precipitation</th>
+                <th>Avg cloud cover</th>
+                <th>Overall rating</th>
+            </tr>
+            <tr>
+                <td th:text="${responseSimpleResultDto.localDate}">Result date</td>
+                <td th:text="${responseSimpleResultDto.locationDto.formattedAddress}">Result address</td>
+                <td th:text="${responseSimpleResultDto.predictedDailyWeatherDto.tempAvg}">Result temp avg</td>
+                <td th:text="${responseSimpleResultDto.predictedDailyWeatherDto.precip}">Result precip</td>
+                <td th:text="${responseSimpleResultDto.predictedDailyWeatherDto.cldCvrAvg}">Result cldCvr</td>
+                <td th:text="${responseSimpleResultDto.predictedDailyWeatherDto.systemRatingDto.overall}">Result
+                    systemRating overall
+                </td>
+            </tr>
+        </table>
+
+        <iframe
+                width="600"
+                height="450"
+                style="border:none"
+                th:src="@{'https://www.google.com/maps/embed/v1/place?key=AIzaSyAibLFtxSmWFtuJPHl90pTl5FZlgJR6AzM&q=place_id:'+${responseSimpleResultDto.locationDto.placeId}}"
+                allowfullscreen>
+        </iframe>
+    </div>
+
+</body>

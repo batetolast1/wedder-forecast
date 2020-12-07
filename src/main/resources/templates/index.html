@@ -1,80 +1,80 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Wedder Forecast - let's predict weather for your wedding!</title>
+    <title th:text="#{pages.homepage.title}"></title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/google-maps-autocomplete-form.css}"/>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAibLFtxSmWFtuJPHl90pTl5FZlgJR6AzM&callback=initMap&libraries=places&v=weekly"
+            defer></script>
+    <script th:src="@{/js/google-maps-autocomplete-form.js}"></script>
 </head>
 <body>
-    <h1>Wedder Forecast</h1>
-    <h2>Let's predict weather for your wedding!</h2>
+    <nav th:replace="fragments/header :: header">
+        <h1>Header</h1>
+    </nav>
 
-    <div sec:authorize="isAnonymous()">
-        As anonymous user you can only request simple forecast with limited amount of data.
+    <h1 th:text="#{pages.index.h1}">Wedder Forecast</h1>
+    <h2 th:text="#{pages.index.h2}">Let's predict weather for your wedding!</h2>
+
+    <div class="pac-card" id="pac-card">
+        <div>
+            <div id="title">Wedder forecast</div>
+            <div id="type-selector" class="pac-controls">
+                <input type="radio" name="type" id="changetype-address" checked="checked"/>
+                <label for="changetype-address">Addresses</label>
+
+                <input type="radio" name="type" id="changetype-establishment"/>
+                <label for="changetype-establishment">Establishments</label>
+            </div>
+        </div>
+        <div id="pac-container">
+            <input id="pac-input" type="text" placeholder="Enter a location"/>
+        </div>
     </div>
 
-    <div sec:authorize="isAuthenticated()">
-        <span th:text="${#authentication.getPrincipal().getUsername()}"></span>
-        <span th:text="${#authentication.getPrincipal().authorities}"></span>
-        <form th:action="@{/logout}" method="post">
-            <input type="submit" value="Log out"/>
-        </form>
-    </div>
+    <div id="map"></div>
 
-    <div>
-        <form th:action="@{/}" method="post" th:object="${requestFormSimpleResultDto}">
-            <label for="postalCode">Postal code:</label>
-            <input type="text" th:field="*{locationDto.postalCode}" id="postalCode" name="postalCode"
-                   autofocus="autofocus"/>
-            <br/>
-            <label for="countryCode">Country code:</label>
-            <input type="text" th:field="*{locationDto.countryCode}" id="countryCode" name="countryCode"/>
-            <br/>
-            <label for="day">Day:</label>
-            <input type="number" th:field="*{day}" id="day" name="day"/>
-            <br/>
-            <label for="month">Month:</label>
-            <input type="number" th:field="*{month}" id="month" name="day"/>
-            <br/>
-            <label for="year">Year:</label>
-            <input type="number" th:field="*{year}" id="year" name="day"/>
-            <br/>
+    <div id="infowindow-content">
+        <img src="" width="16" height="16" id="place-icon"/>
+        <span id="place-name" class="title"></span><br/>
+        <span id="place-address"></span><br/>
+
+        <form id="form"
+              onsubmit="disableSendButton(this)"
+              th:action="@{/simple-result}"
+              method="post"
+              th:object="${requestGoogleMapsSimpleResultDto}">
+            <input type="text"
+                   id="postalCode"
+                   name="postalCode"
+                   th:field="*{locationDto.postalCode}"
+                   hidden>
+            <input type="text"
+                   id="countryCode"
+                   name="countryCode"
+                   th:field="*{locationDto.countryCode}"
+                   hidden>
+            <input type="text"
+                   id="placeId"
+                   name="placeId"
+                   th:field="*{locationDto.placeId}"
+                   hidden>
+            <input type="text"
+                   id="formattedAddress"
+                   name="formattedAddress"
+                   th:field="*{locationDto.formattedAddress}"
+                   hidden>
+            <label for="localDate">Select date:</label>
+            <input type="date"
+                   id="localDate"
+                   name="localDate"
+                   th:field="*{localDate}">
             <input type="submit" value="Predict weather!"/>
         </form>
-    </div>
-
-    <div th:if="${responseSimpleResultDto != null}">
-        <table>
-            <tr>
-                <th>Date</th>
-                <th>Postal code</th>
-                <th>Country code</th>
-                <th>Avg temperature</th>
-                <th>Avg "feels like" temperature</th>
-                <th>Precipitation</th>
-                <th>Avg cloud cover</th>
-                <th>Avg wind speed</th>
-                <th>Avg relative humidity</th>
-                <th>Overall rating</th>
-            </tr>
-            <tr>
-                <td th:text="${responseSimpleResultDto.localDate}">Result date</td>
-                <td th:text="${responseSimpleResultDto.locationDto.postalCode}">Result postal code</td>
-                <td th:text="${responseSimpleResultDto.locationDto.countryCode}">Result country code</td>
-                <td th:text="${responseSimpleResultDto.predictedDailyWeatherDto.tempAvg}">Result temp avg</td>
-                <td th:text="${responseSimpleResultDto.predictedDailyWeatherDto.feelsLikeAvg}">Result feels like avg
-                </td>
-                <td th:text="${responseSimpleResultDto.predictedDailyWeatherDto.precip}">Result precip</td>
-                <td th:text="${responseSimpleResultDto.predictedDailyWeatherDto.cldCvrAvg}">Result cldCvr</td>
-                <td th:text="${responseSimpleResultDto.predictedDailyWeatherDto.windSpdAvg}">Result windSpdAvg</td>
-                <td th:text="${responseSimpleResultDto.predictedDailyWeatherDto.relHumAvg}">Result relHumAvg</td>
-                <td th:text="${responseSimpleResultDto.predictedDailyWeatherDto.systemRatingDto.overall}">Result
-                    systemRating overall
-                </td>
-            </tr>
-        </table>
     </div>
 
 </body>
