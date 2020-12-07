@@ -34,5 +34,13 @@ public class Location {
      * Place IDs uniquely identify a place in the Google Places database and on Google Maps.
      * https://developers.google.com/places/web-service/place-id
      */
+    @Column(name = "place_id")
     private String placeId;
+
+    /**
+     * Formatted_address is a string containing the human-readable address of this place.
+     * https://developers.google.com/places/web-service/details
+     */
+    @Column(name = "formatted_address")
+    private String formattedAddress;
 }
