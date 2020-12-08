@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,18 +23,17 @@ public class RegistrationController {
     @GetMapping
     public ModelAndView prepareRegistrationPage() {
         ModelAndView modelAndView = new ModelAndView("register/form");
-        modelAndView.addObject("registrationData", new RegistrationDataDto());
+        modelAndView.addObject("registrationDataDto", new RegistrationDataDto());
         return modelAndView;
     }
 
     @PostMapping
-    public ModelAndView processRegistrationPage(@Valid @ModelAttribute("registrationData") RegistrationDataDto registrationData,
-                                                BindingResult bindingResult) {
+    public ModelAndView processRegistrationPage(@Valid RegistrationDataDto registrationDataDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("register/form");
         }
 
-        registrationService.register(registrationData);
-        return new ModelAndView("index");
+        registrationService.register(registrationDataDto);
+        return new ModelAndView("redirect:/login");
     }
 }
