@@ -5,8 +5,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.batetolast1.wedderforecast.dto.LocationDto;
 import io.github.batetolast1.wedderforecast.dto.RequestFormSimpleResultDto;
+import io.github.batetolast1.wedderforecast.dto.RequestGoogleMapsDailyResultDto;
 import io.github.batetolast1.wedderforecast.dto.ResponseSimpleResultDto;
-import io.github.batetolast1.wedderforecast.dto.RequestGoogleMapsSimpleResultDto;
 import io.github.batetolast1.wedderforecast.model.entity.location.Location;
 import io.github.batetolast1.wedderforecast.model.entity.weather.DailyWeather;
 import io.github.batetolast1.wedderforecast.model.repository.location.LocationRepository;
@@ -88,13 +88,13 @@ public class TestController {
     @GetMapping("/google-maps")
     public ModelAndView showMap() {
         ModelAndView modelAndView = new ModelAndView("test/google-maps");
-        modelAndView.addObject("requestGoogleMapsSimpleResultDto", new RequestGoogleMapsSimpleResultDto());
+        modelAndView.addObject("requestGoogleMapsDailyResultDto", new RequestGoogleMapsDailyResultDto());
         return modelAndView;
     }
 
     @PostMapping("/google-maps")
     @ResponseBody
-    public ResponseSimpleResultDto getTestSimpleSearchResultGoogleMaps(@ModelAttribute RequestGoogleMapsSimpleResultDto requestGoogleMapsSimpleResultDto) {
-        return resultService.getSimpleSearchResultFromGoogleMaps(requestGoogleMapsSimpleResultDto);
+    public ResponseSimpleResultDto getTestSimpleSearchResultGoogleMaps(@ModelAttribute RequestGoogleMapsDailyResultDto requestGoogleMapsDailyResultDto) {
+        return resultService.getSimpleSearchResultFromGoogleMaps(requestGoogleMapsDailyResultDto);
     }
 }

@@ -1,7 +1,7 @@
 package io.github.batetolast1.wedderforecast.service.impl;
 
 import io.github.batetolast1.wedderforecast.dto.RequestFormSimpleResultDto;
-import io.github.batetolast1.wedderforecast.dto.RequestGoogleMapsSimpleResultDto;
+import io.github.batetolast1.wedderforecast.dto.RequestGoogleMapsDailyResultDto;
 import io.github.batetolast1.wedderforecast.dto.ResponseSimpleResultDto;
 import io.github.batetolast1.wedderforecast.model.entity.location.Location;
 import io.github.batetolast1.wedderforecast.model.entity.results.SimpleResult;
@@ -38,9 +38,9 @@ public class DefaultResultService implements ResultService {
         return getResponseSimpleResultDto(location, localDate);
     }
 
-    public ResponseSimpleResultDto getSimpleSearchResultFromGoogleMaps(RequestGoogleMapsSimpleResultDto requestGoogleMapsSimpleResultDto) {
-        Location location = locationService.getLocationByPlaceId(requestGoogleMapsSimpleResultDto.getLocationDto());
-        LocalDate localDate = requestGoogleMapsSimpleResultDto.getLocalDate();
+    public ResponseSimpleResultDto getSimpleSearchResultFromGoogleMaps(RequestGoogleMapsDailyResultDto requestGoogleMapsDailyResultDto) {
+        Location location = locationService.getLocationByPlaceId(requestGoogleMapsDailyResultDto.getLocationDto());
+        LocalDate localDate = requestGoogleMapsDailyResultDto.getLocalDate();
 
         return getResponseSimpleResultDto(location, localDate);
     }

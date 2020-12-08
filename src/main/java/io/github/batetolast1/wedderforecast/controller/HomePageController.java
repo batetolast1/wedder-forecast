@@ -1,6 +1,6 @@
 package io.github.batetolast1.wedderforecast.controller;
 
-import io.github.batetolast1.wedderforecast.dto.RequestGoogleMapsSimpleResultDto;
+import io.github.batetolast1.wedderforecast.dto.RequestGoogleMapsDailyResultDto;
 import io.github.batetolast1.wedderforecast.dto.ResponseSimpleResultDto;
 import io.github.batetolast1.wedderforecast.service.ResultService;
 import lombok.RequiredArgsConstructor;
@@ -25,14 +25,14 @@ public class HomePageController {
     @GetMapping("/")
     public ModelAndView getHomePage() {
         ModelAndView modelAndView = new ModelAndView("index");
-        modelAndView.addObject("requestGoogleMapsSimpleResultDto", new RequestGoogleMapsSimpleResultDto());
+        modelAndView.addObject("requestGoogleMapsDailyResultDto", new RequestGoogleMapsDailyResultDto());
         return modelAndView;
     }
 
     @PostMapping("/simple-result")
-    public RedirectView processSimpleResultForm(RequestGoogleMapsSimpleResultDto requestGoogleMapsSimpleResultDto,
+    public RedirectView processSimpleResultForm(RequestGoogleMapsDailyResultDto requestGoogleMapsDailyResultDto,
                                                 RedirectAttributes redirectAttributes) {
-        ResponseSimpleResultDto responseSimpleResultDto = resultService.getSimpleSearchResultFromGoogleMaps(requestGoogleMapsSimpleResultDto);
+        ResponseSimpleResultDto responseSimpleResultDto = resultService.getSimpleSearchResultFromGoogleMaps(requestGoogleMapsDailyResultDto);
         redirectAttributes.addFlashAttribute("responseSimpleResultDto", responseSimpleResultDto);
         return new RedirectView("/simple-result");
     }

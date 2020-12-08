@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-public class RequestGoogleMapsSimpleResultDto {
+public class RequestGoogleMapsDailyResultDto {
 
     LocationDto locationDto;
 
