@@ -22,7 +22,7 @@ public class DailyResult extends UserResult {
     @Column(name = "local_date")
     private LocalDate localDate;
 
-    @OneToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<DailyWeather> dailyWeathers;
 
     @OneToOne

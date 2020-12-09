@@ -22,7 +22,7 @@ public class HourlyResult extends UserResult {
     @Column(name = "local_date_time")
     private LocalDateTime localDateTime;
 
-    @OneToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<HourlyWeather> hourlyWeathers;
 
     @OneToOne
