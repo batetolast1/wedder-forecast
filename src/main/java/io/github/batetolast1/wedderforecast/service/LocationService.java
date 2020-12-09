@@ -8,4 +8,6 @@ public interface LocationService {
     Location getLocationByPostalCodeAndCountryCode(LocationDto locationDto);
 
     Location getLocationByPlaceId(LocationDto locationDto);
+
+    Location getPersistedLocation(Location location);
 }

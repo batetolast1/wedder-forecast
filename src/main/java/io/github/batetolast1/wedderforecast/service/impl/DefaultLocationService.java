@@ -42,4 +42,15 @@ public class DefaultLocationService implements LocationService {
         log.debug("Location not found in DB");
         return locationRepository.save(modelMapper.map(locationDto, Location.class));
     }
+
+    @Override
+    public Location getPersistedLocation(Location location) {
+        Optional<Location> optionalLocation = locationRepository.findByPlaceId(location.getPlaceId());
+        if (optionalLocation.isPresent()) {
+            log.debug("Location found in DB");
+            return optionalLocation.get();
+        }
+        log.debug("Location not found in DB");
+        return locationRepository.save(location);
+    }
 }

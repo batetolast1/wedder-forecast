@@ -125,26 +125,27 @@ function initMap() {
 
 document.addEventListener("DOMContentLoaded", () => {
     const now = new Date();
-    let year = now.getFullYear();
-    let month = now.getMonth();
-    let day = now.getDate();
-    document.getElementById('localDate').value = now.toISOString().split("T")[0];
-    document.getElementById("localDate").min = new Date(year, month, (day + 1)).toISOString().split("T")[0];
-    document.getElementById("localDate").max = new Date((year + 1), month, day).toISOString().split("T")[0];
+    document.getElementById('localDate').value = addDays(now, 1).toISOString().split("T")[0];
+    console.log(addDays(now, 1).toISOString().split("T")[0]);
+    document.getElementById("localDate").min = addDays(now, 1).toISOString().split("T")[0];
+    console.log(addYears(now, 1).toISOString().split("T")[0]);
+    document.getElementById("localDate").max = addYears(now, 1).toISOString().split("T")[0];
 });
 
 function disableSendButton(formElement) {
     let submitBtn = formElement.lastElementChild;
-    submitBtn.value = "Sending... please wait!";
+    submitBtn.value = "Fetching result... please wait!";
     submitBtn.disabled = true;
 }
 
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(
-        browserHasGeolocation
-            ? "Error: The Geolocation service failed."
-            : "Error: Your browser doesn't support geolocation."
-    );
-    infoWindow.open(map);
+function addDays(date, days) {
+    const copy = new Date(Number(date))
+    copy.setDate(date.getDate() + days)
+    return copy
+}
+
+function addYears(date, years) {
+    const copy = new Date(Number(date))
+    copy.setFullYear(date.getFullYear() + years)
+    return copy
 }

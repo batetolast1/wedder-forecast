@@ -21,6 +21,10 @@
                th:text="#{pages.navbar.dashboard}"></a>
         </li>
         <li sec:authorize="isAuthenticated()">
+            <a th:href="@{/user/daily-result-form}"
+               th:text="#{pages.navbar.daily-result}"></a>
+        </li>
+        <li sec:authorize="isAuthenticated()">
             <form th:action="@{/logout}"
                   method="post">
                 <input type="submit"
