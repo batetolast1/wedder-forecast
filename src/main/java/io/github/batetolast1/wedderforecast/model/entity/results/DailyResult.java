@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -19,8 +19,8 @@ import java.util.Set;
 @Setter
 public class DailyResult extends UserResult {
 
-    @Column(name = "local_date")
-    private LocalDate localDate;
+    @Column(name = "local_date_time")
+    private LocalDateTime localDateTime;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<DailyWeather> dailyWeathers;

@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
@@ -16,7 +16,7 @@ import java.util.List;
 public class DailyResultDto {
 
     private Long id;
-    private LocalDate localDate;
+    private LocalDateTime localDateTime;
     private LocationDto locationDto;
     private List<DailyWeatherDto> dailyWeatherDtos;
     private PredictedDailyWeatherDto predictedDailyWeatherDto;

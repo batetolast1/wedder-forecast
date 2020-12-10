@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,7 +16,7 @@
     <h1 th:text="#{pages.result.title}">Simple result</h1>
 
     <div th:if="${responseSimpleResultDto != null}">
-        <div>
+        <div sec:authorize="isAnonymous()">
             <p>Want more details?</p>
             <a th:href="@{/login}"
                th:text="#{pages.index.login}"></a><br/>
@@ -33,7 +34,7 @@
                 <th>Overall rating</th>
             </tr>
             <tr>
-                <td th:text="${responseSimpleResultDto.localDate}">Result date</td>
+                <td th:text="${responseSimpleResultDto.localDateTime}">Result date</td>
                 <td th:text="${responseSimpleResultDto.locationDto.formattedAddress}">Result address</td>
                 <td th:text="${responseSimpleResultDto.predictedDailyWeatherDto.tempAvg}">Result temp avg</td>
                 <td th:text="${responseSimpleResultDto.predictedDailyWeatherDto.precip}">Result precip</td>

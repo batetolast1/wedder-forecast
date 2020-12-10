@@ -5,11 +5,11 @@ import io.github.batetolast1.wedderforecast.model.entity.results.SimpleResult;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Repository
 public interface SimpleResultRepository extends JpaRepository<SimpleResult, Long> {
 
-    Optional<SimpleResult> findByLocationAndLocalDate(Location location, LocalDate localDate);
+    Optional<SimpleResult> findByLocationAndLocalDateTime(Location location, LocalDateTime localDateTime);
 }

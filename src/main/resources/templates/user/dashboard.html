@@ -41,7 +41,7 @@
                     </iframe>
                 </td>
                 <td th:text="${dailyResultDto.locationDto.formattedAddress}">Address</td>
-                <td th:text="${dailyResultDto.localDate}">Location</td>
+                <td th:text="${dailyResultDto.localDateTime}">Location</td>
                 <td><a th:href="@{/user/daily-result-details/{id}(id=${dailyResultDto.id})}">Predicted daily weather
                     details</a></td>
             </tr>

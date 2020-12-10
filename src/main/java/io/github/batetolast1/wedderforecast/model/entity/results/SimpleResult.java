@@ -9,7 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "simple_results")
@@ -19,8 +19,8 @@ import java.time.LocalDate;
 @Setter
 public class SimpleResult extends Result {
 
-    @Column(name = "local_date")
-    private LocalDate localDate;
+    @Column(name = "local_date_time")
+    private LocalDateTime localDateTime;
 
     @OneToOne
     private PredictedDailyWeather predictedDailyWeather;

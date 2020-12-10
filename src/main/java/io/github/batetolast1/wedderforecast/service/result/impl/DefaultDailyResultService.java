@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -35,34 +35,30 @@ public class DefaultDailyResultService implements DailyResultService {
     private final DailyWeatherRepository dailyWeatherRepository;
     private final UserRepository userRepository;
 
-    public DailyResult getDailyResult(Location location, LocalDate localDate) {
+    public DailyResult getDailyResult(Location location, LocalDateTime localDateTime) {
         Location persistedLocation = locationService.getPersistedLocation(location);
         User user = userRepository.getByUsername(SecurityUtils.getUsername());
 
-        Optional<DailyResult> optionalDailyResult = dailyResultRepository.findByUserAndLocationAndLocalDate(user, persistedLocation, localDate);
+        Optional<DailyResult> optionalDailyResult = dailyResultRepository.findByUserAndLocationAndLocalDateTime(user, persistedLocation, localDateTime);
         if (optionalDailyResult.isPresent()) {
             return optionalDailyResult.get();
         }
 
-        weatherSourceApiService.getDailyWeathers(persistedLocation, localDate);
+        weatherSourceApiService.getDailyWeathers(persistedLocation, localDateTime.toLocalDate());
 
         DailyResult dailyResult = new DailyResult();
         dailyResult.setLocation(persistedLocation);
         dailyResult.setUser(user);
-        dailyResult.setLocalDate(localDate);
-        dailyResult.setDailyWeathers(dailyWeatherRepository.findAllByLocationAndTimestamp(persistedLocation.getId(), localDate.atStartOfDay()));
-        dailyResult.setPredictedDailyWeather(weatherService.predictDailyWeather(persistedLocation, localDate));
+        dailyResult.setLocalDateTime(localDateTime);
+        dailyResult.setDailyWeathers(dailyWeatherRepository.findAllByLocationAndTimestamp(persistedLocation.getId(), localDateTime));
+        dailyResult.setPredictedDailyWeather(weatherService.predictDailyWeather(persistedLocation, localDateTime.toLocalDate()));
         return dailyResultRepository.save(dailyResult);
     }
 
     public DailyResult getDailyResult(Long id) {
         User user = userRepository.getByUsername(SecurityUtils.getUsername());
         Optional<DailyResult> optionalDailyResult = dailyResultRepository.findByIdAndUser(id, user);
-        if (optionalDailyResult.isPresent()) {
-            DailyResult dailyResult = optionalDailyResult.get();
-            return dailyResult;
-        }
-        return null;
+        return optionalDailyResult.orElse(null);
     }
 
     public List<DailyResult> getAllDailyResults() {
@@ -70,7 +66,7 @@ public class DefaultDailyResultService implements DailyResultService {
                 .stream()
                 .sorted(Comparator
                         .comparing(DailyResult::getLocation, Comparator.comparing(Location::getPlaceId))
-                        .thenComparing(DailyResult::getLocalDate))
+                        .thenComparing(DailyResult::getLocalDateTime))
                 .collect(Collectors.toList());
     }
 }

@@ -4,14 +4,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
 @Setter
 public class ResponseSimpleResultDto {
 
-    private LocalDate localDate;
+    private LocalDateTime localDateTime;
     private LocationDto locationDto;
     private PredictedDailyWeatherDto predictedDailyWeatherDto;
 }

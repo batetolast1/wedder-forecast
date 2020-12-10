@@ -39,7 +39,7 @@ public class HomePageController {
 
     @GetMapping("/simple-result")
     public ModelAndView displaySimpleResult(ResponseSimpleResultDto responseSimpleResultDto) {
-        if (responseSimpleResultDto.getLocalDate() == null) {
+        if (responseSimpleResultDto.getLocalDateTime() == null) {
             log.debug("responseSimpleResultDto is not populated by RedirectAttributes, redirecting to \"/\"");
             return new ModelAndView("redirect:/");
         }

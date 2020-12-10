@@ -3,6 +3,7 @@ package io.github.batetolast1.wedderforecast.service.impl;
 import io.github.batetolast1.wedderforecast.dto.RequestFormSimpleResultDto;
 import io.github.batetolast1.wedderforecast.dto.RequestGoogleMapsDailyResultDto;
 import io.github.batetolast1.wedderforecast.dto.ResponseSimpleResultDto;
+import io.github.batetolast1.wedderforecast.dto.mapper.result.SimpleResultMapper;
 import io.github.batetolast1.wedderforecast.model.entity.location.Location;
 import io.github.batetolast1.wedderforecast.model.entity.results.SimpleResult;
 import io.github.batetolast1.wedderforecast.model.entity.weather.PredictedDailyWeather;
@@ -12,7 +13,6 @@ import io.github.batetolast1.wedderforecast.service.ResultService;
 import io.github.batetolast1.wedderforecast.service.WeatherService;
 import io.github.batetolast1.wedderforecast.service.WeatherSourceApiService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -29,7 +29,7 @@ public class DefaultResultService implements ResultService {
 
     private final SimpleResultRepository simpleResultRepository;
 
-    private final ModelMapper modelMapper;
+    private final SimpleResultMapper simpleResultMapper;
 
     public ResponseSimpleResultDto getSimpleSearchResultFromForm(RequestFormSimpleResultDto requestFormSimpleResultDto) {
         Location location = locationService.getLocationByPostalCodeAndCountryCode(requestFormSimpleResultDto.getLocationDto());
@@ -46,9 +46,9 @@ public class DefaultResultService implements ResultService {
     }
 
     private ResponseSimpleResultDto getResponseSimpleResultDto(Location location, LocalDate localDate) {
-        Optional<SimpleResult> optionalSimpleResult = simpleResultRepository.findByLocationAndLocalDate(location, localDate);
+        Optional<SimpleResult> optionalSimpleResult = simpleResultRepository.findByLocationAndLocalDateTime(location, localDate.atStartOfDay());
         if (optionalSimpleResult.isPresent()) {
-            return modelMapper.map(optionalSimpleResult.get(), ResponseSimpleResultDto.class);
+            return simpleResultMapper.toResponseSimpleResultDto(optionalSimpleResult.get());
         }
 
         return getNewResponseSimpleResultDto(location, localDate);
@@ -61,10 +61,10 @@ public class DefaultResultService implements ResultService {
 
         SimpleResult simpleResult = new SimpleResult();
         simpleResult.setLocation(location);
-        simpleResult.setLocalDate(localDate);
+        simpleResult.setLocalDateTime(localDate.atStartOfDay());
         simpleResult.setPredictedDailyWeather(predictedDailyWeather);
         simpleResultRepository.save(simpleResult);
 
-        return modelMapper.map(simpleResult, ResponseSimpleResultDto.class);
+        return simpleResultMapper.toResponseSimpleResultDto(simpleResult);
     }
 }

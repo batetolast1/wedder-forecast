@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,8 +50,8 @@ public class UserController {
     @PostMapping("/daily-result-form")
     public ModelAndView processDailyResultForm(@ModelAttribute RequestGoogleMapsDailyResultDto requestGoogleMapsDailyResultDto) {
         Location location = locationMapper.toLocation(requestGoogleMapsDailyResultDto.getLocationDto());
-        LocalDate localDate = requestGoogleMapsDailyResultDto.getLocalDate();
-        DailyResult dailyResult = dailyResultService.getDailyResult(location, localDate);
+        LocalDateTime localDateTime = requestGoogleMapsDailyResultDto.getLocalDate().atStartOfDay();
+        DailyResult dailyResult = dailyResultService.getDailyResult(location, localDateTime);
         return new ModelAndView("redirect:/user/daily-result-details/" + dailyResult.getId());
     }
 

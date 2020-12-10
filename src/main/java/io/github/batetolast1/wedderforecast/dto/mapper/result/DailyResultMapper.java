@@ -26,7 +26,7 @@ public class DailyResultMapper {
     public DailyResultDto toDailyResultDto(DailyResult dailyResult) {
         DailyResultDto dailyResultDto = new DailyResultDto();
         dailyResultDto.setId(dailyResult.getId());
-        dailyResultDto.setLocalDate(dailyResult.getLocalDate());
+        dailyResultDto.setLocalDateTime(dailyResult.getLocalDateTime());
         dailyResultDto.setLocationDto(locationMapper.toLocationDto(dailyResult.getLocation()));
         dailyResultDto.setDailyWeatherDtos(
                 dailyResult.getDailyWeathers()
