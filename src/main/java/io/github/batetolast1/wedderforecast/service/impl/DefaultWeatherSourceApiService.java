@@ -34,7 +34,8 @@ import java.util.List;
 @Log4j2
 public class DefaultWeatherSourceApiService implements WeatherSourceApiService {
 
-    private static final int YEARS_TO_FETCH = 5;
+    private static final int YEARS_TO_FETCH_DAILY_WEATHERS = 5;
+    private static final int YEARS_TO_FETCH_HOURLY_WEATHERS = 3;
 
     private final RatingService ratingService;
 
@@ -62,15 +63,19 @@ public class DefaultWeatherSourceApiService implements WeatherSourceApiService {
                 .host(weatherSourceApiProperties.getHost())
                 .path(weatherSourceApiProperties.getPath())
                 .query(weatherSourceApiProperties.getTimestampQuery())
-                .query(weatherSourceApiProperties.getFieldsQuery());
+                .query(weatherSourceApiProperties.getFieldsQuery())
+                .query(weatherSourceApiProperties.getPeriodQuery());
     }
 
     @Override
     public void getDailyWeathers(Location location, LocalDate localDate) {
-        if (!isAnyDataFetched(location)) {
-
-            for (int i = 0; i < YEARS_TO_FETCH; i++) {
-                URI uri = buildUriForYearlyDailyWeathers(location, LocalDate.now().minus(i, ChronoUnit.YEARS).minus(1, ChronoUnit.DAYS));
+        if (!isAnyDailyDataFetched(location)) {
+            for (int i = 0; i < YEARS_TO_FETCH_DAILY_WEATHERS; i++) {
+                URI uri = buildUriForYearlyDailyWeathers(
+                        location,
+                        LocalDate.now()
+                                .minus(i, ChronoUnit.YEARS)
+                                .minus(1, ChronoUnit.DAYS));
                 log.debug("URI {}", uri);
 
                 List<DailyWeather> dailyWeathers = fetchDailyWeathers(uri);
@@ -85,37 +90,54 @@ public class DefaultWeatherSourceApiService implements WeatherSourceApiService {
         }
     }
 
-    private boolean isAnyDataFetched(Location location) {
+    private boolean isAnyDailyDataFetched(Location location) {
         return dailyWeatherRepository.existsByLocation(location);
     }
 
     // TODO add getting only missing data between now and latest available record in DB instead of adding duplicates!
     private boolean isLatestDailyDataFetched(Location location) {
-        LocalDateTime localDatetime = LocalDate.now().minus(1, ChronoUnit.DAYS).atStartOfDay();
+        LocalDateTime localDatetime = LocalDate.now()
+                .minus(1, ChronoUnit.DAYS)
+                .atStartOfDay();
         return dailyWeatherRepository.existsByLocationAndTimestamp(location, localDatetime);
     }
 
     private URI buildUriForYearlyDailyWeathers(Location location, LocalDate end) {
         LocalDate beginning = end.minus(1, ChronoUnit.YEARS).plus(1, ChronoUnit.DAYS);
         return uriComponentsBuilder
-                .buildAndExpand(weatherSourceApiProperties.getApiKey(), location.getPostalCode(), location.getCountryCode(), beginning, end, weatherSourceApiProperties.getDailyFields())
+                .buildAndExpand(
+                        weatherSourceApiProperties.getApiKey(),
+                        location.getPostalCode(),
+                        location.getCountryCode(),
+                        beginning,
+                        end,
+                        weatherSourceApiProperties.getDailyFields(),
+                        "day")
                 .encode()
                 .toUri();
     }
 
     private List<DailyWeather> fetchDailyWeathers(URI uri) {
-        ResponseEntity<List<DailyWeather>> response = restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<>() {});
+        ResponseEntity<List<DailyWeather>> response = restTemplate.exchange(
+                uri,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<>() {});
         return response.getBody();
     }
 
     @Override
-    public void fetchHourlyWeathers(Location location, LocalDate localDate) {
-        if (!isLatestHourlyDataFetched(location)) {
-            for (int i = 1; i <= YEARS_TO_FETCH; i++) {
-                URI uri = buildUriForYearlyHourlyWeathers(location, LocalDate.now().minus(i, ChronoUnit.YEARS).minus(1, ChronoUnit.DAYS));
+    public void getHourlyWeathers(Location location, LocalDate localDate) {
+        if (!isAnyHourlyDataFetched(location)) {
+            for (int i = 1; i <= YEARS_TO_FETCH_HOURLY_WEATHERS; i++) {
+                URI uri = buildUriForYearlyHourlyWeathers(
+                        location,
+                        LocalDate.now()
+                                .minus(i, ChronoUnit.YEARS).
+                                minus(1, ChronoUnit.DAYS));
                 log.debug("URI {}", uri);
 
-                List<HourlyWeather> hourlyWeathers = fetchHourlyWeathersForYear(uri);
+                List<HourlyWeather> hourlyWeathers = fetchHourlyWeathers(uri);
                 if (hourlyWeathers != null) {
                     hourlyWeathers.forEach(hourlyWeather -> {
                         hourlyWeather.setLocation(location);
@@ -127,18 +149,38 @@ public class DefaultWeatherSourceApiService implements WeatherSourceApiService {
         }
     }
 
+    private boolean isAnyHourlyDataFetched(Location location) {
+        return hourlyWeatherRepository.existsByLocation(location);
+    }
+
     private boolean isLatestHourlyDataFetched(Location location) {
-        LocalDateTime localDatetime = LocalDate.now().minus(1, ChronoUnit.DAYS).atStartOfDay();
+        LocalDateTime localDatetime = LocalDate.now()
+                .minus(1, ChronoUnit.DAYS)
+                .atStartOfDay();
         return hourlyWeatherRepository.existsByLocationAndTimestamp(location, localDatetime);
     }
 
     private URI buildUriForYearlyHourlyWeathers(Location location, LocalDate end) {
         LocalDate beginning = end.minus(1, ChronoUnit.YEARS).plus(1, ChronoUnit.DAYS);
-        return uriComponentsBuilder.buildAndExpand(weatherSourceApiProperties.getApiKey(), location.getPostalCode(), location.getCountryCode(), beginning, end, weatherSourceApiProperties.getHourlyFields()).encode().toUri();
+        return uriComponentsBuilder
+                .buildAndExpand(
+                        weatherSourceApiProperties.getApiKey(),
+                        location.getPostalCode(),
+                        location.getCountryCode(),
+                        beginning,
+                        end,
+                        weatherSourceApiProperties.getHourlyFields(),
+                        "hour")
+                .encode()
+                .toUri();
     }
 
-    private List<HourlyWeather> fetchHourlyWeathersForYear(URI uri) {
-        ResponseEntity<List<HourlyWeather>> response = restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<>() {});
+    private List<HourlyWeather> fetchHourlyWeathers(URI uri) {
+        ResponseEntity<List<HourlyWeather>> response = restTemplate.exchange(
+                uri,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<>() {});
         return response.getBody();
     }
 }

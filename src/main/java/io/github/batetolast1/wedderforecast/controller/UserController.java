@@ -1,12 +1,17 @@
 package io.github.batetolast1.wedderforecast.controller;
 
 import io.github.batetolast1.wedderforecast.dto.RequestGoogleMapsDailyResultDto;
+import io.github.batetolast1.wedderforecast.dto.RequestHourlyResultDto;
 import io.github.batetolast1.wedderforecast.dto.mapper.location.LocationMapper;
 import io.github.batetolast1.wedderforecast.dto.mapper.result.DailyResultMapper;
+import io.github.batetolast1.wedderforecast.dto.mapper.result.HourlyResultMapper;
 import io.github.batetolast1.wedderforecast.dto.model.result.DailyResultDto;
+import io.github.batetolast1.wedderforecast.dto.model.result.HourlyResultDto;
 import io.github.batetolast1.wedderforecast.model.entity.location.Location;
 import io.github.batetolast1.wedderforecast.model.entity.results.DailyResult;
+import io.github.batetolast1.wedderforecast.model.entity.results.HourlyResult;
 import io.github.batetolast1.wedderforecast.service.result.DailyResultService;
+import io.github.batetolast1.wedderforecast.service.result.HourlyResultService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
@@ -25,9 +30,11 @@ import java.util.stream.Collectors;
 public class UserController {
 
     private final DailyResultService dailyResultService;
+    private final HourlyResultService hourlyResultService;
 
     private final LocationMapper locationMapper;
     private final DailyResultMapper dailyResultMapper;
+    private final HourlyResultMapper hourlyResultMapper;
 
     @GetMapping("/dashboard")
     public ModelAndView getDashboard() {
@@ -37,6 +44,12 @@ public class UserController {
                 .map(dailyResultMapper::toDailyResultDto)
                 .collect(Collectors.toList());
         modelAndView.addObject("dailyResultDtos", dailyResultDtos);
+
+        List<HourlyResult> hourlyResults = hourlyResultService.getAllHourlyResults();
+        List<HourlyResultDto> hourlyResultDtos = hourlyResults.stream()
+                .map(hourlyResultMapper::toHourlyResultDto)
+                .collect(Collectors.toList());
+        modelAndView.addObject("hourlyResultDtos", hourlyResultDtos);
         return modelAndView;
     }
 
@@ -62,6 +75,34 @@ public class UserController {
             ModelAndView modelAndView = new ModelAndView("user/daily-result-details");
             DailyResultDto dailyResultDto = dailyResultMapper.toDailyResultDto(dailyResult);
             modelAndView.addObject("dailyResultDto", dailyResultDto);
+            return modelAndView;
+        } else {
+            return new ModelAndView("error/error");
+        }
+    }
+
+    @GetMapping("/hourly-result-form")
+    public ModelAndView getHourlyResultForm() {
+        ModelAndView modelAndView = new ModelAndView("user/hourly-result-form");
+        modelAndView.addObject("requestHourlyResultDto", new RequestHourlyResultDto());
+        return modelAndView;
+    }
+
+    @PostMapping("/hourly-result-form")
+    public ModelAndView processHourlyResultForm(@ModelAttribute RequestHourlyResultDto requestHourlyResultDto) {
+        Location location = locationMapper.toLocation(requestHourlyResultDto.getLocationDto());
+        LocalDateTime localDateTime = requestHourlyResultDto.getLocalDateTime();
+        HourlyResult hourlyResult = hourlyResultService.getHourlyResult(location, localDateTime);
+        return new ModelAndView("redirect:/user/hourly-result-details/" + hourlyResult.getId());
+    }
+
+    @GetMapping("/hourly-result-details/{id}")
+    public ModelAndView getHourlyResultById(@PathVariable Long id) {
+        HourlyResult hourlyResult = hourlyResultService.getHourlyResult(id);
+        if (hourlyResult != null) {
+            ModelAndView modelAndView = new ModelAndView("user/hourly-result-details");
+            HourlyResultDto hourlyResultDto = hourlyResultMapper.toHourlyResultDto(hourlyResult);
+            modelAndView.addObject("hourlyResultDto", hourlyResultDto);
             return modelAndView;
         } else {
             return new ModelAndView("error/error");

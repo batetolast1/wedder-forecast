@@ -125,11 +125,21 @@ function initMap() {
 
 document.addEventListener("DOMContentLoaded", () => {
     const now = new Date();
-    document.getElementById('localDate').value = addDays(now, 1).toISOString().split("T")[0];
-    console.log(addDays(now, 1).toISOString().split("T")[0]);
-    document.getElementById("localDate").min = addDays(now, 1).toISOString().split("T")[0];
-    console.log(addYears(now, 1).toISOString().split("T")[0]);
-    document.getElementById("localDate").max = addYears(now, 1).toISOString().split("T")[0];
+    const localDateInput = document.getElementById('localDate');
+
+    if (localDateInput) {
+        localDateInput.value = addDays(now, 180).toISOString().split("T")[0];
+        localDateInput.min = addDays(now, 1).toISOString().split("T")[0];
+        localDateInput.max = addYears(now, 1).toISOString().split("T")[0];
+    }
+
+    now.setHours(11, 0, 0, 0);
+    const localDateTimeInput = document.getElementById('localDateTime');
+    if (localDateTimeInput) {
+        localDateTimeInput.value = addDays(now, 180).toISOString().split(".")[0];
+        localDateTimeInput.min = addDays(now, 1).toISOString().split(".")[0];
+        localDateTimeInput.max = addYears(now, 1).toISOString().split(".")[0];
+    }
 });
 
 function disableSendButton(formElement) {

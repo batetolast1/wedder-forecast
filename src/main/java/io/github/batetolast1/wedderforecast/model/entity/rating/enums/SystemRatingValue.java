@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 public enum SystemRatingValue {
 
+    MISSING_DATA(0),
     VERY_UNSATISFIED(1),
     UNSATISFIED(2),
     NEUTRAL(3),

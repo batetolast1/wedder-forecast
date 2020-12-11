@@ -4,7 +4,7 @@
       lang="en">
 <head>
     <meta charset="UTF-8">
-    <title th:text="#{pages.daily-result.title}"></title>
+    <title th:text="#{pages.hourly-result-form.title}"></title>
     <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/google-maps-autocomplete-form.css}"/>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
@@ -17,7 +17,7 @@
         <h1>Header</h1>
     </nav>
 
-    <h1 th:text="#{pages.daily-result.title}">Daily result form</h1>
+    <h1 th:text="#{pages.hourly-result-form.title}">Hourly result form</h1>
 
     <div class="pac-card" id="pac-card">
         <div>
@@ -43,10 +43,10 @@
         <span id="place-address"></span><br/>
 
         <form id="form"
-              method="post"
               onsubmit="disableSendButton(this)"
-              th:action="@{/user/daily-result-form}"
-              th:object="${requestGoogleMapsDailyResultDto}">
+              method="post"
+              th:action="@{/user/hourly-result-form}"
+              th:object="${requestHourlyResultDto}">
             <input type="text"
                    id="postalCode"
                    name="postalCode"
@@ -67,11 +67,12 @@
                    name="formattedAddress"
                    th:field="*{locationDto.formattedAddress}"
                    hidden>
-            <label for="localDate">Select date:</label>
-            <input type="date"
-                   id="localDate"
-                   name="localDate"
-                   th:field="*{localDate}"
+            <label for="localDateTime">Select date and time:</label>
+            <input type="datetime-local"
+                   id="localDateTime"
+                   name="localDateTime"
+                   step="3600"
+                   th:field="*{localDateTime}"
                    required>
             <input type="submit" value="Predict weather!"/>
         </form>

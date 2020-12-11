@@ -8,5 +8,5 @@ public interface WeatherSourceApiService {
 
     void getDailyWeathers(Location location, LocalDate localDate);
 
-    void fetchHourlyWeathers(Location location, LocalDate localDate);
+    void getHourlyWeathers(Location location, LocalDate localDate);
 }
