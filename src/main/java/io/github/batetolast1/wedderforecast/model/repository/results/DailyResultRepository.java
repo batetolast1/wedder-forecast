@@ -17,5 +17,7 @@ public interface DailyResultRepository extends JpaRepository<DailyResult, Long> 
 
     Optional<DailyResult> findByIdAndUser(Long id, User user);
 
+    Set<DailyResult> findTop3ByUserOrderByCreatedOnDesc(User user);
+
     Set<DailyResult> findAllByUser(User user);
 }

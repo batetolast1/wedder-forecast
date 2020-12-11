@@ -61,6 +61,15 @@ public class DefaultDailyResultService implements DailyResultService {
         return optionalDailyResult.orElse(null);
     }
 
+    public List<DailyResult> getLatestDailyResults() {
+        return dailyResultRepository.findTop3ByUserOrderByCreatedOnDesc(userRepository.getByUsername(SecurityUtils.getUsername()))
+                .stream()
+                .sorted(Comparator
+                        .comparing(DailyResult::getLocation, Comparator.comparing(Location::getPlaceId))
+                        .thenComparing(DailyResult::getLocalDateTime))
+                .collect(Collectors.toList());
+    }
+
     public List<DailyResult> getAllDailyResults() {
         return dailyResultRepository.findAllByUser(userRepository.getByUsername(SecurityUtils.getUsername()))
                 .stream()

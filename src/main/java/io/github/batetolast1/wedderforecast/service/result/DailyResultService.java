@@ -12,5 +12,7 @@ public interface DailyResultService {
 
     DailyResult getDailyResult(Long id);
 
+    List<DailyResult> getLatestDailyResults();
+
     List<DailyResult> getAllDailyResults();
 }

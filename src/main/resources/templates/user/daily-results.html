@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{pages.daily-results.title}"></title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+</head>
+<body>
+    <nav th:replace="fragments/header :: header">
+        <h1>Header</h1>
+    </nav>
+
+    <h1 th:text="#{pages.daily-results.title}">Daily results</h1>
+
+    <div th:if="${dailyResultDtos.isEmpty()}">
+        <h2>No daily predictions found!</h2>
+        <a th:href="@{/user/daily-result-form}"
+           th:text="#{pages.navbar.daily-result}">Predict first daily weather!</a><br/>
+    </div>
+
+    <h2>Predicted daily weathers</h2>
+
+    <div th:each="dailyResultDto: ${dailyResultDtos}">
+
+        <table>
+            <tr>
+                <th>Date</th>
+
+                <th>Avg temperature</th>
+                <th>+/-</th>
+
+                <th>Avg "feels like" temperature</th>
+                <th>+/-</th>
+
+                <th>Heat Index</th>
+                <th>+/-</th>
+
+                <th>Pressure</th>
+                <th>+/-</th>
+
+                <th>Precipitation</th>
+                <th>+/-</th>
+
+                <th>Snowfall</th>
+                <th>+/-</th>
+
+                <th>Avg cloud cover</th>
+                <th>+/-</th>
+
+                <th>Avg wind speed</th>
+                <th>+/-</th>
+
+                <th>Avg relative humidity</th>
+                <th>+/-</th>
+
+                <th>Overall rating</th>
+            </tr>
+            <tr>
+                <td th:text="${dailyResultDto.localDateTime}">Result date</td>
+
+                <td th:text="${dailyResultDto.predictedDailyWeatherDto.tempAvg}">Result temp avg</td>
+                <td th:text="${dailyResultDto.predictedDailyWeatherDto.tempAvgDeviation}">Result temp avg deviation</td>
+
+                <td th:text="${dailyResultDto.predictedDailyWeatherDto.feelsLikeAvg}">Result feels like avg</td>
+                <td th:text="${dailyResultDto.predictedDailyWeatherDto.feelsLikeAvgDeviation}">Result feels like avg deviation</td>
+
+                <td th:text="${dailyResultDto.predictedDailyWeatherDto.heatIndexAvg}">Result Heat Index</td>
+                <td th:text="${dailyResultDto.predictedDailyWeatherDto.heatIndexAvgDeviation}">Result Heat Index deviation</td>
+
+                <td th:text="${dailyResultDto.predictedDailyWeatherDto.mslPresAvg}">Result pressure</td>
+                <td th:text="${dailyResultDto.predictedDailyWeatherDto.mslPresAvgDeviation}">Result pressure deviation</td>
+
+                <td th:text="${dailyResultDto.predictedDailyWeatherDto.precip}">Result precip</td>
+                <td th:text="${dailyResultDto.predictedDailyWeatherDto.precipDeviation}">Result precip deviation</td>
+
+                <td th:text="${dailyResultDto.predictedDailyWeatherDto.snowfall}">Result snowfall</td>
+                <td th:text="${dailyResultDto.predictedDailyWeatherDto.snowfallDeviation}">Result snowfall deviation</td>
+
+                <td th:text="${dailyResultDto.predictedDailyWeatherDto.cldCvrAvg}">Result cldCvr</td>
+                <td th:text="${dailyResultDto.predictedDailyWeatherDto.cldCvrAvgDeviation}">Result cldCvr deviation</td>
+
+                <td th:text="${dailyResultDto.predictedDailyWeatherDto.windSpdAvg}">Result windSpdAvg</td>
+                <td th:text="${dailyResultDto.predictedDailyWeatherDto.windSpdAvgDeviation}">Result windSpdAvg deviation</td>
+
+                <td th:text="${dailyResultDto.predictedDailyWeatherDto.relHumAvg}">Result relHumAvg</td>
+                <td th:text="${dailyResultDto.predictedDailyWeatherDto.relHumAvgDeviation}">Result relHumAvg deviation</td>
+
+                <td th:text="${dailyResultDto.predictedDailyWeatherDto.systemRatingDto.overall}">Result
+                    systemRating overall
+                </td>
+            </tr>
+        </table>
+
+        <h2>Past weathers</h2>
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Avg temperature</th>
+                <th>Avg "feels like" temperature</th>
+                <th>Heat Index</th>
+                <th>Pressure</th>
+                <th>Precipitation</th>
+                <th>Snowfall</th>
+                <th>Avg cloud cover</th>
+                <th>Avg wind speed</th>
+                <th>Avg relative humidity</th>
+                <th>Overall rating</th>
+            </tr>
+            <tr th:each="dailyWeatherDto: ${dailyResultDto.dailyWeatherDtos}">
+                <td th:text="${dailyWeatherDto.timestamp}">Result date</td>
+                <td th:text="${dailyWeatherDto.tempAvg}">Result temp avg</td>
+                <td th:text="${dailyWeatherDto.feelsLikeAvg}">Result feels like avg</td>
+                <td th:text="${dailyWeatherDto.heatIndexAvg}">Result Heat Index</td>
+                <td th:text="${dailyWeatherDto.mslPresAvg}">Result pressure</td>
+                <td th:text="${dailyWeatherDto.precip}">Result precip</td>
+                <td th:text="${dailyWeatherDto.snowfall}">Result snowfall</td>
+                <td th:text="${dailyWeatherDto.cldCvrAvg}">Result cldCvr</td>
+                <td th:text="${dailyWeatherDto.windSpdAvg}">Result windSpdAvg</td>
+                <td th:text="${dailyWeatherDto.relHumAvg}">Result relHumAvg</td>
+                <td th:text="${dailyWeatherDto.systemRatingDto.overall}">Result
+                    systemRating overall
+                </td>
+            </tr>
+        </table>
+
+        <iframe
+                width="600"
+                height="450"
+                style="border:none"
+                th:src="@{'https://www.google.com/maps/embed/v1/place?key=AIzaSyAibLFtxSmWFtuJPHl90pTl5FZlgJR6AzM&q=place_id:'+${dailyResultDto.locationDto.placeId}}"
+                allowfullscreen>
+        </iframe>
+    </div>
+
+</body>

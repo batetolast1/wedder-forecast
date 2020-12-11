@@ -17,5 +17,7 @@ public interface HourlyResultRepository extends JpaRepository<HourlyResult, Long
 
     Optional<HourlyResult> findByIdAndUser(Long id, User user);
 
+    Set<HourlyResult> findTop3ByUserOrderByCreatedOnDesc(User user);
+
     Set<HourlyResult> findAllByUser(User byUsername);
 }

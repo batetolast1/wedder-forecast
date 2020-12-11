@@ -39,13 +39,13 @@ public class UserController {
     @GetMapping("/dashboard")
     public ModelAndView getDashboard() {
         ModelAndView modelAndView = new ModelAndView("user/dashboard");
-        List<DailyResult> dailyResults = dailyResultService.getAllDailyResults();
+        List<DailyResult> dailyResults = dailyResultService.getLatestDailyResults();
         List<DailyResultDto> dailyResultDtos = dailyResults.stream()
                 .map(dailyResultMapper::toDailyResultDto)
                 .collect(Collectors.toList());
         modelAndView.addObject("dailyResultDtos", dailyResultDtos);
 
-        List<HourlyResult> hourlyResults = hourlyResultService.getAllHourlyResults();
+        List<HourlyResult> hourlyResults = hourlyResultService.getLatestHourlyResults();
         List<HourlyResultDto> hourlyResultDtos = hourlyResults.stream()
                 .map(hourlyResultMapper::toHourlyResultDto)
                 .collect(Collectors.toList());
@@ -81,6 +81,17 @@ public class UserController {
         }
     }
 
+    @GetMapping("/daily-results")
+    public ModelAndView getDailyResults() {
+        ModelAndView modelAndView = new ModelAndView("user/daily-results");
+        List<DailyResult> dailyResults = dailyResultService.getAllDailyResults();
+        List<DailyResultDto> dailyResultDtos = dailyResults.stream()
+                .map(dailyResultMapper::toDailyResultDto)
+                .collect(Collectors.toList());
+        modelAndView.addObject("dailyResultDtos", dailyResultDtos);
+        return modelAndView;
+    }
+
     @GetMapping("/hourly-result-form")
     public ModelAndView getHourlyResultForm() {
         ModelAndView modelAndView = new ModelAndView("user/hourly-result-form");
@@ -107,5 +118,16 @@ public class UserController {
         } else {
             return new ModelAndView("error/error");
         }
+    }
+
+    @GetMapping("/hourly-results")
+    public ModelAndView getHourlyResults() {
+        ModelAndView modelAndView = new ModelAndView("user/hourly-results");
+        List<HourlyResult> hourlyResults = hourlyResultService.getAllHourlyResults();
+        List<HourlyResultDto> hourlyResultDtos = hourlyResults.stream()
+                .map(hourlyResultMapper::toHourlyResultDto)
+                .collect(Collectors.toList());
+        modelAndView.addObject("hourlyResultDtos", hourlyResultDtos);
+        return modelAndView;
     }
 }

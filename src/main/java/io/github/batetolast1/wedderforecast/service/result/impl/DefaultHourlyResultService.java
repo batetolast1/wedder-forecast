@@ -59,6 +59,15 @@ public class DefaultHourlyResultService implements HourlyResultService {
         return optionalDailyResult.orElse(null);
     }
 
+    public List<HourlyResult> getLatestHourlyResults() {
+        return hourlyResultRepository.findTop3ByUserOrderByCreatedOnDesc(userRepository.getByUsername(SecurityUtils.getUsername()))
+                .stream()
+                .sorted(Comparator
+                        .comparing(HourlyResult::getLocation, Comparator.comparing(Location::getPlaceId))
+                        .thenComparing(HourlyResult::getLocalDateTime))
+                .collect(Collectors.toList());
+    }
+
     public List<HourlyResult> getAllHourlyResults() {
         return hourlyResultRepository.findAllByUser(userRepository.getByUsername(SecurityUtils.getUsername()))
                 .stream()

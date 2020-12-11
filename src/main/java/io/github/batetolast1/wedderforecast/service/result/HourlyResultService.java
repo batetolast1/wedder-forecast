@@ -12,5 +12,7 @@ public interface HourlyResultService {
 
     HourlyResult getHourlyResult(Long id);
 
+    List<HourlyResult> getLatestHourlyResults();
+
     List<HourlyResult> getAllHourlyResults();
 }
