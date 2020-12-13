@@ -39,6 +39,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**")
                 .antMatchers("/js/**")
                 .antMatchers("/images/**")
+                .antMatchers("/dist/**")
+                .antMatchers("/plugins/**")
                 .antMatchers("/h2-console", "/h2-console/**");
     }
 
@@ -47,10 +49,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/simple-result").permitAll()
-                .antMatchers("/test/*").permitAll()
-                .antMatchers("/register").anonymous()
-                .antMatchers("/login").anonymous()
-                .antMatchers("/user").authenticated()
+                .antMatchers("/register").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/logout").authenticated()
+                .antMatchers("/user", "/user/**").hasRole("USER")
                 .anyRequest().authenticated();
 
         http.formLogin()
@@ -58,7 +60,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/user/dashboard")
-                .failureUrl("/login?error=true");
+                .failureUrl("/login?error=true")
+                .and()
+                .rememberMe()
+                .key("rememberMeWeddingForecast")
+                .tokenValiditySeconds(1209600);
 
         http.logout()
                 .logoutUrl("/logout")
