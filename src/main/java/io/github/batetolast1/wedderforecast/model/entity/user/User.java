@@ -20,7 +20,7 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE) // TODO revert to .IDENTITY
     private Long id;
 
     @Column(name = "created_on")

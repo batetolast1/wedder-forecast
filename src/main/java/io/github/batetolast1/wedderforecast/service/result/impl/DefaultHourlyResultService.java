@@ -48,7 +48,7 @@ public class DefaultHourlyResultService implements HourlyResultService {
         hourlyResult.setLocation(persistedLocation);
         hourlyResult.setUser(user);
         hourlyResult.setLocalDateTime(localDateTime);
-        hourlyResult.setHourlyWeathers(hourlyWeatherRepository.findAllByLocationAndTimestamp(persistedLocation.getId(), localDateTime));
+        hourlyResult.setHourlyWeathers(weatherService.getHourlyWeathersForLocationAndLocalDateTime(location, localDateTime));
         hourlyResult.setPredictedHourlyWeather(weatherService.predictHourlyWeather(persistedLocation, localDateTime));
         return hourlyResultRepository.save(hourlyResult);
     }

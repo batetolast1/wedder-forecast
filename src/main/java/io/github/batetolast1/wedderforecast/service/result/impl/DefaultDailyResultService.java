@@ -50,7 +50,7 @@ public class DefaultDailyResultService implements DailyResultService {
         dailyResult.setLocation(persistedLocation);
         dailyResult.setUser(user);
         dailyResult.setLocalDateTime(localDateTime);
-        dailyResult.setDailyWeathers(dailyWeatherRepository.findAllByLocationAndTimestamp(persistedLocation.getId(), localDateTime));
+        dailyResult.setDailyWeathers(weatherService.getDailyWeathersForLocationAndLocalDate(location, localDateTime.toLocalDate()));
         dailyResult.setPredictedDailyWeather(weatherService.predictDailyWeather(persistedLocation, localDateTime.toLocalDate()));
         return dailyResultRepository.save(dailyResult);
     }

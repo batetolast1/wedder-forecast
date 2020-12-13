@@ -74,7 +74,7 @@ public class DefaultWeatherService implements WeatherService {
         return predictedDailyWeatherRepository.save(predictedDailyWeather);
     }
 
-    private Set<DailyWeather> getDailyWeathersForLocationAndLocalDate(Location location, LocalDate localDate) {
+    public Set<DailyWeather> getDailyWeathersForLocationAndLocalDate(Location location, LocalDate localDate) {
         Set<DailyWeather> dailyWeathers = new HashSet<>();
         for (int i = 1; i <= YEARS_TO_CHECK_DAILY_WEATHER; i++) {
             Optional<DailyWeather> optionalDailyWeather = dailyWeatherRepository.findByLocationAndTimestamp(location, localDate.minus(i, ChronoUnit.YEARS).atStartOfDay());
@@ -287,7 +287,7 @@ public class DefaultWeatherService implements WeatherService {
         return predictedHourlyWeatherRepository.save(predictedHourlyWeather);
     }
 
-    private Set<HourlyWeather> getHourlyWeathersForLocationAndLocalDateTime(Location location, LocalDateTime localDateTime) {
+    public Set<HourlyWeather> getHourlyWeathersForLocationAndLocalDateTime(Location location, LocalDateTime localDateTime) {
         Set<HourlyWeather> hourlyWeathers = new HashSet<>();
         for (int i = 1; i <= YEARS_TO_CHECK_HOURLY_WEATHER; i++) {
             Optional<HourlyWeather> optionalHourlyWeather = hourlyWeatherRepository.findByLocationAndTimestamp(location, localDateTime.minus(i, ChronoUnit.YEARS));
