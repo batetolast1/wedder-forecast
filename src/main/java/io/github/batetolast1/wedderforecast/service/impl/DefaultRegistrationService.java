@@ -27,6 +27,7 @@ public class DefaultRegistrationService implements RegistrationService {
 
     @Override
     public void register(RegistrationDataDto registrationData) {
+        // TODO .trim() fields!
         User user = modelMapper.map(registrationData, User.class);
         user.setActive(Boolean.TRUE);
 
