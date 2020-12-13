@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
         exceptionInfo.setExceptionDateTime(LocalDateTime.now());
         exceptionInfo.setMessage(exception.getMessage());
 
-        ModelAndView modelAndView = new ModelAndView("error/error");
+        ModelAndView modelAndView = new ModelAndView("error/error-500");
         modelAndView.addObject("exceptionInfo", exceptionInfo);
         return modelAndView;
     }
