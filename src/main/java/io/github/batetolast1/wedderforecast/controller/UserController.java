@@ -36,7 +36,7 @@ public class UserController {
     private final DailyResultMapper dailyResultMapper;
     private final HourlyResultMapper hourlyResultMapper;
 
-    @GetMapping("/dashboard")
+    @GetMapping(value={"/", "/dashboard"})
     public ModelAndView getDashboard() {
         ModelAndView modelAndView = new ModelAndView("user/dashboard");
         List<DailyResult> dailyResults = dailyResultService.getLatestDailyResults();

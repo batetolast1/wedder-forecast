@@ -25,7 +25,7 @@ public class GlobalErrorsHandler implements ErrorController {
         errorInfo.setResponseStatus(response.getStatus());
         log.info("Error info: {}", errorInfo);
 
-        ModelAndView modelAndView = new ModelAndView("error/error");
+        ModelAndView modelAndView = new ModelAndView("error/error-404");
         modelAndView.addObject("errorInfo", errorInfo);
         return modelAndView;
     }

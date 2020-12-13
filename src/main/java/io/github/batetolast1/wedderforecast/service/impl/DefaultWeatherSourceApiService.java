@@ -22,6 +22,7 @@ import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -70,6 +71,8 @@ public class DefaultWeatherSourceApiService implements WeatherSourceApiService {
     @Override
     public void getDailyWeathers(Location location, LocalDate localDate) {
         if (!isAnyDailyDataFetched(location)) {
+            List<DailyWeather> dailyWeathers = new ArrayList<>(366 * YEARS_TO_FETCH_DAILY_WEATHERS);
+
             for (int i = 0; i < YEARS_TO_FETCH_DAILY_WEATHERS; i++) {
                 URI uri = buildUriForYearlyDailyWeathers(
                         location,
@@ -77,16 +80,14 @@ public class DefaultWeatherSourceApiService implements WeatherSourceApiService {
                                 .minus(i, ChronoUnit.YEARS)
                                 .minus(1, ChronoUnit.DAYS));
                 log.debug("URI {}", uri);
-
-                List<DailyWeather> dailyWeathers = fetchDailyWeathers(uri);
-                if (dailyWeathers != null) {
-                    dailyWeathers.forEach(dailyWeather -> {
-                        dailyWeather.setLocation(location);
-                        dailyWeather.setSystemRating(ratingService.rateDailyWeather(dailyWeather));
-                    });
-                    dailyWeatherRepository.saveAll(dailyWeathers);
-                }
+                dailyWeathers.addAll(fetchDailyWeathers(uri));
             }
+
+            dailyWeathers.forEach(dailyWeather -> {
+                dailyWeather.setLocation(location);
+                dailyWeather.setSystemRating(ratingService.rateDailyWeather(dailyWeather));
+            });
+            dailyWeatherRepository.saveAll(dailyWeathers);
         }
     }
 
@@ -129,6 +130,7 @@ public class DefaultWeatherSourceApiService implements WeatherSourceApiService {
     @Override
     public void getHourlyWeathers(Location location, LocalDate localDate) {
         if (!isAnyHourlyDataFetched(location)) {
+            List<HourlyWeather> hourlyWeathers = new ArrayList<>(8784 * YEARS_TO_FETCH_HOURLY_WEATHERS);
             for (int i = 1; i <= YEARS_TO_FETCH_HOURLY_WEATHERS; i++) {
                 URI uri = buildUriForYearlyHourlyWeathers(
                         location,
@@ -137,15 +139,14 @@ public class DefaultWeatherSourceApiService implements WeatherSourceApiService {
                                 minus(1, ChronoUnit.DAYS));
                 log.debug("URI {}", uri);
 
-                List<HourlyWeather> hourlyWeathers = fetchHourlyWeathers(uri);
-                if (hourlyWeathers != null) {
-                    hourlyWeathers.forEach(hourlyWeather -> {
-                        hourlyWeather.setLocation(location);
-                        hourlyWeather.setSystemRating(ratingService.rateHourlyWeather(hourlyWeather));
-                    });
-                    hourlyWeatherRepository.saveAll(hourlyWeathers);
-                }
+                hourlyWeathers.addAll(fetchHourlyWeathers(uri));
             }
+
+            hourlyWeathers.forEach(hourlyWeather -> {
+                hourlyWeather.setLocation(location);
+                hourlyWeather.setSystemRating(ratingService.rateHourlyWeather(hourlyWeather));
+            });
+            hourlyWeatherRepository.saveAll(hourlyWeathers);
         }
     }
 
