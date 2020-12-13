@@ -3,21 +3,109 @@
       xmlns:th="http://www.thymeleaf.org"
       lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Login page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="#{pages.login.title}">Wedder Forecast | Log in</title>
+  <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" th:href="@{/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
+  <!-- Theme style -->
+  <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
 </head>
-<body>
-    <form th:action="@{/login}" method="post">
-        <label for="username">Username</label>:
-        <input type="text" id="username" name="username" autofocus="autofocus" required/>
-        <br/>
-        <label for="password">Password</label>:
-        <input type="password" id="password" name="password" required/>
-        <br/>
-        <input type="submit" value="Log in"/>
-        <div th:if="${(param.error != null) and (param.error[0] == 'true')}">
-            Invalid email or password
-        </div>
-    </form>
+<body class="hold-transition login-page">
+  <div class="login-box">
+    <!-- /.login-logo -->
+    <div class="card card-outline card-primary">
+      <div class="card-header text-center">
+        <a th:href="@{/}" class="h1"><i class="fas fa-dove"></i> <b>Wedder</b> Forecast <i
+                class="fas fa-cloud-sun-rain"></i></a>
+      </div>
+      <div class="card-body">
+        <p class="login-box-msg" th:text="#{pages.login.sign-in}">Sign in to start your session</p>
+
+        <form th:action="@{/login}" method="post">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" th:placeholder="#{pages.login.username}" name="username"
+                   autocomplete="username" autofocus="autofocus" required>
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input type="password" class="form-control" th:placeholder="#{pages.login.password}" name="password"
+                   autocomplete="current-password" required>
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-3" th:if="${(param.error != null) and (param.error[0] == 'true')}">
+            <div class="col">
+              <div class="card alert alert-warning alert-dismissible">
+                <!-- /.card-header -->
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-exclamation-triangle"></i> <span th:text="#{pages.login.alert}">Alert!</span>
+                </h5>
+                <span th:text="#{pages.login.alert-text}">Invalid email or password</span>
+                <!-- /.card-body -->
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-8">
+              <div class="icheck-primary">
+                <input type="checkbox" id="remember" name="remember-me">
+                <label for="remember" th:text="#{pages.login.remember-me}">
+                  Remember Me
+                </label>
+              </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-4">
+              <button type="submit" class="btn btn-primary btn-block" th:value="#{pages.login.sign-in-button}">Sign In
+              </button>
+            </div>
+            <!-- /.col -->
+          </div>
+        </form>
+
+        <!--<div class="social-auth-links text-center mt-2 mb-3">
+          <a href="#" class="btn btn-block btn-primary">
+            <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+          </a>
+          <a href="#" class="btn btn-block btn-danger">
+            <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+          </a>
+        </div>-->
+        <!-- /.social-auth-links -->
+
+        <!--<p class="mb-1">
+          <a href="forgot-password.html">I forgot my password</a>
+        </p>-->
+        <p class="mb-0">
+          <a th:href="@{/register}" class="text-center" th:text="#{pages.login.register}">Register a new membership</a>
+        </p>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+  <!-- /.login-box -->
+
+  <!-- jQuery -->
+  <script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+  <!-- Bootstrap 4 -->
+  <script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+  <!-- AdminLTE App -->
+  <script th:src="@{/dist/js/adminlte.min.js}"></script>
 </body>
 </html>

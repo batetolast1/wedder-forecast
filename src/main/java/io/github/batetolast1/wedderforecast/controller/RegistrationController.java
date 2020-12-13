@@ -22,7 +22,7 @@ public class RegistrationController {
 
     @GetMapping
     public ModelAndView prepareRegistrationPage() {
-        ModelAndView modelAndView = new ModelAndView("register/form");
+        ModelAndView modelAndView = new ModelAndView("register/register");
         modelAndView.addObject("registrationDataDto", new RegistrationDataDto());
         return modelAndView;
     }
@@ -30,7 +30,7 @@ public class RegistrationController {
     @PostMapping
     public ModelAndView processRegistrationPage(@Valid RegistrationDataDto registrationDataDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("register/form");
+            return new ModelAndView("register/register");
         }
 
         registrationService.register(registrationDataDto);

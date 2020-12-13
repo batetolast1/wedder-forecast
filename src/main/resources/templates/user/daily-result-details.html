@@ -3,128 +3,278 @@
       xmlns:th="http://www.thymeleaf.org"
       lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title th:text="#{pages.daily-result-details.title}"></title>
-    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="#{pages.daily-result-details.title}">Wedder Forecast | Daily result details</title>
+  <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" th:href="@{/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
+  <!-- Theme style -->
+  <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+  <!-- flag-icon-css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.3.0/css/flag-icon.min.css">
 </head>
-<body>
-    <nav th:replace="fragments/header :: header">
-        <h1>Header</h1>
-    </nav>
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
 
-    <h1 th:text="#{pages.daily-result-details.title}">Daily result details</h1>
-
-    <div th:if="${dailyResultDto != null}">
-        <h2>Predicted weather</h2>
-        <table>
-            <tr>
-                <th>Date</th>
-
-                <th>Avg temperature</th>
-                <th>+/-</th>
-
-                <th>Avg "feels like" temperature</th>
-                <th>+/-</th>
-
-                <th>Heat Index</th>
-                <th>+/-</th>
-
-                <th>Pressure</th>
-                <th>+/-</th>
-
-                <th>Precipitation</th>
-                <th>+/-</th>
-
-                <th>Snowfall</th>
-                <th>+/-</th>
-
-                <th>Avg cloud cover</th>
-                <th>+/-</th>
-
-                <th>Avg wind speed</th>
-                <th>+/-</th>
-
-                <th>Avg relative humidity</th>
-                <th>+/-</th>
-
-                <th>Overall rating</th>
-            </tr>
-            <tr>
-                <td th:text="${dailyResultDto.localDateTime}">Result date</td>
-
-                <td th:text="${dailyResultDto.predictedDailyWeatherDto.tempAvg}">Result temp avg</td>
-                <td th:text="${dailyResultDto.predictedDailyWeatherDto.tempAvgDeviation}">Result temp avg deviation</td>
-
-                <td th:text="${dailyResultDto.predictedDailyWeatherDto.feelsLikeAvg}">Result feels like avg</td>
-                <td th:text="${dailyResultDto.predictedDailyWeatherDto.feelsLikeAvgDeviation}">Result feels like avg deviation</td>
-
-                <td th:text="${dailyResultDto.predictedDailyWeatherDto.heatIndexAvg}">Result Heat Index</td>
-                <td th:text="${dailyResultDto.predictedDailyWeatherDto.heatIndexAvgDeviation}">Result Heat Index deviation</td>
-
-                <td th:text="${dailyResultDto.predictedDailyWeatherDto.mslPresAvg}">Result pressure</td>
-                <td th:text="${dailyResultDto.predictedDailyWeatherDto.mslPresAvgDeviation}">Result pressure deviation</td>
-
-                <td th:text="${dailyResultDto.predictedDailyWeatherDto.precip}">Result precip</td>
-                <td th:text="${dailyResultDto.predictedDailyWeatherDto.precipDeviation}">Result precip deviation</td>
-
-                <td th:text="${dailyResultDto.predictedDailyWeatherDto.snowfall}">Result snowfall</td>
-                <td th:text="${dailyResultDto.predictedDailyWeatherDto.snowfallDeviation}">Result snowfall deviation</td>
-
-                <td th:text="${dailyResultDto.predictedDailyWeatherDto.cldCvrAvg}">Result cldCvr</td>
-                <td th:text="${dailyResultDto.predictedDailyWeatherDto.cldCvrAvgDeviation}">Result cldCvr deviation</td>
-
-                <td th:text="${dailyResultDto.predictedDailyWeatherDto.windSpdAvg}">Result windSpdAvg</td>
-                <td th:text="${dailyResultDto.predictedDailyWeatherDto.windSpdAvgDeviation}">Result windSpdAvg deviation</td>
-
-                <td th:text="${dailyResultDto.predictedDailyWeatherDto.relHumAvg}">Result relHumAvg</td>
-                <td th:text="${dailyResultDto.predictedDailyWeatherDto.relHumAvgDeviation}">Result relHumAvg deviation</td>
-
-                <td th:text="${dailyResultDto.predictedDailyWeatherDto.systemRatingDto.overall}">Result
-                    systemRating overall
-                </td>
-            </tr>
-        </table>
-
-        <h2>Past weathers</h2>
-        <table>
-            <tr>
-                <th>Date</th>
-                <th>Avg temperature</th>
-                <th>Avg "feels like" temperature</th>
-                <th>Heat Index</th>
-                <th>Pressure</th>
-                <th>Precipitation</th>
-                <th>Snowfall</th>
-                <th>Avg cloud cover</th>
-                <th>Avg wind speed</th>
-                <th>Avg relative humidity</th>
-                <th>Overall rating</th>
-            </tr>
-            <tr th:each="dailyWeatherDto: ${dailyResultDto.dailyWeatherDtos}">
-                <td th:text="${dailyWeatherDto.timestamp}">Result date</td>
-                <td th:text="${dailyWeatherDto.tempAvg}">Result temp avg</td>
-                <td th:text="${dailyWeatherDto.feelsLikeAvg}">Result feels like avg</td>
-                <td th:text="${dailyWeatherDto.heatIndexAvg}">Result Heat Index</td>
-                <td th:text="${dailyWeatherDto.mslPresAvg}">Result pressure</td>
-                <td th:text="${dailyWeatherDto.precip}">Result precip</td>
-                <td th:text="${dailyWeatherDto.snowfall}">Result snowfall</td>
-                <td th:text="${dailyWeatherDto.cldCvrAvg}">Result cldCvr</td>
-                <td th:text="${dailyWeatherDto.windSpdAvg}">Result windSpdAvg</td>
-                <td th:text="${dailyWeatherDto.relHumAvg}">Result relHumAvg</td>
-                <td th:text="${dailyWeatherDto.systemRatingDto.overall}">Result
-                    systemRating overall
-                </td>
-            </tr>
-        </table>
-
-        <iframe
-                width="600"
-                height="450"
-                style="border:none"
-                th:src="@{'https://www.google.com/maps/embed/v1/place?key=AIzaSyAibLFtxSmWFtuJPHl90pTl5FZlgJR6AzM&q=place_id:'+${dailyResultDto.locationDto.placeId}}"
-                allowfullscreen>
-        </iframe>
+    <!-- Navbar -->
+    <div th:replace="fragments/navbar :: navbar">
+      Navbar
     </div>
 
+    <!-- Main Sidebar Container -->
+    <div th:replace="fragments/sidebar :: sidebar">
+      Main Sidebar Container
+    </div>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0"><span th:text="#{pages.daily-result-details.welcome}">Welcome</span></h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a th:href="@{/}"><i class="fas fa-dove"></i> <b>Wedder</b> Forecast <i
+                        class="fas fa-cloud-sun-rain"></i></a></li>
+                <li class="breadcrumb-item"><a th:href="@{/user/dashboard}">User</a></li>
+                <li class="breadcrumb-item active" th:text="#{pages.daily-result-details.breadcrumb}">Daily result
+                  details
+                </li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+
+      <!-- Main content -->
+      <div class="content">
+        <div class="container-fluid">
+          <div th:if="${dailyResultDto != null}">
+            <div class="row mb-2">
+              <div class="col">
+                <div class="info-box bg-gradient-primary">
+                  <span class="info-box-icon"><i class="fas fa-search-location"></i></span>
+                  <div class="info-box-content">
+                    <h4 class="info-box-text"><strong>Daily result details</strong></h4>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <div class="col-lg-6">
+                <div class="card card-primary card-outline h-100">
+                  <div class="card-header">
+                    <h5 class="m-0">Location</h5>
+                  </div>
+                  <div class="card-body" style="height: 100%">
+                    <iframe
+                            width="100%"
+                            style="border:none; height: 100%"
+                            th:src="@{'https://www.google.com/maps/embed/v1/place?key=AIzaSyAibLFtxSmWFtuJPHl90pTl5FZlgJR6AzM&q=place_id:'+${dailyResultDto.locationDto.placeId}}"
+                            allowfullscreen>
+                    </iframe>
+                  </div>
+                </div>
+              </div>
+              <!-- /.col-md-6 -->
+              <div class="col-lg-6">
+                <div class="card card-primary card-outline h-100">
+                  <div class="card-header">
+                    <h5 class="m-0"><span>Weather for</span> <b><span
+                            th:text="${dailyResultDto.localDateTime.toLocalDate()}"></span></b></h5>
+                  </div>
+                  <div class="card-body">
+                    <table class="table table-hover">
+                      <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Property</th>
+                        <th>Value</th>
+                        <th style="width: 40px">+/-</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td><i class="fas fa-temperature-low"></i></td>
+                        <td th:text="#{pages.simple-result.temp-avg}">Avg temperature</td>
+                        <td th:text="${dailyResultDto.predictedDailyWeatherDto.tempAvg}">Avg temp value</td>
+                        <td><span class="badge bg-primary"
+                                  th:text="${dailyResultDto.predictedDailyWeatherDto.tempAvgDeviation}">Deviation</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><i class="far fa-smile"></i></td>
+                        <td th:text="#{pages.daily-result-details.feels-like-avg}">Avg "feels like" temperature</td>
+                        <td th:text="${dailyResultDto.predictedDailyWeatherDto.feelsLikeAvg}">"Feels like" value</td>
+                        <td><span class="badge bg-primary"
+                                  th:text="${dailyResultDto.predictedDailyWeatherDto.feelsLikeAvgDeviation}">Deviation</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><i class="fas fa-sun"></i></td>
+                        <td th:text="#{pages.daily-result-details.heat-index}">Heat Index</td>
+                        <td th:text="${dailyResultDto.predictedDailyWeatherDto.heatIndexAvg}">Heat Index value</td>
+                        <td><span class="badge bg-primary"
+                                  th:text="${dailyResultDto.predictedDailyWeatherDto.heatIndexAvgDeviation}">Deviation</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><i class="fas fa-tree"></i></td>
+                        <td th:text="#{pages.daily-result-details.pressure-avg}">Avg pressure</td>
+                        <td th:text="${dailyResultDto.predictedDailyWeatherDto.mslPresAvg}">Avg pressure value</td>
+                        <td><span class="badge bg-primary"
+                                  th:text="${dailyResultDto.predictedDailyWeatherDto.mslPresAvgDeviation}">Deviation</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><i class="fas fa-cloud-showers-heavy"></i></td>
+                        <td th:text="#{pages.simple-result.precip}">Precipitation</td>
+                        <td th:text="${dailyResultDto.predictedDailyWeatherDto.precip}">Precip value</td>
+                        <td><span class="badge bg-primary"
+                                  th:text="${dailyResultDto.predictedDailyWeatherDto.precipDeviation}">Deviation</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><i class="fas fa-snowflake"></i></td>
+                        <td th:text="#{pages.daily-result-details.snowfall}">Snowfall</td>
+                        <td th:text="${dailyResultDto.predictedDailyWeatherDto.snowfall}">Snowfall value</td>
+                        <td><span class="badge bg-primary"
+                                  th:text="${dailyResultDto.predictedDailyWeatherDto.snowfallDeviation}">Deviation</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><i class="fas fa-cloud"></i></td>
+                        <td th:text="#{pages.simple-result.cld-cvr-avg}">Avg cloud cover</td>
+                        <td th:text="${dailyResultDto.predictedDailyWeatherDto.cldCvrAvg}">Avg cloud cover value</td>
+                        <td><span class="badge bg-primary"
+                                  th:text="${dailyResultDto.predictedDailyWeatherDto.cldCvrAvgDeviation}">Deviation</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><i class="fas fa-wind"></i></td>
+                        <td th:text="#{pages.daily-result-details.wind-spd-avg}">Avg wind speed</td>
+                        <td th:text="${dailyResultDto.predictedDailyWeatherDto.windSpdAvg}">Avg wind speed value</td>
+                        <td><span class="badge bg-primary"
+                                  th:text="${dailyResultDto.predictedDailyWeatherDto.windSpdAvgDeviation}">Deviation</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><i class="fas fa-water"></i></td>
+                        <td th:text="#{pages.daily-result-details.humidity-avg}">Avg humidity</td>
+                        <td th:text="${dailyResultDto.predictedDailyWeatherDto.relHumAvg}">Humidity value</td>
+                        <td><span class="badge bg-primary"
+                                  th:text="${dailyResultDto.predictedDailyWeatherDto.relHumAvgDeviation}">Deviation</span>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                    <div class="small-box bg-primary">
+                      <div class="inner">
+                        <h3><span th:text="${dailyResultDto.predictedDailyWeatherDto.systemRatingDto.overall}">Rating
+                        value</span><sup style="font-size: 20px">/TEN</sup></h3>
+
+                        <p th:text="#{pages.simple-result.overall-rating}">Overall rating</p>
+                      </div>
+                      <div class="icon">
+                        <i class="fas fa-dove"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.col-md-6 -->
+            </div>
+            <!-- /.row -->
+
+            <div class="row"  th:if="${dailyResultDto.dailyWeatherDtos != null}">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Past daily weathers</h3>
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap">
+                      <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Avg temperature</th>
+                        <th>Avg "feels like" temperature</th>
+                        <th>Heat Index</th>
+                        <th>Pressure</th>
+                        <th>Precipitation</th>
+                        <th>Snowfall</th>
+                        <th>Avg cloud cover</th>
+                        <th>Avg wind speed</th>
+                        <th>Avg relative humidity</th>
+                        <th>Overall rating</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr th:each="dailyWeatherDto: ${dailyResultDto.dailyWeatherDtos}">
+                        <td th:text="${dailyWeatherDto.timestamp.toLocalDate()}">Result date</td>
+                        <td th:text="${dailyWeatherDto.tempAvg}">Result temp avg</td>
+                        <td th:text="${dailyWeatherDto.feelsLikeAvg}">Result feels like avg</td>
+                        <td th:text="${dailyWeatherDto.heatIndexAvg}">Result Heat Index</td>
+                        <td th:text="${dailyWeatherDto.mslPresAvg}">Result pressure</td>
+                        <td th:text="${dailyWeatherDto.precip}">Result precip</td>
+                        <td th:text="${dailyWeatherDto.snowfall}">Result snowfall</td>
+                        <td th:text="${dailyWeatherDto.cldCvrAvg}">Result cldCvr</td>
+                        <td th:text="${dailyWeatherDto.windSpdAvg}">Result windSpdAvg</td>
+                        <td th:text="${dailyWeatherDto.relHumAvg}">Result relHumAvg</td>
+                        <td th:text="${dailyWeatherDto.systemRatingDto.overall}">Result
+                          systemRating overall
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- /.content -->
+
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!-- Control Sidebar -->
+
+    <!-- Main Footer -->
+    <div th:replace="fragments/footer :: footer">
+      Main Footer
+    </div>
+  </div>
+  <!-- ./wrapper -->
+
+  <!-- REQUIRED SCRIPTS -->
+
+  <!-- jQuery -->
+  <script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+  <!-- Bootstrap 4 -->
+  <script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+  <!-- AdminLTE App -->
+  <script th:src="@{/dist/js/adminlte.min.js}"></script>
 </body>
 </html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{pages.dashboard.title}"></title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+</head>
+<body>
+    <nav th:replace="fragments/header :: header">
+        <h1>Header</h1>
+    </nav>
+
+    <h1 th:text="#{pages.dashboard.title}">Dashboard</h1>
+
+    <div th:if="${dailyResultDtos.isEmpty() && hourlyResultDtos.isEmpty()}">
+        <h2>No predictions found!</h2>
+        <a th:href="@{/user/daily-result-form}"
+           th:text="#{pages.navbar.daily-result}">Predict first daily weather!</a><br/>
+        <a th:href="@{/user/hourly-result-form}"
+           th:text="#{pages.navbar.hourly-result-form}">Predict first hourly weather!</a>
+    </div>
+
+    <div th:if="${!dailyResultDtos.isEmpty()}">
+        <h2>Latest predicted daily weathers</h2>
+
+        <table>
+            <tr>
+                <th>Map</th>
+                <th>Location</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+            <tr th:each="dailyResultDto: ${dailyResultDtos}">
+                <td>
+                    <iframe
+                            width="600"
+                            height="450"
+                            style="border:none"
+                            th:src="@{'https://www.google.com/maps/embed/v1/place?key=AIzaSyAibLFtxSmWFtuJPHl90pTl5FZlgJR6AzM&q=place_id:'+${dailyResultDto.locationDto.placeId}}"
+                            allowfullscreen>
+                    </iframe>
+                </td>
+                <td th:text="${dailyResultDto.locationDto.formattedAddress}">Address</td>
+                <td th:text="${dailyResultDto.localDateTime}">Location</td>
+                <td><a th:href="@{/user/daily-result-details/{id}(id=${dailyResultDto.id})}">Predicted daily weather
+                    details</a></td>
+            </tr>
+        </table>
+    </div>
+
+    <div th:if="${!hourlyResultDtos.isEmpty()}">
+        <h2>Latest predicted hourly weathers</h2>
+
+        <table>
+            <tr>
+                <th>Map</th>
+                <th>Location</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+            <tr th:each="hourlyResultDto: ${hourlyResultDtos}">
+                <td>
+                    <iframe
+                            width="600"
+                            height="450"
+                            style="border:none"
+                            th:src="@{'https://www.google.com/maps/embed/v1/place?key=AIzaSyAibLFtxSmWFtuJPHl90pTl5FZlgJR6AzM&q=place_id:'+${hourlyResultDto.locationDto.placeId}}"
+                            allowfullscreen>
+                    </iframe>
+                </td>
+                <td th:text="${hourlyResultDto.locationDto.formattedAddress}">Address</td>
+                <td th:text="${hourlyResultDto.localDateTime}">Location</td>
+                <td><a th:href="@{/user/hourly-result-details/{id}(id=${hourlyResultDto.id})}">Predicted hourly weather
+                    details</a></td>
+            </tr>
+        </table>
+    </div>
+
+</body>
