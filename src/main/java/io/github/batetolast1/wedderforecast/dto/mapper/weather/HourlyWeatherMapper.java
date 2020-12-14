@@ -2,7 +2,7 @@ package io.github.batetolast1.wedderforecast.dto.mapper.weather;
 
 import io.github.batetolast1.wedderforecast.dto.mapper.rating.SystemRatingMapper;
 import io.github.batetolast1.wedderforecast.dto.model.weather.HourlyWeatherDto;
-import io.github.batetolast1.wedderforecast.model.entity.weather.HourlyWeather;
+import io.github.batetolast1.wedderforecast.model.weather.HourlyWeather;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

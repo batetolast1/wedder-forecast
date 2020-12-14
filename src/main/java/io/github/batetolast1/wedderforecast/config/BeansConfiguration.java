@@ -1,11 +1,11 @@
 package io.github.batetolast1.wedderforecast.config;
 
-import io.github.batetolast1.wedderforecast.dto.PredictedDailyWeatherDto;
+import io.github.batetolast1.wedderforecast.dto.model.weather.PredictedDailyWeatherDto;
 import io.github.batetolast1.wedderforecast.dto.ResponseSimpleResultDto;
 import io.github.batetolast1.wedderforecast.dto.model.weather.DailyWeatherDto;
-import io.github.batetolast1.wedderforecast.model.entity.results.SimpleResult;
-import io.github.batetolast1.wedderforecast.model.entity.weather.DailyWeather;
-import io.github.batetolast1.wedderforecast.model.entity.weather.PredictedDailyWeather;
+import io.github.batetolast1.wedderforecast.model.results.SimpleResult;
+import io.github.batetolast1.wedderforecast.model.weather.DailyWeather;
+import io.github.batetolast1.wedderforecast.model.weather.PredictedDailyWeather;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.modelmapper.convention.MatchingStrategies;

@@ -3,7 +3,7 @@ package io.github.batetolast1.wedderforecast.dto.mapper.result;
 import io.github.batetolast1.wedderforecast.dto.ResponseSimpleResultDto;
 import io.github.batetolast1.wedderforecast.dto.mapper.location.LocationMapper;
 import io.github.batetolast1.wedderforecast.dto.mapper.weather.PredictedDailyWeatherMapper;
-import io.github.batetolast1.wedderforecast.model.entity.results.SimpleResult;
+import io.github.batetolast1.wedderforecast.model.results.SimpleResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

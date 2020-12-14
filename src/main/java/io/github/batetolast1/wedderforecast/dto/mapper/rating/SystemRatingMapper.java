@@ -1,7 +1,7 @@
 package io.github.batetolast1.wedderforecast.dto.mapper.rating;
 
-import io.github.batetolast1.wedderforecast.dto.SystemRatingDto;
-import io.github.batetolast1.wedderforecast.model.entity.rating.SystemRating;
+import io.github.batetolast1.wedderforecast.dto.model.rating.SystemRatingDto;
+import io.github.batetolast1.wedderforecast.model.rating.SystemRating;
 import org.springframework.stereotype.Service;
 
 @Service

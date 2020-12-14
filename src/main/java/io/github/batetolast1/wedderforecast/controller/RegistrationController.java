@@ -1,7 +1,7 @@
 package io.github.batetolast1.wedderforecast.controller;
 
-import io.github.batetolast1.wedderforecast.dto.RegistrationDataDto;
-import io.github.batetolast1.wedderforecast.service.RegistrationService;
+import io.github.batetolast1.wedderforecast.dto.model.user.RegistrationDataDto;
+import io.github.batetolast1.wedderforecast.service.user.RegistrationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;

@@ -1,6 +1,6 @@
 package io.github.batetolast1.wedderforecast.dto.model.result;
 
-import io.github.batetolast1.wedderforecast.dto.LocationDto;
+import io.github.batetolast1.wedderforecast.dto.model.location.LocationDto;
 import io.github.batetolast1.wedderforecast.dto.model.weather.HourlyWeatherDto;
 import io.github.batetolast1.wedderforecast.dto.model.weather.PredictedHourlyWeatherDto;
 import lombok.Getter;

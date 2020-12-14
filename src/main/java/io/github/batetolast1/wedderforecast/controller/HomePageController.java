@@ -2,7 +2,7 @@ package io.github.batetolast1.wedderforecast.controller;
 
 import io.github.batetolast1.wedderforecast.dto.RequestGoogleMapsDailyResultDto;
 import io.github.batetolast1.wedderforecast.dto.ResponseSimpleResultDto;
-import io.github.batetolast1.wedderforecast.service.ResultService;
+import io.github.batetolast1.wedderforecast.service.result.SimpleResultService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
@@ -20,7 +20,7 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequiredArgsConstructor
 public class HomePageController {
 
-    private final ResultService resultService;
+    private final SimpleResultService simpleResultService;
 
     @GetMapping("/")
     public ModelAndView getHomePage() {
@@ -32,7 +32,7 @@ public class HomePageController {
     @PostMapping("/simple-result")
     public RedirectView processSimpleResultForm(RequestGoogleMapsDailyResultDto requestGoogleMapsDailyResultDto,
                                                 RedirectAttributes redirectAttributes) {
-        ResponseSimpleResultDto responseSimpleResultDto = resultService.getSimpleSearchResultFromGoogleMaps(requestGoogleMapsDailyResultDto);
+        ResponseSimpleResultDto responseSimpleResultDto = simpleResultService.getSimpleSearchResultFromGoogleMaps(requestGoogleMapsDailyResultDto);
         redirectAttributes.addFlashAttribute("responseSimpleResultDto", responseSimpleResultDto);
         return new RedirectView("/simple-result");
     }

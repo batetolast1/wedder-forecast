@@ -1,6 +1,6 @@
 package io.github.batetolast1.wedderforecast.dto.model.weather;
 
-import io.github.batetolast1.wedderforecast.dto.SystemRatingDto;
+import io.github.batetolast1.wedderforecast.dto.model.rating.SystemRatingDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

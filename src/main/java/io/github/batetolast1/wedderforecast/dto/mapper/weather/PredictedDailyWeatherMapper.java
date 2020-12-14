@@ -1,8 +1,8 @@
 package io.github.batetolast1.wedderforecast.dto.mapper.weather;
 
-import io.github.batetolast1.wedderforecast.dto.PredictedDailyWeatherDto;
+import io.github.batetolast1.wedderforecast.dto.model.weather.PredictedDailyWeatherDto;
 import io.github.batetolast1.wedderforecast.dto.mapper.rating.SystemRatingMapper;
-import io.github.batetolast1.wedderforecast.model.entity.weather.PredictedDailyWeather;
+import io.github.batetolast1.wedderforecast.model.weather.PredictedDailyWeather;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
 package io.github.batetolast1.wedderforecast.service.result;
 
-import io.github.batetolast1.wedderforecast.model.entity.location.Location;
-import io.github.batetolast1.wedderforecast.model.entity.results.HourlyResult;
+import io.github.batetolast1.wedderforecast.model.location.Location;
+import io.github.batetolast1.wedderforecast.model.results.HourlyResult;
 
 import java.time.LocalDateTime;
 import java.util.List;

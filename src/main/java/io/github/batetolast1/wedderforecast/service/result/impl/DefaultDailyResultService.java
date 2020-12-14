@@ -1,16 +1,16 @@
 package io.github.batetolast1.wedderforecast.service.result.impl;
 
-import io.github.batetolast1.wedderforecast.model.entity.location.Location;
-import io.github.batetolast1.wedderforecast.model.entity.results.DailyResult;
-import io.github.batetolast1.wedderforecast.model.entity.user.User;
-import io.github.batetolast1.wedderforecast.model.repository.results.DailyResultRepository;
-import io.github.batetolast1.wedderforecast.model.repository.user.UserRepository;
-import io.github.batetolast1.wedderforecast.model.repository.weather.DailyWeatherRepository;
-import io.github.batetolast1.wedderforecast.service.LocationService;
-import io.github.batetolast1.wedderforecast.service.WeatherService;
-import io.github.batetolast1.wedderforecast.service.WeatherSourceApiService;
+import io.github.batetolast1.wedderforecast.model.location.Location;
+import io.github.batetolast1.wedderforecast.model.results.DailyResult;
+import io.github.batetolast1.wedderforecast.model.user.User;
+import io.github.batetolast1.wedderforecast.repository.results.DailyResultRepository;
+import io.github.batetolast1.wedderforecast.repository.user.UserRepository;
+import io.github.batetolast1.wedderforecast.repository.weather.DailyWeatherRepository;
+import io.github.batetolast1.wedderforecast.service.location.LocationService;
+import io.github.batetolast1.wedderforecast.service.weather.WeatherService;
+import io.github.batetolast1.wedderforecast.service.weather.WeatherSourceApiService;
 import io.github.batetolast1.wedderforecast.service.result.DailyResultService;
-import io.github.batetolast1.wedderforecast.utils.SecurityUtils;
+import io.github.batetolast1.wedderforecast.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;

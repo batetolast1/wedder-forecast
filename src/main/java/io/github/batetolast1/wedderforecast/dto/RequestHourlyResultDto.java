@@ -1,5 +1,6 @@
 package io.github.batetolast1.wedderforecast.dto;
 
+import io.github.batetolast1.wedderforecast.dto.model.location.LocationDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

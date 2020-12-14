@@ -1,6 +1,6 @@
 package io.github.batetolast1.wedderforecast.validation.validator;
 
-import io.github.batetolast1.wedderforecast.dto.RegistrationDataDto;
+import io.github.batetolast1.wedderforecast.dto.model.user.RegistrationDataDto;
 import io.github.batetolast1.wedderforecast.validation.constraint.PasswordValuesMatch;
 
 import javax.validation.ConstraintValidator;

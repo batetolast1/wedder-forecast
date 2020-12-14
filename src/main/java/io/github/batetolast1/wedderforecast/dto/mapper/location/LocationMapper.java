@@ -1,7 +1,7 @@
 package io.github.batetolast1.wedderforecast.dto.mapper.location;
 
-import io.github.batetolast1.wedderforecast.dto.LocationDto;
-import io.github.batetolast1.wedderforecast.model.entity.location.Location;
+import io.github.batetolast1.wedderforecast.dto.model.location.LocationDto;
+import io.github.batetolast1.wedderforecast.model.location.Location;
 import org.springframework.stereotype.Service;
 
 @Service

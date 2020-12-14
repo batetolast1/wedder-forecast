@@ -1,10 +1,10 @@
 package io.github.batetolast1.wedderforecast.setup;
 
-import io.github.batetolast1.wedderforecast.dto.RegistrationDataDto;
-import io.github.batetolast1.wedderforecast.model.entity.user.Role;
-import io.github.batetolast1.wedderforecast.model.entity.user.enums.UserRole;
-import io.github.batetolast1.wedderforecast.model.repository.user.RoleRepository;
-import io.github.batetolast1.wedderforecast.service.RegistrationService;
+import io.github.batetolast1.wedderforecast.dto.model.user.RegistrationDataDto;
+import io.github.batetolast1.wedderforecast.model.user.Role;
+import io.github.batetolast1.wedderforecast.model.user.enums.UserRole;
+import io.github.batetolast1.wedderforecast.repository.user.RoleRepository;
+import io.github.batetolast1.wedderforecast.service.user.RegistrationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
