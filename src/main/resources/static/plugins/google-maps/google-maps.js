@@ -36,8 +36,8 @@ function initMap() {
     const input = document.getElementById("pac-input");
     const autocomplete = new google.maps.places.Autocomplete(input);
     autocomplete.bindTo("bounds", map);
-    autocomplete.setFields(["place_id", "address_components", "geometry", "icon", "name", "formatted_address"]);
-    autocomplete.setTypes(["address"])
+    autocomplete.setFields(["place_id", "address_components", "geometry", "name", "formatted_address"]);
+    autocomplete.setTypes(["establishment"])
 
     // Set a listener on a radio button to change the filter type on Places Autocomplete.
     function setupClickListener(id, types) {
@@ -76,7 +76,6 @@ function initMap() {
 
         // Disable submit button.
         const submitBtn = form.children["autocomplete-submit-button"];
-        submitBtn.value = "Fetching result... please wait!";
         submitBtn.disabled = true;
     });
 
@@ -123,11 +122,11 @@ function initMap() {
         marker.setVisible(true);
 
         // Fill Infowindow with content.
-        infowindowContent.children["place-icon"].src = place.icon;
         infowindowContent.children["place-name"].textContent = place.name;
         infowindowContent.children["place-address"].textContent = place.formatted_address;
 
         // Fill Infowindow form with data.
+        form.children["name"].value = place.name;
         form.children["postalCode"].value = postalCode;
         form.children["countryCode"].value = countryCode;
         form.children["placeId"].value = place.place_id;
@@ -135,6 +134,7 @@ function initMap() {
 
         // Open Infowindow.
         infowindow.open(map, marker);
+        infowindowContent.style.display = "inline";
     }
 
     // Configure Places Service to add opening Infowindow when user clicks on POI.
@@ -175,15 +175,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (localDateInput) {
         localDateInput.value = getLocalDate(addDays(now, 180));
         localDateInput.min = getLocalDate(addDays(now, 1));
-        localDateInput.max = getLocalDate(addYears(now, 1));
 
     }
 
     const localDateTimeInput = document.getElementById('local-date-time-input');
     if (localDateTimeInput) {
-        localDateInput.value = getLocalDateTime(addDays(now, 180));
-        localDateInput.min = getLocalDateTime(addDays(now, 1));
-        localDateInput.max = getLocalDateTime(addYears(now, 1));
+        localDateTimeInput.value = getLocalDateTime(addDays(now, 180));
+        localDateTimeInput.min = getLocalDateTime(addDays(now, 1));
     }
 });
 
@@ -198,11 +196,5 @@ function getLocalDateTime(date) {
 function addDays(date, days) {
     const copy = new Date(Number(date))
     copy.setDate(date.getDate() + days)
-    return copy
-}
-
-function addYears(date, years) {
-    const copy = new Date(Number(date))
-    copy.setFullYear(date.getFullYear() + years)
     return copy
 }

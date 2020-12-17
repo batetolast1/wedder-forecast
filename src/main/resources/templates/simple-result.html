@@ -3,175 +3,183 @@
       xmlns:th="http://www.thymeleaf.org"
       lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title th:text="#{pages.simple-result.title}">Wedder Forecast | Simple result</title>
-  <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+  <!-- Header -->
+  <div th:replace="fragments/head :: head"></div>
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
-  <!-- icheck bootstrap -->
-  <link rel="stylesheet" th:href="@{/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
-  <!-- Theme style -->
-  <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
-  <!-- flag-icon-css -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.3.0/css/flag-icon.min.css">
+  <title id="page-title" th:text="#{pages.simple-result.title}"></title>
 </head>
-<body class="hold-transition sidebar-mini">
-  <div class="wrapper">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
 
-    <!-- Navbar -->
-    <div th:replace="fragments/navbar :: navbar">
-      Navbar
-    </div>
+  <!-- Navbar -->
+  <div th:replace="fragments/navbar :: navbar"></div>
 
-    <!-- Main Sidebar Container -->
-    <div th:replace="fragments/sidebar :: sidebar">
-      Main Sidebar Container
-    </div>
+  <!-- Main Sidebar Container -->
+  <div th:replace="fragments/sidebar :: sidebar"></div>
 
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-      <!-- Content Header (Page header) -->
-      <div class="content-header">
-        <div class="container-fluid">
-          <div class="row mb-2">
-            <div class="col-sm-6">
-              <h1 class="m-0"><span th:text="#{pages.simple-result.h1}">Daily weather prediction</span></h1>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-              <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a th:href="@{/}"><i class="fas fa-dove"></i> <b>Wedder</b> Forecast <i
-                        class="fas fa-cloud-sun-rain"></i></a></li>
-                <li class="breadcrumb-item active" th:text="#{pages.simple-result.breadcrumb}">Simple result</li>
-              </ol>
-            </div><!-- /.col -->
-          </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-      </div>
-      <!-- /.content-header -->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
 
-      <!-- Main content -->
-      <div class="content">
-        <div class="container-fluid">
-          <div class="row mb-2">
-            <div class="col">
-              <div class="info-box bg-gradient-primary">
-                <span class="info-box-icon"><i class="fas fa-search-location"></i></span>
-                <div class="info-box-content">
-                  <h4 class="info-box-text" th:text="#{pages.simple-result.header}"><strong>Simple result details</strong></h4>
-                </div>
-                <!-- /.info-box-content -->
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <!-- .row -->
+        <div class="row justify-content-between align-items-center">
+          <!-- .col-->
+          <div class="col mr-2">
+            <!-- .info-box -->
+            <div class="info-box">
+              <span class="info-box-icon bg-primary"><i class="fas fa-map-marked-alt"></i></span>
+              <div class="info-box-content">
+                <h4 class="info-box-text">
+                  <strong><span
+                          th:text="#{pages.simple-result.info-box.title}"></span></strong><br/>
+                  <span th:text="#{pages.simple-result.info-box.description}"></span>
+                  <i class="far fa-thumbs-up"></i>
+                </h4>
               </div>
-              <!-- /.info-box -->
-            </div>
-          </div>
+            </div><!-- /.info-box -->
+          </div><!-- /.col -->
 
-          <div class="row" th:if="${responseSimpleResultDto != null}">
-            <div class="col-lg-6">
-              <div class="card card-primary card-outline h-100">
-                <div class="card-header">
-                  <h5 class="m-0" th:text="#{pages.simple-result.location}">Location</h5>
-                </div>
-                <div class="card-body" style="height: 100%">
-                  <iframe
-                          width="100%"
-                          style="border:none; height: 100%"
-                          th:src="@{'https://www.google.com/maps/embed/v1/place?key=AIzaSyAibLFtxSmWFtuJPHl90pTl5FZlgJR6AzM&q=place_id:'+${responseSimpleResultDto.locationDto.placeId}}"
-                          allowfullscreen>
-                  </iframe>
-                </div>
+          <!-- .col -->
+          <div class="col-auto">
+            <!-- .info-box -->
+            <div class="info-box">
+              <div class="info-box-content">
+                <!-- Breadcrumb -->
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item">
+                    <a th:href="@{/}" class="text-dark">
+                      <i class="fas fa-dove"></i> <b>Wedder</b> Forecast <i class="fas fa-cloud-sun-rain"></i>
+                    </a>
+                  </li>
+                  <li class="breadcrumb-item">
+                    <a th:href="@{/user/dashboard}" class="text-dark">
+                      <span class="text-dark" th:text="#{pages.user.breadcrumb}"></span>
+                    </a>
+                  </li>
+                  <li class="breadcrumb-item">
+                    <span class="text-primary" th:text="#{pages.simple-result.breadcrumb}"></span>
+                  </li>
+                </ol>
+              </div><!-- /.breadcrumb -->
+            </div><!-- /.info-box -->
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div><!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <!-- .row -->
+        <div class="row" th:if="${responseSimpleResultDto != null}">
+          <!-- .col Location map -->
+          <div class="col-lg-8">
+            <!-- .card -->
+            <div class="card card-primary card-outline h-100">
+              <div class="card-header">
+                <h5 class="m-0">
+                  <span th:text="#{pages.result.map-card.header}"></span>: <b><span
+                        th:text="${responseSimpleResultDto.locationDto.name}"></span></b>
+                </h5>
               </div>
-            </div>
-            <!-- /.col-md-6 -->
-            <div class="col-lg-6">
-              <div class="card card-primary card-outline h-100">
-                <div class="card-header">
-                  <h5 class="m-0"><span th:text="#{pages.simple-result.results.title}">Weather for</span> <b><span th:text="${responseSimpleResultDto.localDateTime.toLocalDate()}"></span></b></h5>
-                </div>
-                <div class="card-body">
-                  <table class="table table-hover">
-                    <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Property</th>
-                      <th>Value</th>
-                      <th style="width: 40px">+/-</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td><i class="fas fa-temperature-low"></i></td>
-                      <td th:text="#{pages.simple-result.temp-avg}">Avg temperature</td>
-                      <td th:text="${responseSimpleResultDto.predictedDailyWeatherDto.tempAvg}">Avg temp value</td>
-                      <td><span class="badge bg-primary"
-                                th:text="${responseSimpleResultDto.predictedDailyWeatherDto.tempAvgDeviation}">Deviation</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><i class="fas fa-cloud-showers-heavy"></i></td>
-                      <td th:text="#{pages.simple-result.precip}">Precipitation</td>
-                      <td th:text="${responseSimpleResultDto.predictedDailyWeatherDto.precip}">Precip value</td>
-                      <td><span class="badge bg-primary"
-                                th:text="${responseSimpleResultDto.predictedDailyWeatherDto.precipDeviation}">Deviation</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><i class="fas fa-cloud"></i></td>
-                      <td th:text="#{pages.simple-result.cld-cvr-avg}">Avg cloud cover</td>
-                      <td th:text="${responseSimpleResultDto.predictedDailyWeatherDto.cldCvrAvg}">Avg temp value</td>
-                      <td><span class="badge bg-primary"
-                                th:text="${responseSimpleResultDto.predictedDailyWeatherDto.cldCvrAvgDeviation}">Deviation</span>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                  <div class="small-box bg-primary">
-                    <div class="inner">
-                      <h3><span th:text="${responseSimpleResultDto.predictedDailyWeatherDto.systemRatingDto.overall}">Rating
-                        value</span><sup style="font-size: 20px">/TEN</sup></h3>
+              <div class="card-body h-100">
+                <iframe
+                        width="100%"
+                        style="border:none; height: 100%"
+                        th:src="@{'https://www.google.com/maps/embed/v1/place?key=AIzaSyAibLFtxSmWFtuJPHl90pTl5FZlgJR6AzM&q=place_id:'+${responseSimpleResultDto.locationDto.placeId}}"
+                        allowfullscreen>
+                </iframe>
+              </div>
+            </div><!-- /.card -->
+          </div><!-- /.col -->
 
-                      <p th:text="#{pages.simple-result.overall-rating}">Overall rating</p>
-                    </div>
-                    <div class="icon">
-                      <i class="fas fa-dove"></i>
-                    </div>
-                    <a th:href="@{/register}" class="small-box-footer"><span th:text="#{pages.simple-result.register}">Register</span> <i class="fas fa-arrow-circle-right"></i></a>
+          <!-- .col Simple weather prediction -->
+          <div class="col-lg-4">
+            <!-- .card -->
+            <div class="card card-primary card-outline h-100">
+              <div class="card-header">
+                <h5 class="m-0">
+                  <span th:text="#{pages.result.results-card.title}"></span><b> <span
+                        th:text="${responseSimpleResultDto.localDateTime.toLocalDate()}"></span></b>
+                </h5>
+              </div>
+              <div class="card-body">
+                <!-- .table -->
+                <table class="table table-hover mb-2">
+                  <tr>
+                    <td><i class="fas fa-temperature-low"></i></td>
+                    <td th:text="#{pages.result.temp-avg}">Avg temperature</td>
+                    <td>
+                      <span th:text="${responseSimpleResultDto.predictedDailyWeatherDto.tempAvg}"></span> °C
+                    </td>
+                    <td>
+                      +/- <span th:text="${responseSimpleResultDto.predictedDailyWeatherDto.tempAvgDeviation}"></span>
+                      °C
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><i class="fas fa-cloud-showers-heavy"></i></td>
+                    <td th:text="#{pages.result.precip}"></td>
+                    <td>
+                      <span th:text="${responseSimpleResultDto.predictedDailyWeatherDto.precip}">Precip value</span> mm
+                    </td>
+                    <td>
+                      +/- <span th:text="${responseSimpleResultDto.predictedDailyWeatherDto.precipDeviation}"></span> mm
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><i class="fas fa-cloud"></i></td>
+                    <td th:text="#{pages.result.cld-cvr-avg}"></td>
+                    <td>
+                      <span th:text="${responseSimpleResultDto.predictedDailyWeatherDto.cldCvrAvg}"></span> %
+                    </td>
+                    <td>
+                      +/- <span th:text="${responseSimpleResultDto.predictedDailyWeatherDto.cldCvrAvgDeviation}"></span>
+                      %
+                    </td>
+                  </tr>
+                </table><!-- /.table -->
+
+                <!-- .small-box-->
+                <div class="small-box bg-primary">
+                  <div class="inner">
+                    <h3>
+                      <span th:text="${responseSimpleResultDto.predictedDailyWeatherDto.systemRatingDto.overall}"></span>
+                      <sup style="font-size: 20px">/TEN</sup>
+                    </h3>
+                    <p th:text="#{pages.result.overall-rating}">Overall rating</p>
                   </div>
-                </div>
+                  <div class="icon">
+                    <i class="fas fa-dove"></i>
+                  </div>
+                  <a th:href="@{/register}" class="small-box-footer">
+                    <span th:text="#{pages.simple-result.register}"></span>
+                    <i class="fas fa-arrow-circle-right"></i>
+                  </a>
+                </div><!-- /.small-box -->
               </div>
-            </div>
-            <!-- /.col-md-6 -->
-          </div>
+            </div><!-- /.card -->
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div><!-- /.content -->
+  </div><!-- /.content-wrapper -->
 
-          <!-- /.row -->
-        </div>
-        <!-- /.container-fluid -->
-      </div>
-      <!-- /.content -->
+  <!-- Main Footer -->
+  <div th:replace="fragments/footer :: footer"></div>
 
-    </div>
-    <!-- /.content-wrapper -->
+</div>
+<!-- ./wrapper -->
 
-    <!-- Control Sidebar -->
+<!-- Required Scripts -->
+<div th:replace="fragments/required-scripts :: required-scripts"></div>
 
-    <!-- Main Footer -->
-    <div th:replace="fragments/footer :: footer">
-      Main Footer
-    </div>
-  </div>
-  <!-- ./wrapper -->
-
-  <!-- REQUIRED SCRIPTS -->
-
-  <!-- jQuery -->
-  <script th:src="@{/plugins/jquery/jquery.min.js}"></script>
-  <!-- Bootstrap 4 -->
-  <script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
-  <!-- AdminLTE App -->
-  <script th:src="@{/dist/js/adminlte.min.js}"></script>
+<!-- Google Maps Autocomplete -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAibLFtxSmWFtuJPHl90pTl5FZlgJR6AzM&callback=initMap&libraries=places&v=weekly"
+        defer></script>
+<script th:src="@{/plugins/google-maps/google-maps.js}"></script>
 </body>
 </html>

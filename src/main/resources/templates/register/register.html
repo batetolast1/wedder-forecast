@@ -3,162 +3,165 @@
       xmlns:th="http://www.thymeleaf.org"
       lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title th:text="#{pages.register.title}">Wedder Forecast | Registration Page</title>
-  <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+  <!-- Header -->
+  <div th:replace="fragments/head :: head"></div>
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
-  <!-- icheck bootstrap -->
-  <link rel="stylesheet" th:href="@{/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
-  <!-- Theme style -->
-  <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+  <title id="page-title" th:text="#{pages.register.title}"></title>
 </head>
 <body class="hold-transition register-page">
-  <div class="register-box">
-    <div class="card card-outline card-primary">
-      <div class="card-header text-center">
-        <a th:href="@{/}" class="h1"><i class="fas fa-dove"></i> <b>Wedder</b> Forecast <i
-                class="fas fa-cloud-sun-rain"></i></a>
-      </div>
-      <div class="card-body">
-        <p class="login-box-msg" th:text="#{pages.register.register-message}">Register a new membership</p>
+<div class="register-box">
+  <!-- .card -->
+  <div class="card card-outline card-primary">
+    <div class="card-header text-center">
+      <a th:href="@{/}" class="h2">
+        <i class="fas fa-dove"></i> <b>Wedder</b> Forecast <i class="fas fa-cloud-sun-rain"></i>
+      </a>
+    </div>
+    <div class="card-body">
+      <p class="login-box-msg" th:text="#{pages.register.header}"></p>
+      <!-- .form-->
+      <form th:action="@{/register}"
+            method="post"
+            th:object="${registrationDataDto}">
+        <div class="input-group mb-3">
+          <input type="text"
+                 class="form-control"
+                 th:placeholder="#{pages.register.username}"
+                 name="username"
+                 autocomplete="nickname"
+                 autofocus="autofocus"
+                 required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-user"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3" th:if="${#fields.hasErrors('username')}">
+          <div class="col">
+            <div class="text text-sm text-danger">
+              <small th:errors="*{username}"></small>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="email"
+                 class="form-control"
+                 th:placeholder="#{pages.register.email}"
+                 th:field="*{email}"
+                 autocomplete="email"
+                 name="email"
+                 required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3" th:if="${#fields.hasErrors('email')}">
+          <div class="col">
+            <div class="text text-sm text-danger">
+              <small th:errors="*{email}"></small>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="email"
+                 class="form-control"
+                 th:placeholder="#{pages.register.email-repeat}"
+                 th:field="*{verifyEmail}"
+                 autocomplete="email"
+                 name="verifyEmail"
+                 required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3" th:if="${#fields.hasErrors('verifyEmail')}">
+          <div class="col">
+            <div class="text text-sm text-danger">
+              <small th:errors="*{verifyEmail}"></small>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password"
+                 class="form-control"
+                 th:placeholder="#{pages.register.password}"
+                 th:field="*{password}"
+                 name="password"
+                 autocomplete="new-password"
+                 required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3" th:if="${#fields.hasErrors('password')}">
+          <div class="col">
+            <div class="text text-sm text-danger">
+              <small th:errors="*{password}"></small>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password"
+                 class="form-control"
+                 th:placeholder="#{pages.register.password-repeat}"
+                 th:field="*{verifyPassword}"
+                 name="verifyPassword"
+                 autocomplete="new-password"
+                 required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3" th:if="${#fields.hasErrors('verifyPassword')}">
+          <div class="col">
+            <div class="text text-sm text-danger">
+              <small th:errors="*{verifyPassword}"></small>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-8">
+            <div class="icheck-primary">
+              <input type="checkbox"
+                     id="agreeTerms"
+                     name="agreeTerms"
+                     value="true"
+                     required>
+              <label for="agreeTerms">
+                <a href="#" th:text="#{pages.register.agree-terms}"></a>
+              </label>
+            </div>
+          </div>
+          <div class="col-4">
+            <button type="submit"
+                    class="btn btn-primary btn-block"
+                    th:value="#{pages.register.button}"></button>
+          </div>
+        </div>
+        <div class="row mb-3" th:if="${#fields.hasErrors('agreeTerms')}">
+          <div class="col">
+            <div class="text text-sm text-danger">
+              <small th:errors="*{agreeTerms}"></small>
+            </div>
+          </div>
+        </div>
+      </form><!-- /.form -->
+      <a th:href="@{/login}" class="text-center" th:text="#{pages.register.login-message}"></a>
+    </div>
+  </div><!-- /.card -->
+</div><!-- /.register-box-->
 
-        <form th:action="@{/register}" method="post" th:object="${registrationDataDto}">
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" th:placeholder="#{pages.register.username}" name="username"
-                   autocomplete="nickname" autofocus="autofocus" required>
-            <div class="input-group-append">
-              <div class="input-group-text">
-                <span class="fas fa-user"></span>
-              </div>
-            </div>
-          </div>
-          <div class="row mb-3" th:if="${#fields.hasErrors('username')}">
-            <div class="col">
-              <div class="text text-sm text-danger">
-                <small th:errors="*{username}"></small>
-              </div>
-            </div>
-          </div>
-          <div class="input-group mb-3">
-            <input type="email" class="form-control" th:placeholder="#{pages.register.email}" th:field="*{email}"
-                   autocomplete="email" name="email" required>
-            <div class="input-group-append">
-              <div class="input-group-text">
-                <span class="fas fa-envelope"></span>
-              </div>
-            </div>
-          </div>
-          <div class="row mb-3" th:if="${#fields.hasErrors('email')}">
-            <div class="col">
-              <div class="text text-sm text-danger">
-                <small th:errors="*{email}"></small>
-              </div>
-            </div>
-          </div>
-          <div class="input-group mb-3">
-            <input type="email" class="form-control" th:placeholder="#{pages.register.email-repeat}"
-                   th:field="*{verifyEmail}" autocomplete="email" name="verifyEmail" required>
-            <div class="input-group-append">
-              <div class="input-group-text">
-                <span class="fas fa-envelope"></span>
-              </div>
-            </div>
-          </div>
-          <div class="row mb-3" th:if="${#fields.hasErrors('verifyEmail')}">
-            <div class="col">
-              <div class="text text-sm text-danger">
-                <small th:errors="*{verifyEmail}"></small>
-              </div>
-            </div>
-          </div>
-          <div class="input-group mb-3">
-            <input type="password" class="form-control" th:placeholder="#{pages.register.password}"
-                   th:field="*{password}" name="password" autocomplete="new-password" required>
-            <div class="input-group-append">
-              <div class="input-group-text">
-                <span class="fas fa-lock"></span>
-              </div>
-            </div>
-          </div>
-          <div class="row mb-3" th:if="${#fields.hasErrors('password')}">
-            <div class="col">
-              <div class="text text-sm text-danger">
-                <small th:errors="*{password}"></small>
-              </div>
-            </div>
-          </div>
-          <div class="input-group mb-3">
-            <input type="password" class="form-control" th:placeholder="#{pages.register.password-repeat}"
-                   th:field="*{verifyPassword}" name="verifyPassword" autocomplete="new-password" required>
-            <div class="input-group-append">
-              <div class="input-group-text">
-                <span class="fas fa-lock"></span>
-              </div>
-            </div>
-          </div>
-          <div class="row mb-3" th:if="${#fields.hasErrors('verifyPassword')}">
-            <div class="col">
-              <div class="text text-sm text-danger">
-                <small th:errors="*{verifyPassword}"></small>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-8">
-              <div class="icheck-primary">
-                <input type="checkbox" id="agreeTerms" name="agreeTerms" value="true" required>
-                <label for="agreeTerms">
-                  <a href="#" th:text="#{pages.register.agree-terms}">I agree to the terms</a>
-                </label>
-              </div>
-            </div>
-            <!-- /.col -->
-            <div class="col-4">
-              <button type="submit" class="btn btn-primary btn-block" th:value="#{pages.register.register-button}">
-                Register
-              </button>
-            </div>
-            <!-- /.col -->
-          </div>
-          <div class="row mb-3" th:if="${#fields.hasErrors('agreeTerms')}">
-            <div class="col">
-              <div class="text text-sm text-danger">
-                <small th:errors="*{agreeTerms}"></small>
-              </div>
-            </div>
-          </div>
-        </form>
+<!-- Required Scripts -->
+<div th:replace="fragments/required-scripts :: required-scripts"></div>
 
-        <!-- <div class="social-auth-links text-center">
-           <a href="#" class="btn btn-block btn-primary">
-             <i class="fab fa-facebook mr-2"></i>
-             Sign up using Facebook
-           </a>
-           <a href="#" class="btn btn-block btn-danger">
-             <i class="fab fa-google-plus mr-2"></i>
-             Sign up using Google+
-           </a>
-         </div>-->
-
-        <a th:href="@{/login}" class="text-center" th:text="#{pages.register.login-message}">I already have a
-          membership</a>
-      </div>
-      <!-- /.form-box -->
-    </div><!-- /.card -->
-  </div>
-  <!-- /.register-box -->
-
-  <!-- jQuery -->
-  <script th:src="@{/plugins/jquery/jquery.min.js}"></script>
-  <!-- Bootstrap 4 -->
-  <script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
-  <!-- AdminLTE App -->
-  <script th:src="@{/dist/js/adminlte.min.js}"></script>
 </body>
 </html>

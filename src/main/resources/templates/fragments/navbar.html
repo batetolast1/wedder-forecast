@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       lang="en">
 <nav class="main-header navbar navbar-expand navbar-white navbar-light" th:fragment="navbar">
   <!-- Left navbar links -->
@@ -8,18 +9,23 @@
     <li class="nav-item">
       <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
     </li>
-    <li class="nav-item d-none d-sm-inline-block">
-      <a href="#" class="nav-link" th:text="#{pages.navbar.contact}">Contact</a>
-    </li>
-  </ul>
+  </ul><!-- /.navbar-nav -->
 
   <!-- Right navbar links -->
   <ul class="navbar-nav ml-auto">
-    <!-- Navbar Search -->
+    <!-- User -->
+    <li class="nav-item" sec:authorize="isAuthenticated()">
+      <a class="nav-link">
+        <span th:text="#{pages.navbar.welcome}"></span>, <span sec:authentication="name"></span>
+      </a>
+    </li>
 
-    <!-- Messages Dropdown Menu -->
-
-    <!-- Notifications Dropdown Menu -->
+    <!-- Fullscreen -->
+    <li class="nav-item">
+      <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+        <i class="fas fa-expand-arrows-alt"></i>
+      </a>
+    </li>
 
     <!-- Language Dropdown Menu -->
     <li class="nav-item dropdown">
@@ -30,17 +36,15 @@
         </div>
       </a>
       <div class="dropdown-menu dropdown-menu-right p-0" style="left: inherit; right: 0;">
-        <a href="?lang=en" class="dropdown-item active">
-          <i class="flag-icon flag-icon-us mr-2"></i> <span th:text="#{pages.navbar.english}">English</span>
+        <a href="?lang=en" class="dropdown-item">
+          <i class="flag-icon flag-icon-us mr-2"></i>
+          <span th:text="#{pages.navbar.english}"></span>
         </a>
         <a href="?lang=pl" class="dropdown-item">
-          <i class="flag-icon flag-icon-pl mr-2"></i> <span th:text="#{pages.navbar.polish}">Polish</span>
+          <i class="flag-icon flag-icon-pl mr-2"></i>
+          <span th:text="#{pages.navbar.polish}"></span>
         </a>
       </div>
     </li>
-
-    <!-- Right sidebar toggle -->
-
   </ul>
-</nav>
-<!-- /.navbar -->
+</nav><!-- /.nav -->
