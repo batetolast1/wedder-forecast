@@ -7,7 +7,7 @@
   <!-- Left navbar links -->
   <ul class="navbar-nav">
     <li class="nav-item">
-      <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      <a class="nav-link" data-widget="pushmenu" href="#" role="button"><em class="fas fa-bars"></em></a>
     </li>
   </ul><!-- /.navbar-nav -->
 
@@ -23,7 +23,7 @@
     <!-- Fullscreen -->
     <li class="nav-item">
       <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-        <i class="fas fa-expand-arrows-alt"></i>
+        <em class="fas fa-expand-arrows-alt"></em>
       </a>
     </li>
 
@@ -31,17 +31,17 @@
     <li class="nav-item dropdown">
       <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
         <div th:switch="__${#locale.language}__">
-          <i class="flag-icon flag-icon-us" th:case="en"></i>
-          <i class="flag-icon flag-icon-pl" th:case="pl"></i>
+          <em class="flag-icon flag-icon-us" th:case="en"></em>
+          <em class="flag-icon flag-icon-pl" th:case="pl"></em>
         </div>
       </a>
       <div class="dropdown-menu dropdown-menu-right p-0" style="left: inherit; right: 0;">
         <a href="?lang=en" class="dropdown-item">
-          <i class="flag-icon flag-icon-us mr-2"></i>
+          <em class="flag-icon flag-icon-us mr-2"></em>
           <span th:text="#{pages.navbar.english}"></span>
         </a>
         <a href="?lang=pl" class="dropdown-item">
-          <i class="flag-icon flag-icon-pl mr-2"></i>
+          <em class="flag-icon flag-icon-pl mr-2"></em>
           <span th:text="#{pages.navbar.polish}"></span>
         </a>
       </div>

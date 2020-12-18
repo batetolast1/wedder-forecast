@@ -14,7 +14,7 @@
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
       <a th:href="@{/}" class="h2">
-        <i class="fas fa-dove"></i> <b>Wedder</b> Forecast <i class="fas fa-cloud-sun-rain"></i>
+        <em class="fas fa-dove"></em> <strong>Wedder</strong> Forecast <em class="fas fa-cloud-sun-rain"></em>
       </a>
     </div>
     <div class="card-body">
@@ -54,7 +54,7 @@
             <div class="card alert alert-warning alert-dismissible">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
               <h5>
-                <i class="icon fas fa-exclamation-triangle"></i>
+                <em class="icon fas fa-exclamation-triangle"></em>
                 <span th:text="#{pages.login.alert.header}"></span>
               </h5>
               <span th:text="#{pages.login.alert.text}"></span>
@@ -71,9 +71,9 @@
             </div>
           </div>
           <div class="col-4">
-            <button type="submit"
+            <input type="submit"
                     class="btn btn-primary btn-block"
-                    th:value="#{pages.login.button}"></button>
+                    th:value="#{pages.login.button}">
           </div>
         </div>
       </form><!-- /.form-->

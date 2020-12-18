@@ -6,9 +6,9 @@
 <aside class="main-sidebar sidebar-light-primary elevation-4" th:fragment="sidebar">
   <!-- Brand Logo -->
   <a th:href="@{/}" class="brand-link ml-4">
-    <i class="nav-icon fas fa-dove"></i>
-    <span class="brand-text"> <b>Wedder</b> Forecast <i
-          class="fas fa-cloud-sun-rain"></i></span>
+    <em class="nav-icon fas fa-dove"></em>
+    <span class="brand-text"> <strong>Wedder</strong> Forecast <em
+          class="fas fa-cloud-sun-rain"></em></span>
   </a>
 
   <!-- Sidebar -->
@@ -17,40 +17,40 @@
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <li class="nav-item" sec:authorize="isAnonymous()">
           <a th:href="@{/login}" class="nav-link">
-            <i class="nav-icon fas fa-sign-in-alt"></i>
+            <em class="nav-icon fas fa-sign-in-alt"></em>
             <p th:text="#{pages.sidebar.login}"></p>
           </a>
         </li>
         <li class="nav-item" sec:authorize="isAnonymous()">
           <a th:href="@{/register}" class="nav-link">
-            <i class="nav-icon fas fa-file-signature"></i>
+            <em class="nav-icon fas fa-file-signature"></em>
             <p th:text="#{pages.sidebar.register}"></p>
           </a>
         </li>
         <li class="nav-item" sec:authorize="isAuthenticated()">
           <a th:href="@{/user/dashboard}" class="nav-link">
-            <i class="nav-icon fas fa-angle-double-right"></i>
+            <em class="nav-icon fas fa-angle-double-right"></em>
             <p th:text="#{pages.sidebar.dashboard}"></p>
           </a>
         </li>
         <li class="nav-item menu-open" sec:authorize="isAuthenticated()">
           <a href="#" class="nav-link active">
-            <i class="nav-icon far fa-calendar-check"></i>
+            <em class="nav-icon far fa-calendar-check"></em>
             <p>
               <span th:text="#{pages.sidebar.daily-weathers}"></span>
-              <i class="right fas fa-angle-left"></i>
+              <em class="right fas fa-angle-left"></em>
             </p>
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
               <a th:href="@{/user/daily-result-form}" class="nav-link active">
-                <i class="far fa-calendar-plus nav-icon"></i>
+                <em class="far fa-calendar-plus nav-icon"></em>
                 <p th:text="#{pages.sidebar.daily-result-form}"></p>
               </a>
             </li>
             <li class="nav-item">
               <a th:href="@{/user/daily-results}" class="nav-link">
-                <i class="far fa-calendar-alt nav-icon"></i>
+                <em class="far fa-calendar-alt nav-icon"></em>
                 <p th:text="#{pages.sidebar.daily-results}"></p>
               </a>
             </li>
@@ -58,22 +58,22 @@
         </li>
         <li class="nav-item menu-open" sec:authorize="isAuthenticated()">
           <a href="#" class="nav-link active">
-            <i class="nav-icon far fa-clock"></i>
+            <em class="nav-icon far fa-clock"></em>
             <p>
               <span th:text="#{pages.sidebar.hourly-weathers}"></span>
-              <i class="right fas fa-angle-left"></i>
+              <em class="right fas fa-angle-left"></em>
             </p>
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
               <a th:href="@{/user/hourly-result-form}" class="nav-link active">
-                <i class="fas fa-clock nav-icon"></i>
+                <em class="fas fa-clock nav-icon"></em>
                 <p th:text="#{pages.sidebar.hourly-result-form}"></p>
               </a>
             </li>
             <li class="nav-item">
               <a th:href="@{/user/hourly-results}" class="nav-link">
-                <i class="fas fa-history nav-icon"></i>
+                <em class="fas fa-history nav-icon"></em>
                 <p th:text="#{pages.sidebar.hourly-results}"></p>
               </a>
             </li>
@@ -81,7 +81,7 @@
         </li>
         <li class="nav-item" sec:authorize="isAuthenticated()">
           <a class="nav-link" href="#" onclick="document.forms['logoutForm'].submit()">
-            <i class="nav-icon fas fa-sign-out-alt"></i>
+            <em class="nav-icon fas fa-sign-out-alt"></em>
             <p th:text="#{pages.sidebar.logout}"></p>
           </a>
           <form id="logoutForm" th:action="@{/logout}" method="post"></form>

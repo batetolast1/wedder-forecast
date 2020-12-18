@@ -83,25 +83,9 @@
               <div class="info-box-content">
                 <button class="btn btn-lg btn-default">
                   <a th:href="@{/user/hourly-result-form}">
-                    <span th:text="#{pages.hourly-results.hourly-result-form}">Check daily weather!</span>
+                    <span th:text="#{pages.hourly-results.hourly-result-form}"></span>
                   </a>
                 </button>
-              </div>
-            </div><!-- /.info-box -->
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-
-        <!-- .row -->
-        <div class="row mb-2" th:if="${!hourlyResultDtos.isEmpty()}">
-          <!-- .col -->
-          <div class="col">
-            <!-- .info-box -->
-            <div class="info-box">
-              <span class="info-box-icon bg-primary"><i class="far far fa-clock"></i></span>
-              <div class="info-box-content">
-                <h4 class="info-box-text">
-                  <span th:text="#{pages.hourly-results.header}"></span>
-                </h4>
               </div>
             </div><!-- /.info-box -->
           </div><!-- /.col -->

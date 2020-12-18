@@ -91,22 +91,6 @@
           </div><!-- /.col -->
         </div><!-- /.row -->
 
-        <!-- .row -->
-        <div class="row mb-2" th:if="${!dailyResultDtos.isEmpty()}">
-          <!-- .col -->
-          <div class="col">
-            <!-- .info-box -->
-            <div class="info-box">
-              <span class="info-box-icon bg-primary"><i class="far fa-calendar-check"></i></span>
-              <div class="info-box-content">
-                <h4 class="info-box-text">
-                  <span th:text="#{pages.daily-weathers.header}"></span>
-                </h4>
-              </div>
-            </div><!-- /.info-box -->
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-
         <!-- .row Daily weathers-->
         <div class="row mb-2" th:each="dailyResultDto: ${dailyResultDtos}">
           <!-- .col Location map -->
@@ -188,7 +172,7 @@
                     <i class="fas fa-dove"></i>
                   </div>
                   <a th:href="@{/user/daily-result-details/{id}(id=${dailyResultDto.id})}" class="small-box-footer">
-                    <span th:text="#{pages.dashboard.daily-weather-details}"></span>
+                    <span th:text="#{pages.daily-results.daily-weather-details}"></span>
                     <i class="fas fa-arrow-circle-right"></i>
                   </a>
                 </div><!-- /.small-box -->

@@ -14,11 +14,11 @@
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
       <a th:href="@{/}" class="h2">
-        <i class="fas fa-dove"></i> <b>Wedder</b> Forecast <i class="fas fa-cloud-sun-rain"></i>
+        <em class="fas fa-dove"></em> <strong>Wedder</strong> Forecast <em class="fas fa-cloud-sun-rain"></em>
       </a>
     </div>
     <div class="card-body">
-      <p class="login-box-msg" th:text="#{pages.register.header}"></p>
+      <p class="login-box-msg" th:text="#{pages.register.register-message}"></p>
       <!-- .form-->
       <form th:action="@{/register}"
             method="post"
@@ -142,9 +142,9 @@
             </div>
           </div>
           <div class="col-4">
-            <button type="submit"
+            <input type="submit"
                     class="btn btn-primary btn-block"
-                    th:value="#{pages.register.button}"></button>
+                    th:value="#{pages.register.register-button}">
           </div>
         </div>
         <div class="row mb-3" th:if="${#fields.hasErrors('agreeTerms')}">
