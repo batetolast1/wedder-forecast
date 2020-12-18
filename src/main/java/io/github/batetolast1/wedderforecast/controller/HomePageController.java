@@ -5,6 +5,9 @@ import io.github.batetolast1.wedderforecast.dto.ResponseSimpleResultDto;
 import io.github.batetolast1.wedderforecast.service.result.SimpleResultService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +27,11 @@ public class HomePageController {
 
     @GetMapping("/")
     public ModelAndView getHomePage() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            return new ModelAndView("redirect:/user/dashboard");
+        }
+
         ModelAndView modelAndView = new ModelAndView("index");
         modelAndView.addObject("requestGoogleMapsDailyResultDto", new RequestGoogleMapsDailyResultDto());
         return modelAndView;
