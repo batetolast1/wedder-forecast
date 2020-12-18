@@ -43,4 +43,11 @@ public class Location {
      */
     @Column(name = "formatted_address")
     private String formattedAddress;
+
+    /**
+     * A term to be matched against all content that Google has indexed for this place.
+     * https://developers.google.com/places/web-service/search
+     */
+    @Column
+    private String name;
 }

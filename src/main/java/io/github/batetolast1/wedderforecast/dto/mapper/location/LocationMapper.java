@@ -14,6 +14,7 @@ public class LocationMapper {
         location.setCountryCode(locationDto.getCountryCode());
         location.setPlaceId(locationDto.getPlaceId());
         location.setFormattedAddress(locationDto.getFormattedAddress());
+        location.setName(locationDto.getName());
         return location;
     }
 
@@ -24,6 +25,7 @@ public class LocationMapper {
         locationDto.setCountryCode(location.getCountryCode());
         locationDto.setPlaceId(location.getPlaceId());
         locationDto.setFormattedAddress(location.getFormattedAddress());
+        locationDto.setName(location.getName());
         return locationDto;
     }
 }

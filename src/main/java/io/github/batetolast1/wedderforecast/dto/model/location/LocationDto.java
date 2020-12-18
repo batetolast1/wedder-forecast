@@ -14,4 +14,5 @@ public class LocationDto {
     private String countryCode;
     private String placeId;
     private String formattedAddress;
+    private String name;
 }
