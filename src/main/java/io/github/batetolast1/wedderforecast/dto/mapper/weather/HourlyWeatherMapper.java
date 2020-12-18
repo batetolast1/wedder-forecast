@@ -6,6 +6,9 @@ import io.github.batetolast1.wedderforecast.model.weather.HourlyWeather;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import static io.github.batetolast1.wedderforecast.util.MathUtils.*;
+import static io.github.batetolast1.wedderforecast.util.MathUtils.round;
+
 @Service
 
 @RequiredArgsConstructor
@@ -19,15 +22,15 @@ public class HourlyWeatherMapper {
         hourlyWeatherDto.setSystemRatingDto(systemRatingMapper.toSystemRatingDto(hourlyWeather.getSystemRating()));
         hourlyWeatherDto.setTimestamp(hourlyWeather.getTimestamp());
 
-        hourlyWeatherDto.setTemp(hourlyWeather.getTemp());
-        hourlyWeatherDto.setFeelsLike(hourlyWeather.getFeelsLike());
-        hourlyWeatherDto.setHeatIndex(hourlyWeather.getHeatIndex());
-        hourlyWeatherDto.setMslPres(hourlyWeather.getMslPres());
-        hourlyWeatherDto.setPrecip(hourlyWeather.getPrecip());
-        hourlyWeatherDto.setSnowfall(hourlyWeather.getSnowfall());
-        hourlyWeatherDto.setCldCvr(hourlyWeather.getCldCvr());
-        hourlyWeatherDto.setWindSpd(hourlyWeather.getWindSpd());
-        hourlyWeatherDto.setRelHum(hourlyWeather.getRelHum());
+        hourlyWeatherDto.setTemp(round(convertToCelsius(hourlyWeather.getTemp()), 1));
+        hourlyWeatherDto.setFeelsLike(round(convertToCelsius(hourlyWeather.getFeelsLike()), 1));
+        hourlyWeatherDto.setHeatIndex(round(convertToCelsius(hourlyWeather.getHeatIndex()), 1));
+        hourlyWeatherDto.setMslPres(round(hourlyWeather.getMslPres(), 1));
+        hourlyWeatherDto.setPrecip(round(convertToMm(hourlyWeather.getPrecip()), 1));
+        hourlyWeatherDto.setSnowfall(round(convertToMm(hourlyWeather.getSnowfall()), 1));
+        hourlyWeatherDto.setCldCvr(round(hourlyWeather.getCldCvr(), 1));
+        hourlyWeatherDto.setWindSpd(round(convertToKmh(hourlyWeather.getWindSpd()), 1));
+        hourlyWeatherDto.setRelHum(round(hourlyWeather.getRelHum(), 1));
         return hourlyWeatherDto;
     }
 }

@@ -6,6 +6,8 @@ import io.github.batetolast1.wedderforecast.model.weather.PredictedHourlyWeather
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import static io.github.batetolast1.wedderforecast.util.MathUtils.*;
+
 @Service
 
 @RequiredArgsConstructor
@@ -19,25 +21,25 @@ public class PredictedHourlyWeatherMapper {
         predictedHourlyWeatherDto.setTimestamp(predictedHourlyWeather.getTimestamp());
         predictedHourlyWeatherDto.setSystemRatingDto(systemRatingMapper.toSystemRatingDto(predictedHourlyWeather.getSystemRating()));
 
-        predictedHourlyWeatherDto.setTemp(predictedHourlyWeather.getTemp());
-        predictedHourlyWeatherDto.setFeelsLike(predictedHourlyWeather.getFeelsLike());
-        predictedHourlyWeatherDto.setHeatIndex(predictedHourlyWeather.getHeatIndex());
-        predictedHourlyWeatherDto.setMslPres(predictedHourlyWeather.getMslPres());
-        predictedHourlyWeatherDto.setPrecip(predictedHourlyWeather.getPrecip());
-        predictedHourlyWeatherDto.setSnowfall(predictedHourlyWeather.getSnowfall());
-        predictedHourlyWeatherDto.setCldCvr(predictedHourlyWeather.getCldCvr());
-        predictedHourlyWeatherDto.setWindSpd(predictedHourlyWeather.getWindSpd());
-        predictedHourlyWeatherDto.setRelHum(predictedHourlyWeather.getRelHum());
+        predictedHourlyWeatherDto.setTemp(round(convertToCelsius(predictedHourlyWeather.getTemp()), 1));
+        predictedHourlyWeatherDto.setFeelsLike(round(convertToCelsius(predictedHourlyWeather.getFeelsLike()), 1));
+        predictedHourlyWeatherDto.setHeatIndex(round(convertToCelsius(predictedHourlyWeather.getHeatIndex()), 1));
+        predictedHourlyWeatherDto.setMslPres(round(predictedHourlyWeather.getMslPres(), 1));
+        predictedHourlyWeatherDto.setPrecip(round(convertToMm(predictedHourlyWeather.getPrecip()), 1));
+        predictedHourlyWeatherDto.setSnowfall(round(convertToMm(predictedHourlyWeather.getSnowfall()), 1));
+        predictedHourlyWeatherDto.setCldCvr(round(predictedHourlyWeather.getCldCvr(), 1));
+        predictedHourlyWeatherDto.setWindSpd(round(convertToKmh(predictedHourlyWeather.getWindSpd()), 1));
+        predictedHourlyWeatherDto.setRelHum(round(predictedHourlyWeather.getRelHum(), 1));
 
-        predictedHourlyWeatherDto.setTempDeviation(predictedHourlyWeather.getTempDeviation());
-        predictedHourlyWeatherDto.setFeelsLikeDeviation(predictedHourlyWeather.getFeelsLikeDeviation());
-        predictedHourlyWeatherDto.setHeatIndexDeviation(predictedHourlyWeather.getHeatIndexDeviation());
-        predictedHourlyWeatherDto.setMslPresDeviation(predictedHourlyWeather.getMslPresDeviation());
-        predictedHourlyWeatherDto.setPrecipDeviation(predictedHourlyWeather.getPrecipDeviation());
-        predictedHourlyWeatherDto.setSnowfallDeviation(predictedHourlyWeather.getSnowfallDeviation());
-        predictedHourlyWeatherDto.setCldCvrDeviation(predictedHourlyWeather.getCldCvrDeviation());
-        predictedHourlyWeatherDto.setWindSpdDeviation(predictedHourlyWeather.getWindSpdDeviation());
-        predictedHourlyWeatherDto.setRelHumDeviation(predictedHourlyWeather.getRelHumDeviation());
+        predictedHourlyWeatherDto.setTempDeviation(round(predictedHourlyWeather.getTempDeviation() / 2, 1));
+        predictedHourlyWeatherDto.setFeelsLikeDeviation(round(predictedHourlyWeather.getFeelsLikeDeviation() / 2, 1));
+        predictedHourlyWeatherDto.setHeatIndexDeviation(round(predictedHourlyWeather.getHeatIndexDeviation() / 2, 1));
+        predictedHourlyWeatherDto.setMslPresDeviation(round(predictedHourlyWeather.getMslPresDeviation() / 2, 1));
+        predictedHourlyWeatherDto.setPrecipDeviation(round(predictedHourlyWeather.getPrecipDeviation() / 2, 1));
+        predictedHourlyWeatherDto.setSnowfallDeviation(round(predictedHourlyWeather.getSnowfallDeviation() / 2, 1));
+        predictedHourlyWeatherDto.setCldCvrDeviation(round(predictedHourlyWeather.getCldCvrDeviation() / 2, 1));
+        predictedHourlyWeatherDto.setWindSpdDeviation(round(predictedHourlyWeather.getWindSpdDeviation() / 2, 1));
+        predictedHourlyWeatherDto.setRelHumDeviation(round(predictedHourlyWeather.getRelHumDeviation() / 2, 1));
         return predictedHourlyWeatherDto;
     }
 }
