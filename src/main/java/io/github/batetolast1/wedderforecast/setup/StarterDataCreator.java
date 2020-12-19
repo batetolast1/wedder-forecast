@@ -1,7 +1,7 @@
 package io.github.batetolast1.wedderforecast.setup;
 
-import io.github.batetolast1.wedderforecast.dto.model.user.RegistrationDataDto;
 import io.github.batetolast1.wedderforecast.model.user.Role;
+import io.github.batetolast1.wedderforecast.model.user.User;
 import io.github.batetolast1.wedderforecast.model.user.enums.UserRole;
 import io.github.batetolast1.wedderforecast.repository.user.RoleRepository;
 import io.github.batetolast1.wedderforecast.service.user.RegistrationService;
@@ -39,10 +39,10 @@ public class StarterDataCreator implements ApplicationRunner {
     }
 
     private void registerTestUser() {
-        RegistrationDataDto registrationDataDto = new RegistrationDataDto();
-        registrationDataDto.setUsername("user");
-        registrationDataDto.setEmail("user@user.mail");
-        registrationDataDto.setPassword("password");
-        registrationService.register(registrationDataDto);
+        User user = new User();
+        user.setUsername("user");
+        user.setEmail("user@user.mail");
+        user.setPassword("password");
+        registrationService.register(user);
     }
 }
