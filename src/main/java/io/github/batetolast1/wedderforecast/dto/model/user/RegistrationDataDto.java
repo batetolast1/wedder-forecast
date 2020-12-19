@@ -20,6 +20,7 @@ public class RegistrationDataDto {
 
     @NotBlank
     @Size(min = 3, max = 16)
+    @Pattern(regexp = "^\\S+$", message = "{error.message.no-whitespace}")
     @UniqueUsername
     private String username;
 
@@ -34,10 +35,12 @@ public class RegistrationDataDto {
 
     @NotBlank
     @Size(min = 3, max = 16)
+    @Pattern(regexp = "^\\S+$", message = "{error.message.no-whitespace}")
     private String password;
 
     @NotBlank
     @Size(min = 3, max = 16)
+    @Pattern(regexp = "^\\S+$", message = "{error.message.no-whitespace}")
     private String verifyPassword;
 
     @NotNull
