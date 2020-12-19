@@ -1,4 +1,4 @@
-package io.github.batetolast1.wedderforecast.service.weather;
+package io.github.batetolast1.wedderforecast.service.api;
 
 import io.github.batetolast1.wedderforecast.model.location.Location;
 

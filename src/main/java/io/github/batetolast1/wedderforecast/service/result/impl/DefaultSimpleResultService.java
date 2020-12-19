@@ -10,7 +10,7 @@ import io.github.batetolast1.wedderforecast.repository.results.SimpleResultRepos
 import io.github.batetolast1.wedderforecast.service.location.LocationService;
 import io.github.batetolast1.wedderforecast.service.result.SimpleResultService;
 import io.github.batetolast1.wedderforecast.service.weather.WeatherService;
-import io.github.batetolast1.wedderforecast.service.weather.WeatherSourceApiService;
+import io.github.batetolast1.wedderforecast.service.api.WeatherSourceApiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

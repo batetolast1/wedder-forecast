@@ -1,4 +1,4 @@
-package io.github.batetolast1.wedderforecast.service.weather.impl;
+package io.github.batetolast1.wedderforecast.service.api.impl;
 
 import io.github.batetolast1.wedderforecast.config.property.WeatherSourceApiProperties;
 import io.github.batetolast1.wedderforecast.model.location.Location;
@@ -7,7 +7,7 @@ import io.github.batetolast1.wedderforecast.model.weather.HourlyWeather;
 import io.github.batetolast1.wedderforecast.repository.weather.DailyWeatherRepository;
 import io.github.batetolast1.wedderforecast.repository.weather.HourlyWeatherRepository;
 import io.github.batetolast1.wedderforecast.service.rating.RatingService;
-import io.github.batetolast1.wedderforecast.service.weather.WeatherSourceApiService;
+import io.github.batetolast1.wedderforecast.service.api.WeatherSourceApiService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
