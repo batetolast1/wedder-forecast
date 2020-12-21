@@ -1,6 +1,8 @@
 package io.github.batetolast1.wedderforecast.controller.advice;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
@@ -35,7 +37,9 @@ public class GlobalErrorsHandler implements ErrorController {
         return "/error";
     }
 
-    @Data
+    @NoArgsConstructor
+    @Getter
+    @Setter
     public static class ErrorInfo {
 
         LocalDateTime errorDateTime;
