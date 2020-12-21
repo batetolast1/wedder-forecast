@@ -9,7 +9,5 @@ import java.util.Optional;
 @Repository
 public interface LocationRepository extends JpaRepository<Location, Long> {
 
-    Optional<Location> findFirstByPostalCodeAndCountryCode(String postalCode, String countryCode);
-
     Optional<Location> findByPlaceId(String placeId);
 }
