@@ -31,7 +31,7 @@ public class HourlyResultMapper {
         hourlyResultDto.setHourlyWeatherDtos(
                 hourlyResult.getHourlyWeathers()
                         .stream()
-                        .sorted(Comparator.comparing(HourlyWeather::getTimestamp).reversed())
+                        .sorted(Comparator.comparing(HourlyWeather::getLocalDateTime).reversed())
                         .map(hourlyWeatherMapper::toHourlyWeatherDto)
                         .collect(Collectors.toList()));
         hourlyResultDto.setPredictedHourlyWeatherDto(predictedHourlyWeatherMapper.toPredictedHourlyWeatherDto(hourlyResult.getPredictedHourlyWeather()));

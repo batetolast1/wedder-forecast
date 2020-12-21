@@ -1,4 +1,4 @@
-package io.github.batetolast1.wedderforecast.dto;
+package io.github.batetolast1.wedderforecast.dto.model.result;
 
 import io.github.batetolast1.wedderforecast.dto.model.location.LocationDto;
 import lombok.Getter;
@@ -6,15 +6,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
+import javax.validation.constraints.Future;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @Getter
 @Setter
-public class RequestHourlyResultDto {
+public class RequestDailyResultDto {
 
     LocationDto locationDto;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    LocalDateTime localDateTime;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Future
+    LocalDate localDate;
 }

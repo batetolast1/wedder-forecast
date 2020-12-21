@@ -7,7 +7,6 @@ import io.github.batetolast1.wedderforecast.dto.model.result.DailyResultDto;
 import io.github.batetolast1.wedderforecast.model.results.DailyResult;
 import io.github.batetolast1.wedderforecast.model.weather.DailyWeather;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -15,7 +14,6 @@ import java.util.stream.Collectors;
 
 @Service
 
-@Log4j2
 @RequiredArgsConstructor
 public class DailyResultMapper {
 
@@ -31,7 +29,7 @@ public class DailyResultMapper {
         dailyResultDto.setDailyWeatherDtos(
                 dailyResult.getDailyWeathers()
                         .stream()
-                        .sorted(Comparator.comparing(DailyWeather::getTimestamp).reversed())
+                        .sorted(Comparator.comparing(DailyWeather::getLocalDateTime).reversed())
                         .map(dailyWeatherMapper::toDailyWeatherDto)
                         .collect(Collectors.toList()));
         dailyResultDto.setPredictedDailyWeatherDto(predictedDailyWeatherMapper.toPredictedDailyWeatherDto(dailyResult.getPredictedDailyWeather()));

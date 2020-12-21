@@ -9,10 +9,10 @@ import lombok.Setter;
 @Setter
 public class LocationDto {
 
+    // TODO add Google Maps validation
     private Long id;
-    private String postalCode;
-    private String countryCode;
     private String placeId;
     private String formattedAddress;
     private String name;
+    private PostalCoordinateDto postalCoordinateDto;
 }

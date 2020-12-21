@@ -20,11 +20,10 @@ public class HourlyWeatherMapper {
         HourlyWeatherDto hourlyWeatherDto = new HourlyWeatherDto();
 
         hourlyWeatherDto.setSystemRatingDto(systemRatingMapper.toSystemRatingDto(hourlyWeather.getSystemRating()));
-        hourlyWeatherDto.setTimestamp(hourlyWeather.getTimestamp());
+        hourlyWeatherDto.setLocalDateTime(hourlyWeather.getLocalDateTime());
 
         hourlyWeatherDto.setTemp(round(convertToCelsius(hourlyWeather.getTemp()), 1));
         hourlyWeatherDto.setFeelsLike(round(convertToCelsius(hourlyWeather.getFeelsLike()), 1));
-        hourlyWeatherDto.setHeatIndex(round(convertToCelsius(hourlyWeather.getHeatIndex()), 1));
         hourlyWeatherDto.setMslPres(round(hourlyWeather.getMslPres(), 1));
         hourlyWeatherDto.setPrecip(round(convertToMm(hourlyWeather.getPrecip()), 1));
         hourlyWeatherDto.setSnowfall(round(convertToMm(hourlyWeather.getSnowfall()), 1));

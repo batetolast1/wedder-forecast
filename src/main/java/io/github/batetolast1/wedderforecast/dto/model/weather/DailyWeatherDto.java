@@ -14,7 +14,7 @@ public class DailyWeatherDto {
 
     private SystemRatingDto systemRatingDto;
 
-    private LocalDateTime timestamp;
+    private LocalDateTime localDateTime;
 
     private Double tempAvg;
     private Double feelsLikeAvg;

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 public class PredictedHourlyWeatherDto {
 
-    private LocalDateTime timestamp;
+    private LocalDateTime localDateTime;
 
     private SystemRatingDto systemRatingDto;
 
