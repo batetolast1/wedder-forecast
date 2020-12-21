@@ -18,6 +18,8 @@ public class WeatherSourceApiProperties {
     private final String dailyFields;
     private final String hourlyFields;
     private final String periodQuery;
+    private final String periodDay;
+    private final String periodHour;
 
     public WeatherSourceApiProperties(String apiKey,
                                       String host,
@@ -26,7 +28,9 @@ public class WeatherSourceApiProperties {
                                       String fieldsQuery,
                                       String dailyFields,
                                       String hourlyFields,
-                                      String periodQuery) {
+                                      String periodQuery,
+                                      String periodDay,
+                                      String periodHour) {
         this.apiKey = apiKey;
         this.host = host;
         this.path = path;
@@ -35,5 +39,7 @@ public class WeatherSourceApiProperties {
         this.dailyFields = dailyFields;
         this.hourlyFields = hourlyFields;
         this.periodQuery = periodQuery;
+        this.periodDay = periodDay;
+        this.periodHour = periodHour;
     }
 }
