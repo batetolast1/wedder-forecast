@@ -15,20 +15,8 @@ import javax.persistence.*;
 public class Location {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    /**
-     * Unspecified postal code; any spaces in the postal code must be URL encoded as %20
-     */
-    @Column(name = "postal_code")
-    private String postalCode;
-
-    /**
-     * A 2-character ISO 3166-1 Alpha-2 country code
-     */
-    @Column(name = "country_code")
-    private String countryCode;
 
     /**
      * Place IDs uniquely identify a place in the Google Places database and on Google Maps.
@@ -50,4 +38,8 @@ public class Location {
      */
     @Column
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "postal_coordinate_id")
+    private PostalCoordinate postalCoordinate;
 }
