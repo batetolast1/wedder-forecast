@@ -1,15 +1,17 @@
 package io.github.batetolast1.wedderforecast.controller;
 
-import io.github.batetolast1.wedderforecast.dto.RequestGoogleMapsDailyResultDto;
-import io.github.batetolast1.wedderforecast.dto.RequestHourlyResultDto;
 import io.github.batetolast1.wedderforecast.dto.mapper.location.LocationMapper;
 import io.github.batetolast1.wedderforecast.dto.mapper.result.DailyResultMapper;
 import io.github.batetolast1.wedderforecast.dto.mapper.result.HourlyResultMapper;
 import io.github.batetolast1.wedderforecast.dto.model.result.DailyResultDto;
 import io.github.batetolast1.wedderforecast.dto.model.result.HourlyResultDto;
+import io.github.batetolast1.wedderforecast.dto.model.result.RequestDailyResultDto;
+import io.github.batetolast1.wedderforecast.dto.model.result.RequestHourlyResultDto;
 import io.github.batetolast1.wedderforecast.model.location.Location;
 import io.github.batetolast1.wedderforecast.model.results.DailyResult;
 import io.github.batetolast1.wedderforecast.model.results.HourlyResult;
+import io.github.batetolast1.wedderforecast.service.api.WeatherSourceApiService;
+import io.github.batetolast1.wedderforecast.service.location.LocationService;
 import io.github.batetolast1.wedderforecast.service.result.DailyResultService;
 import io.github.batetolast1.wedderforecast.service.result.HourlyResultService;
 import lombok.RequiredArgsConstructor;
@@ -31,12 +33,14 @@ public class UserController {
 
     private final DailyResultService dailyResultService;
     private final HourlyResultService hourlyResultService;
+    private final LocationService locationService;
+    private final WeatherSourceApiService weatherSourceApiService;
 
     private final LocationMapper locationMapper;
     private final DailyResultMapper dailyResultMapper;
     private final HourlyResultMapper hourlyResultMapper;
 
-    @GetMapping(value={"/", "/dashboard"})
+    @GetMapping(value = {"/", "/dashboard"})
     public ModelAndView getDashboard() {
         ModelAndView modelAndView = new ModelAndView("user/dashboard");
         List<DailyResult> dailyResults = dailyResultService.getLatestDailyResults();
@@ -56,15 +60,21 @@ public class UserController {
     @GetMapping("/daily-result-form")
     public ModelAndView getDailyResultForm() {
         ModelAndView modelAndView = new ModelAndView("user/daily-result-form");
-        modelAndView.addObject("requestGoogleMapsDailyResultDto", new RequestGoogleMapsDailyResultDto());
+        modelAndView.addObject("requestDailyResultDto", new RequestDailyResultDto());
         return modelAndView;
     }
 
     @PostMapping("/daily-result-form")
-    public ModelAndView processDailyResultForm(@ModelAttribute RequestGoogleMapsDailyResultDto requestGoogleMapsDailyResultDto) {
-        Location location = locationMapper.toLocation(requestGoogleMapsDailyResultDto.getLocationDto());
-        LocalDateTime localDateTime = requestGoogleMapsDailyResultDto.getLocalDate().atStartOfDay();
+    public ModelAndView processDailyResultForm(@ModelAttribute RequestDailyResultDto requestDailyResultDto) {
+        LocalDateTime localDateTime = requestDailyResultDto.getLocalDate().atStartOfDay();
+        Location location = locationService.getPersistedLocation(locationMapper.toLocation(requestDailyResultDto.getLocationDto()));
+        log.debug("Processing request for Daily Result for date: {}, location {}", localDateTime, location.getName());
+
+        weatherSourceApiService.fetchDailyWeathers(location.getPostalCoordinate());
+        log.debug("Daily weathers fetched.");
+
         DailyResult dailyResult = dailyResultService.getDailyResult(location, localDateTime);
+        log.debug("Daily Result obtained, redirecting to \"/user/daily-result-details/\"");
         return new ModelAndView("redirect:/user/daily-result-details/" + dailyResult.getId());
     }
 
@@ -77,7 +87,7 @@ public class UserController {
             modelAndView.addObject("dailyResultDto", dailyResultDto);
             return modelAndView;
         } else {
-            return new ModelAndView("error/error");
+            return new ModelAndView("error/error-404");
         }
     }
 
@@ -101,9 +111,15 @@ public class UserController {
 
     @PostMapping("/hourly-result-form")
     public ModelAndView processHourlyResultForm(@ModelAttribute RequestHourlyResultDto requestHourlyResultDto) {
-        Location location = locationMapper.toLocation(requestHourlyResultDto.getLocationDto());
         LocalDateTime localDateTime = requestHourlyResultDto.getLocalDateTime();
+        Location location = locationService.getPersistedLocation(locationMapper.toLocation(requestHourlyResultDto.getLocationDto()));
+        log.debug("Processing request for Hourly Result for date: {}, location {}", localDateTime, location.getName());
+
+        weatherSourceApiService.fetchHourlyWeathers(location.getPostalCoordinate());
+        log.debug("Hourly weathers fetched.");
+
         HourlyResult hourlyResult = hourlyResultService.getHourlyResult(location, localDateTime);
+        log.debug("Hourly Result obtained, redirecting to \"/user/hourly-result-details/\"");
         return new ModelAndView("redirect:/user/hourly-result-details/" + hourlyResult.getId());
     }
 
@@ -116,7 +132,7 @@ public class UserController {
             modelAndView.addObject("hourlyResultDto", hourlyResultDto);
             return modelAndView;
         } else {
-            return new ModelAndView("error/error");
+            return new ModelAndView("error/error-404");
         }
     }
 
