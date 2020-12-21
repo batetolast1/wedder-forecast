@@ -1,6 +1,6 @@
 package io.github.batetolast1.wedderforecast.service.weather.impl;
 
-import io.github.batetolast1.wedderforecast.model.location.Location;
+import io.github.batetolast1.wedderforecast.model.location.PostalCoordinate;
 import io.github.batetolast1.wedderforecast.model.weather.DailyWeather;
 import io.github.batetolast1.wedderforecast.model.weather.HourlyWeather;
 import io.github.batetolast1.wedderforecast.model.weather.PredictedDailyWeather;
@@ -17,7 +17,6 @@ import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
@@ -31,8 +30,8 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class DefaultWeatherService implements WeatherService {
 
-    private static final int YEARS_TO_CHECK_DAILY_WEATHER = 5;
-    private static final int YEARS_TO_CHECK_HOURLY_WEATHER = 5;
+    private static final int YEARS_BACK_TO_CHECK_DAILY_WEATHERS = 5;
+    private static final int YEARS_BACK_TO_CHECK_HOURLY_WEATHERS = 3;
 
     private final RatingService ratingService;
 
@@ -42,16 +41,15 @@ public class DefaultWeatherService implements WeatherService {
     private final PredictedHourlyWeatherRepository predictedHourlyWeatherRepository;
 
     @Override
-    public PredictedDailyWeather predictDailyWeather(Location location, LocalDate localDate) {
-        Set<DailyWeather> dailyWeathers = getDailyWeathersForLocationAndLocalDate(location, localDate);
+    public PredictedDailyWeather predictDailyWeather(PostalCoordinate postalCoordinate, LocalDateTime localDateTime) {
+        Set<DailyWeather> dailyWeathers = getPastDailyWeathers(postalCoordinate, localDateTime);
 
         PredictedDailyWeather predictedDailyWeather = new PredictedDailyWeather();
-        predictedDailyWeather.setLocation(location);
-        predictedDailyWeather.setTimestamp(localDate.atStartOfDay());
+        predictedDailyWeather.setPostalCoordinate(postalCoordinate);
+        predictedDailyWeather.setLocalDateTime(localDateTime);
 
         predictedDailyWeather.setTempAvg(calculateTempAvg(dailyWeathers));
         predictedDailyWeather.setFeelsLikeAvg(calculateFeelsLikeAvg(dailyWeathers));
-        predictedDailyWeather.setHeatIndexAvg(calculateHeatIndexAvg(dailyWeathers));
         predictedDailyWeather.setMslPresAvg(calculateMslPresAvg(dailyWeathers));
         predictedDailyWeather.setPrecip(calculateDailyPrecip(dailyWeathers));
         predictedDailyWeather.setSnowfall(calculateDailySnowfall(dailyWeathers));
@@ -61,7 +59,6 @@ public class DefaultWeatherService implements WeatherService {
 
         predictedDailyWeather.setTempAvgDeviation(calculateTempAvgDeviation(dailyWeathers));
         predictedDailyWeather.setFeelsLikeAvgDeviation(calculateFeelsLikeAvgDeviation(dailyWeathers));
-        predictedDailyWeather.setHeatIndexAvgDeviation(calculateHeatIndexAvgDeviation(dailyWeathers));
         predictedDailyWeather.setMslPresAvgDeviation(calculateMslPresAvgDeviation(dailyWeathers));
         predictedDailyWeather.setPrecipDeviation(calculateDailyPrecipDeviation(dailyWeathers));
         predictedDailyWeather.setSnowfallDeviation(calculateDailySnowfallDeviation(dailyWeathers));
@@ -69,16 +66,22 @@ public class DefaultWeatherService implements WeatherService {
         predictedDailyWeather.setWindSpdAvgDeviation(calculateWindSpdAvgDeviation(dailyWeathers));
         predictedDailyWeather.setRelHumAvgDeviation(calculateRelHumAvgDeviation(dailyWeathers));
 
-        predictedDailyWeather.setSystemRating(ratingService.rateDailyWeather(predictedDailyWeather));
+        predictedDailyWeather.setSystemRating(ratingService.getDailyWeatherSystemRating(predictedDailyWeather));
 
         return predictedDailyWeatherRepository.save(predictedDailyWeather);
     }
 
-    public Set<DailyWeather> getDailyWeathersForLocationAndLocalDate(Location location, LocalDate localDate) {
+    public Set<DailyWeather> getPastDailyWeathers(PostalCoordinate postalCoordinate, LocalDateTime localDateTime) {
         Set<DailyWeather> dailyWeathers = new HashSet<>();
-        for (int i = 1; i <= YEARS_TO_CHECK_DAILY_WEATHER; i++) {
-            Optional<DailyWeather> optionalDailyWeather = dailyWeatherRepository.findByLocationAndTimestamp(location, localDate.minus(i, ChronoUnit.YEARS).atStartOfDay());
-            optionalDailyWeather.ifPresent(dailyWeathers::add);
+        for (int yearsBack = 0; yearsBack < YEARS_BACK_TO_CHECK_DAILY_WEATHERS; yearsBack++) {
+            dailyWeatherRepository
+                    .findByPostalCoordinateAndLocalDateTime(postalCoordinate, localDateTime.withYear(LocalDateTime.now().getYear()).minus(yearsBack, ChronoUnit.YEARS))
+                    .ifPresent(dailyWeather -> {
+                        if (dailyWeather.getSystemRating() == null) {
+                            dailyWeather.setSystemRating(ratingService.getDailyWeatherSystemRating(dailyWeather));
+                        }
+                        dailyWeathers.add(dailyWeather);
+                    });
         }
         return dailyWeathers;
     }
@@ -117,25 +120,6 @@ public class DefaultWeatherService implements WeatherService {
                 .evaluate(dailyWeathers.stream()
                         .filter(dailyWeather -> dailyWeather.getFeelsLikeAvg() != null)
                         .mapToDouble(DailyWeather::getFeelsLikeAvg)
-                        .toArray()
-                );
-    }
-
-    private double calculateHeatIndexAvg(Set<DailyWeather> dailyWeathers) {
-        long count = dailyWeathers.stream()
-                .filter(dailyWeather -> dailyWeather.getHeatIndexAvg() != null)
-                .count();
-        return dailyWeathers.stream()
-                .filter(dailyWeather -> dailyWeather.getHeatIndexAvg() != null)
-                .mapToDouble(DailyWeather::getHeatIndexAvg)
-                .sum() / count;
-    }
-
-    private double calculateHeatIndexAvgDeviation(Set<DailyWeather> dailyWeathers) {
-        return new StandardDeviation()
-                .evaluate(dailyWeathers.stream()
-                        .filter(dailyWeather -> dailyWeather.getHeatIndexAvg() != null)
-                        .mapToDouble(DailyWeather::getHeatIndexAvg)
                         .toArray()
                 );
     }
@@ -255,16 +239,15 @@ public class DefaultWeatherService implements WeatherService {
     }
 
     @Override
-    public PredictedHourlyWeather predictHourlyWeather(Location location, LocalDateTime localDateTime) {
-        Set<HourlyWeather> hourlyWeathers = getHourlyWeathersForLocationAndLocalDateTime(location, localDateTime);
+    public PredictedHourlyWeather predictHourlyWeather(PostalCoordinate postalCoordinate, LocalDateTime localDateTime) {
+        Set<HourlyWeather> hourlyWeathers = getPastHourlyWeathers(postalCoordinate, localDateTime);
 
         PredictedHourlyWeather predictedHourlyWeather = new PredictedHourlyWeather();
-        predictedHourlyWeather.setLocation(location);
-        predictedHourlyWeather.setTimestamp(localDateTime);
+        predictedHourlyWeather.setPostalCoordinate(postalCoordinate);
+        predictedHourlyWeather.setLocalDateTime(localDateTime);
 
         predictedHourlyWeather.setTemp(calculateTemp(hourlyWeathers));
         predictedHourlyWeather.setFeelsLike(calculateFeelsLike(hourlyWeathers));
-        predictedHourlyWeather.setHeatIndex(calculateHeatIndex(hourlyWeathers));
         predictedHourlyWeather.setMslPres(calculateMslPres(hourlyWeathers));
         predictedHourlyWeather.setPrecip(calculateHourlyPrecip(hourlyWeathers));
         predictedHourlyWeather.setSnowfall(calculateHourlySnowfall(hourlyWeathers));
@@ -274,7 +257,6 @@ public class DefaultWeatherService implements WeatherService {
 
         predictedHourlyWeather.setTempDeviation(calculateTempDeviation(hourlyWeathers));
         predictedHourlyWeather.setFeelsLikeDeviation(calculateFeelsLikeDeviation(hourlyWeathers));
-        predictedHourlyWeather.setHeatIndexDeviation(calculateHeatIndexDeviation(hourlyWeathers));
         predictedHourlyWeather.setMslPresDeviation(calculateMslPresDeviation(hourlyWeathers));
         predictedHourlyWeather.setPrecipDeviation(calculateHourlyPrecipDeviation(hourlyWeathers));
         predictedHourlyWeather.setSnowfallDeviation(calculateHourlySnowfallDeviation(hourlyWeathers));
@@ -282,16 +264,21 @@ public class DefaultWeatherService implements WeatherService {
         predictedHourlyWeather.setWindSpdDeviation(calculateWindSpdDeviation(hourlyWeathers));
         predictedHourlyWeather.setRelHumDeviation(calculateRelHumDeviation(hourlyWeathers));
 
-        predictedHourlyWeather.setSystemRating(ratingService.rateHourlyWeather(predictedHourlyWeather));
+        predictedHourlyWeather.setSystemRating(ratingService.getHourlyWeatherSystemRating(predictedHourlyWeather));
 
         return predictedHourlyWeatherRepository.save(predictedHourlyWeather);
     }
 
-    public Set<HourlyWeather> getHourlyWeathersForLocationAndLocalDateTime(Location location, LocalDateTime localDateTime) {
+    public Set<HourlyWeather> getPastHourlyWeathers(PostalCoordinate postalCoordinate, LocalDateTime localDateTime) {
         Set<HourlyWeather> hourlyWeathers = new HashSet<>();
-        for (int i = 1; i <= YEARS_TO_CHECK_HOURLY_WEATHER; i++) {
-            Optional<HourlyWeather> optionalHourlyWeather = hourlyWeatherRepository.findByLocationAndTimestamp(location, localDateTime.minus(i, ChronoUnit.YEARS));
-            optionalHourlyWeather.ifPresent(hourlyWeathers::add);
+        for (int yearsBack = 0; yearsBack < YEARS_BACK_TO_CHECK_HOURLY_WEATHERS; yearsBack++) {
+            Optional<HourlyWeather> optionalHourlyWeather = hourlyWeatherRepository.findByPostalCoordinateAndLocalDateTime(postalCoordinate, localDateTime.withYear(LocalDateTime.now().getYear()).minus(yearsBack, ChronoUnit.YEARS));
+            optionalHourlyWeather.ifPresent(hourlyWeather -> {
+                if (hourlyWeather.getSystemRating() == null) {
+                    hourlyWeather.setSystemRating(ratingService.getHourlyWeatherSystemRating(hourlyWeather));
+                }
+                hourlyWeathers.add(hourlyWeather);
+            });
         }
         return hourlyWeathers;
     }
@@ -330,25 +317,6 @@ public class DefaultWeatherService implements WeatherService {
                 .evaluate(hourlyWeathers.stream()
                         .filter(dailyWeather -> dailyWeather.getFeelsLike() != null)
                         .mapToDouble(HourlyWeather::getFeelsLike)
-                        .toArray()
-                );
-    }
-
-    private double calculateHeatIndex(Set<HourlyWeather> hourlyWeathers) {
-        long count = hourlyWeathers.stream()
-                .filter(dailyWeather -> dailyWeather.getHeatIndex() != null)
-                .count();
-        return hourlyWeathers.stream()
-                .filter(dailyWeather -> dailyWeather.getHeatIndex() != null)
-                .mapToDouble(HourlyWeather::getHeatIndex)
-                .sum() / count;
-    }
-
-    private double calculateHeatIndexDeviation(Set<HourlyWeather> hourlyWeathers) {
-        return new StandardDeviation()
-                .evaluate(hourlyWeathers.stream()
-                        .filter(dailyWeather -> dailyWeather.getHeatIndex() != null)
-                        .mapToDouble(HourlyWeather::getHeatIndex)
                         .toArray()
                 );
     }

@@ -6,7 +6,7 @@ import io.github.batetolast1.wedderforecast.model.weather.HourlyWeather;
 
 public interface RatingService {
 
-    SystemRating rateDailyWeather(DailyWeather dailyWeather);
+    SystemRating getDailyWeatherSystemRating(DailyWeather dailyWeather);
 
-    SystemRating rateHourlyWeather(HourlyWeather hourlyWeather);
+    SystemRating getHourlyWeatherSystemRating(HourlyWeather hourlyWeather);
 }

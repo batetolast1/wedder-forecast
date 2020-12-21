@@ -10,9 +10,11 @@ import io.github.batetolast1.wedderforecast.service.rating.RatingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Random;
 
 @Service
+@Transactional
 
 @RequiredArgsConstructor
 public class RandomRatingService implements RatingService {
@@ -21,14 +23,14 @@ public class RandomRatingService implements RatingService {
     private final Random random = new Random();
 
     @Override
-    public SystemRating rateDailyWeather(DailyWeather dailyWeather) {
+    public SystemRating getDailyWeatherSystemRating(DailyWeather dailyWeather) {
         SystemRating systemRating = generateRandomSystemRating();
         systemRatingRepository.save(systemRating);
         return systemRating;
     }
 
     @Override
-    public SystemRating rateHourlyWeather(HourlyWeather hourlyWeather) {
+    public SystemRating getHourlyWeatherSystemRating(HourlyWeather hourlyWeather) {
         SystemRating systemRating = generateRandomSystemRating();
         systemRatingRepository.save(systemRating);
         return systemRating;
@@ -38,7 +40,6 @@ public class RandomRatingService implements RatingService {
         SystemRating systemRating = new SystemRating();
         rateTemp(systemRating);
         rateFeelsLike(systemRating);
-        rateHeatIndex(systemRating);
         rateMslPres(systemRating);
         ratePrecip(systemRating);
         rateSnowfall(systemRating);
@@ -58,12 +59,6 @@ public class RandomRatingService implements RatingService {
     private void rateFeelsLike(SystemRating systemRating) {
         SystemRatingValue systemRatingValue = generateRandomSystemRatingValue();
         systemRating.setFeelsLike(systemRatingValue);
-        systemRating.addPoints(systemRatingValue.getPoints());
-    }
-
-    private void rateHeatIndex(SystemRating systemRating) {
-        SystemRatingValue systemRatingValue = generateRandomSystemRatingValue();
-        systemRating.setHeatIndex(systemRatingValue);
         systemRating.addPoints(systemRatingValue.getPoints());
     }
 
@@ -114,11 +109,11 @@ public class RandomRatingService implements RatingService {
                 .orElse(5);
 
         return switch (value) {
-            case 1 -> SystemRatingValue.VERY_UNSATISFIED;
-            case 2 -> SystemRatingValue.UNSATISFIED;
-            case 3 -> SystemRatingValue.NEUTRAL;
-            case 4 -> SystemRatingValue.SATISFIED;
-            default -> SystemRatingValue.VERY_SATISFIED;
+            case 1 -> SystemRatingValue.ONE;
+            case 2 -> SystemRatingValue.TWO;
+            case 3 -> SystemRatingValue.THREE;
+            case 4 -> SystemRatingValue.FOUR;
+            default -> SystemRatingValue.FIVE;
         };
     }
 

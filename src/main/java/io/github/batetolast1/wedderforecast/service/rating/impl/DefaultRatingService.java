@@ -11,8 +11,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 @Primary
+@Transactional
 
 @RequiredArgsConstructor
 public class DefaultRatingService implements RatingService {
@@ -20,11 +23,10 @@ public class DefaultRatingService implements RatingService {
     private final SystemRatingRepository systemRatingRepository;
 
     @Override
-    public SystemRating rateDailyWeather(DailyWeather dailyWeather) {
+    public SystemRating getDailyWeatherSystemRating(DailyWeather dailyWeather) {
         SystemRating systemRating = new SystemRating();
         rateDailyTempAvg(dailyWeather.getTempAvg(), systemRating);
         rateDailyFeelsLikeAvg(dailyWeather.getFeelsLikeAvg(), systemRating);
-        rateDailyHeatIndexAvg(dailyWeather.getHeatIndexAvg(), systemRating);
         rateDailyMslPresAvg(dailyWeather.getMslPresAvg(), systemRating);
         rateDailyPrecip(dailyWeather.getPrecip(), systemRating);
         rateDailySnowfall(dailyWeather.getSnowfall(), systemRating);
@@ -40,15 +42,15 @@ public class DefaultRatingService implements RatingService {
         if (tempAvg == null) {
             systemRatingValue = SystemRatingValue.MISSING_DATA;
         } else if (tempAvg > 75) {
-            systemRatingValue = SystemRatingValue.VERY_SATISFIED;
+            systemRatingValue = SystemRatingValue.FIVE;
         } else if (tempAvg > 70) {
-            systemRatingValue = SystemRatingValue.SATISFIED;
+            systemRatingValue = SystemRatingValue.FOUR;
         } else if (tempAvg > 65) {
-            systemRatingValue = SystemRatingValue.NEUTRAL;
+            systemRatingValue = SystemRatingValue.THREE;
         } else if (tempAvg > 60) {
-            systemRatingValue = SystemRatingValue.UNSATISFIED;
+            systemRatingValue = SystemRatingValue.TWO;
         } else {
-            systemRatingValue = SystemRatingValue.VERY_UNSATISFIED;
+            systemRatingValue = SystemRatingValue.ONE;
         }
         systemRating.setTemp(systemRatingValue);
         systemRating.addPoints(systemRatingValue.getPoints());
@@ -59,36 +61,17 @@ public class DefaultRatingService implements RatingService {
         if (feelsLikeAvg == null) {
             systemRatingValue = SystemRatingValue.MISSING_DATA;
         } else if (feelsLikeAvg > 70) {
-            systemRatingValue = SystemRatingValue.VERY_SATISFIED;
+            systemRatingValue = SystemRatingValue.FIVE;
         } else if (feelsLikeAvg > 65) {
-            systemRatingValue = SystemRatingValue.SATISFIED;
+            systemRatingValue = SystemRatingValue.FOUR;
         } else if (feelsLikeAvg > 60) {
-            systemRatingValue = SystemRatingValue.NEUTRAL;
+            systemRatingValue = SystemRatingValue.THREE;
         } else if (feelsLikeAvg > 50) {
-            systemRatingValue = SystemRatingValue.UNSATISFIED;
+            systemRatingValue = SystemRatingValue.TWO;
         } else {
-            systemRatingValue = SystemRatingValue.VERY_UNSATISFIED;
+            systemRatingValue = SystemRatingValue.ONE;
         }
         systemRating.setFeelsLike(systemRatingValue);
-        systemRating.addPoints(systemRatingValue.getPoints());
-    }
-
-    private void rateDailyHeatIndexAvg(Double heatIndexAvg, SystemRating systemRating) {
-        SystemRatingValue systemRatingValue;
-        if (heatIndexAvg == null) {
-            systemRatingValue = SystemRatingValue.MISSING_DATA;
-        } else if (heatIndexAvg > 75) {
-            systemRatingValue = SystemRatingValue.VERY_SATISFIED;
-        } else if (heatIndexAvg > 70) {
-            systemRatingValue = SystemRatingValue.SATISFIED;
-        } else if (heatIndexAvg > 60) {
-            systemRatingValue = SystemRatingValue.NEUTRAL;
-        } else if (heatIndexAvg > 50) {
-            systemRatingValue = SystemRatingValue.UNSATISFIED;
-        } else {
-            systemRatingValue = SystemRatingValue.VERY_UNSATISFIED;
-        }
-        systemRating.setHeatIndex(systemRatingValue);
         systemRating.addPoints(systemRatingValue.getPoints());
     }
 
@@ -97,23 +80,23 @@ public class DefaultRatingService implements RatingService {
         if (mslPresAvg == null) {
             systemRatingValue = SystemRatingValue.MISSING_DATA;
         } else if (mslPresAvg > 1030) {
-            systemRatingValue = SystemRatingValue.VERY_UNSATISFIED;
+            systemRatingValue = SystemRatingValue.ONE;
         } else if (mslPresAvg > 1025) {
-            systemRatingValue = SystemRatingValue.UNSATISFIED;
+            systemRatingValue = SystemRatingValue.TWO;
         } else if (mslPresAvg > 1020) {
-            systemRatingValue = SystemRatingValue.NEUTRAL;
+            systemRatingValue = SystemRatingValue.THREE;
         } else if (mslPresAvg > 1015) {
-            systemRatingValue = SystemRatingValue.SATISFIED;
+            systemRatingValue = SystemRatingValue.FOUR;
         } else if (mslPresAvg > 1010) {
-            systemRatingValue = SystemRatingValue.VERY_SATISFIED;
+            systemRatingValue = SystemRatingValue.FIVE;
         } else if (mslPresAvg > 1005) {
-            systemRatingValue = SystemRatingValue.SATISFIED;
+            systemRatingValue = SystemRatingValue.FOUR;
         } else if (mslPresAvg > 1000) {
-            systemRatingValue = SystemRatingValue.NEUTRAL;
+            systemRatingValue = SystemRatingValue.THREE;
         } else if (mslPresAvg > 995) {
-            systemRatingValue = SystemRatingValue.UNSATISFIED;
+            systemRatingValue = SystemRatingValue.TWO;
         } else {
-            systemRatingValue = SystemRatingValue.VERY_UNSATISFIED;
+            systemRatingValue = SystemRatingValue.ONE;
         }
         systemRating.setMslPres(systemRatingValue);
         systemRating.addPoints(systemRatingValue.getPoints());
@@ -124,15 +107,15 @@ public class DefaultRatingService implements RatingService {
         if (precip == null) {
             systemRatingValue = SystemRatingValue.MISSING_DATA;
         } else if (precip == 0.0) {
-            systemRatingValue = SystemRatingValue.VERY_SATISFIED;
+            systemRatingValue = SystemRatingValue.FIVE;
         } else if (precip < 0.02) {
-            systemRatingValue = SystemRatingValue.SATISFIED;
+            systemRatingValue = SystemRatingValue.FOUR;
         } else if (precip < 0.04) {
-            systemRatingValue = SystemRatingValue.NEUTRAL;
+            systemRatingValue = SystemRatingValue.THREE;
         } else if (precip < 0.1) {
-            systemRatingValue = SystemRatingValue.UNSATISFIED;
+            systemRatingValue = SystemRatingValue.TWO;
         } else {
-            systemRatingValue = SystemRatingValue.VERY_UNSATISFIED;
+            systemRatingValue = SystemRatingValue.ONE;
         }
         systemRating.setPrecip(systemRatingValue);
         systemRating.addPoints(systemRatingValue.getPoints());
@@ -143,9 +126,9 @@ public class DefaultRatingService implements RatingService {
         if (snowfall == null) {
             systemRatingValue = SystemRatingValue.MISSING_DATA;
         } else if (snowfall == 0.0) {
-            systemRatingValue = SystemRatingValue.VERY_SATISFIED;
+            systemRatingValue = SystemRatingValue.FIVE;
         } else {
-            systemRatingValue = SystemRatingValue.VERY_UNSATISFIED;
+            systemRatingValue = SystemRatingValue.ONE;
         }
         systemRating.setSnowfall(systemRatingValue);
         systemRating.addPoints(systemRatingValue.getPoints());
@@ -156,15 +139,15 @@ public class DefaultRatingService implements RatingService {
         if (cldCvrAvg == null) {
             systemRatingValue = SystemRatingValue.MISSING_DATA;
         } else if (cldCvrAvg == 0.0) {
-            systemRatingValue = SystemRatingValue.VERY_SATISFIED;
+            systemRatingValue = SystemRatingValue.FIVE;
         } else if (cldCvrAvg < 10) {
-            systemRatingValue = SystemRatingValue.SATISFIED;
+            systemRatingValue = SystemRatingValue.FOUR;
         } else if (cldCvrAvg < 20) {
-            systemRatingValue = SystemRatingValue.NEUTRAL;
+            systemRatingValue = SystemRatingValue.THREE;
         } else if (cldCvrAvg < 30) {
-            systemRatingValue = SystemRatingValue.UNSATISFIED;
+            systemRatingValue = SystemRatingValue.TWO;
         } else {
-            systemRatingValue = SystemRatingValue.VERY_UNSATISFIED;
+            systemRatingValue = SystemRatingValue.ONE;
         }
         systemRating.setCldCvr(systemRatingValue);
         systemRating.addPoints(systemRatingValue.getPoints());
@@ -175,15 +158,15 @@ public class DefaultRatingService implements RatingService {
         if (windSpdAvg == null) {
             systemRatingValue = SystemRatingValue.MISSING_DATA;
         } else if (windSpdAvg < 4) {
-            systemRatingValue = SystemRatingValue.VERY_SATISFIED;
+            systemRatingValue = SystemRatingValue.FIVE;
         } else if (windSpdAvg < 5) {
-            systemRatingValue = SystemRatingValue.SATISFIED;
+            systemRatingValue = SystemRatingValue.FOUR;
         } else if (windSpdAvg < 6) {
-            systemRatingValue = SystemRatingValue.NEUTRAL;
+            systemRatingValue = SystemRatingValue.THREE;
         } else if (windSpdAvg < 7) {
-            systemRatingValue = SystemRatingValue.UNSATISFIED;
+            systemRatingValue = SystemRatingValue.TWO;
         } else {
-            systemRatingValue = SystemRatingValue.VERY_UNSATISFIED;
+            systemRatingValue = SystemRatingValue.ONE;
         }
         systemRating.setWindSpd(systemRatingValue);
         systemRating.addPoints(systemRatingValue.getPoints());
@@ -194,23 +177,23 @@ public class DefaultRatingService implements RatingService {
         if (relHumAvg == null) {
             systemRatingValue = SystemRatingValue.MISSING_DATA;
         } else if (relHumAvg > 95) {
-            systemRatingValue = SystemRatingValue.VERY_UNSATISFIED;
+            systemRatingValue = SystemRatingValue.ONE;
         } else if (relHumAvg > 90) {
-            systemRatingValue = SystemRatingValue.UNSATISFIED;
+            systemRatingValue = SystemRatingValue.TWO;
         } else if (relHumAvg > 87) {
-            systemRatingValue = SystemRatingValue.NEUTRAL;
+            systemRatingValue = SystemRatingValue.THREE;
         } else if (relHumAvg > 85) {
-            systemRatingValue = SystemRatingValue.SATISFIED;
+            systemRatingValue = SystemRatingValue.FOUR;
         } else if (relHumAvg > 80) {
-            systemRatingValue = SystemRatingValue.VERY_SATISFIED;
+            systemRatingValue = SystemRatingValue.FIVE;
         } else if (relHumAvg > 75) {
-            systemRatingValue = SystemRatingValue.SATISFIED;
+            systemRatingValue = SystemRatingValue.FOUR;
         } else if (relHumAvg > 77) {
-            systemRatingValue = SystemRatingValue.NEUTRAL;
+            systemRatingValue = SystemRatingValue.THREE;
         } else if (relHumAvg > 70) {
-            systemRatingValue = SystemRatingValue.UNSATISFIED;
+            systemRatingValue = SystemRatingValue.TWO;
         } else {
-            systemRatingValue = SystemRatingValue.VERY_UNSATISFIED;
+            systemRatingValue = SystemRatingValue.ONE;
         }
         systemRating.setRelHum(systemRatingValue);
         systemRating.addPoints(systemRatingValue.getPoints());
@@ -219,7 +202,6 @@ public class DefaultRatingService implements RatingService {
     private void rateOverallDailyWeather(DailyWeather dailyWeather, SystemRating systemRating) {
         if (dailyWeather.getTempAvg() == null
                 || dailyWeather.getFeelsLikeAvg() == null
-                || dailyWeather.getHeatIndexAvg() == null
                 || dailyWeather.getMslPresAvg() == null
                 || dailyWeather.getPrecip() == null
                 || dailyWeather.getSnowfall() == null
@@ -254,11 +236,10 @@ public class DefaultRatingService implements RatingService {
     }
 
     @Override
-    public SystemRating rateHourlyWeather(HourlyWeather hourlyWeather) {
+    public SystemRating getHourlyWeatherSystemRating(HourlyWeather hourlyWeather) {
         SystemRating systemRating = new SystemRating();
         rateHourlyTemp(hourlyWeather.getTemp(), systemRating);
         rateHourlyFeelsLike(hourlyWeather.getFeelsLike(), systemRating);
-        rateHourlyHeatIndex(hourlyWeather.getHeatIndex(), systemRating);
         rateHourlyMslPres(hourlyWeather.getMslPres(), systemRating);
         rateHourlyPrecip(hourlyWeather.getPrecip(), systemRating);
         rateHourlySnowfall(hourlyWeather.getSnowfall(), systemRating);
@@ -274,15 +255,15 @@ public class DefaultRatingService implements RatingService {
         if (temp == null) {
             systemRatingValue = SystemRatingValue.MISSING_DATA;
         } else if (temp > 75) {
-            systemRatingValue = SystemRatingValue.VERY_SATISFIED;
+            systemRatingValue = SystemRatingValue.FIVE;
         } else if (temp > 70) {
-            systemRatingValue = SystemRatingValue.SATISFIED;
+            systemRatingValue = SystemRatingValue.FOUR;
         } else if (temp > 65) {
-            systemRatingValue = SystemRatingValue.NEUTRAL;
+            systemRatingValue = SystemRatingValue.THREE;
         } else if (temp > 60) {
-            systemRatingValue = SystemRatingValue.UNSATISFIED;
+            systemRatingValue = SystemRatingValue.TWO;
         } else {
-            systemRatingValue = SystemRatingValue.VERY_UNSATISFIED;
+            systemRatingValue = SystemRatingValue.ONE;
         }
         systemRating.setTemp(systemRatingValue);
         systemRating.addPoints(systemRatingValue.getPoints());
@@ -293,36 +274,17 @@ public class DefaultRatingService implements RatingService {
         if (feelsLike == null) {
             systemRatingValue = SystemRatingValue.MISSING_DATA;
         } else if (feelsLike > 70) {
-            systemRatingValue = SystemRatingValue.VERY_SATISFIED;
+            systemRatingValue = SystemRatingValue.FIVE;
         } else if (feelsLike > 65) {
-            systemRatingValue = SystemRatingValue.SATISFIED;
+            systemRatingValue = SystemRatingValue.FOUR;
         } else if (feelsLike > 60) {
-            systemRatingValue = SystemRatingValue.NEUTRAL;
+            systemRatingValue = SystemRatingValue.THREE;
         } else if (feelsLike > 50) {
-            systemRatingValue = SystemRatingValue.UNSATISFIED;
+            systemRatingValue = SystemRatingValue.TWO;
         } else {
-            systemRatingValue = SystemRatingValue.VERY_UNSATISFIED;
+            systemRatingValue = SystemRatingValue.ONE;
         }
         systemRating.setFeelsLike(systemRatingValue);
-        systemRating.addPoints(systemRatingValue.getPoints());
-    }
-
-    private void rateHourlyHeatIndex(Double heatIndex, SystemRating systemRating) {
-        SystemRatingValue systemRatingValue;
-        if (heatIndex == null) {
-            systemRatingValue = SystemRatingValue.MISSING_DATA;
-        } else if (heatIndex > 75) {
-            systemRatingValue = SystemRatingValue.VERY_SATISFIED;
-        } else if (heatIndex > 70) {
-            systemRatingValue = SystemRatingValue.SATISFIED;
-        } else if (heatIndex > 60) {
-            systemRatingValue = SystemRatingValue.NEUTRAL;
-        } else if (heatIndex > 50) {
-            systemRatingValue = SystemRatingValue.UNSATISFIED;
-        } else {
-            systemRatingValue = SystemRatingValue.VERY_UNSATISFIED;
-        }
-        systemRating.setHeatIndex(systemRatingValue);
         systemRating.addPoints(systemRatingValue.getPoints());
     }
 
@@ -331,23 +293,23 @@ public class DefaultRatingService implements RatingService {
         if (mslPres == null) {
             systemRatingValue = SystemRatingValue.MISSING_DATA;
         } else if (mslPres > 1030) {
-            systemRatingValue = SystemRatingValue.VERY_UNSATISFIED;
+            systemRatingValue = SystemRatingValue.ONE;
         } else if (mslPres > 1025) {
-            systemRatingValue = SystemRatingValue.UNSATISFIED;
+            systemRatingValue = SystemRatingValue.TWO;
         } else if (mslPres > 1020) {
-            systemRatingValue = SystemRatingValue.NEUTRAL;
+            systemRatingValue = SystemRatingValue.THREE;
         } else if (mslPres > 1015) {
-            systemRatingValue = SystemRatingValue.SATISFIED;
+            systemRatingValue = SystemRatingValue.FOUR;
         } else if (mslPres > 1010) {
-            systemRatingValue = SystemRatingValue.VERY_SATISFIED;
+            systemRatingValue = SystemRatingValue.FIVE;
         } else if (mslPres > 1005) {
-            systemRatingValue = SystemRatingValue.SATISFIED;
+            systemRatingValue = SystemRatingValue.FOUR;
         } else if (mslPres > 1000) {
-            systemRatingValue = SystemRatingValue.NEUTRAL;
+            systemRatingValue = SystemRatingValue.THREE;
         } else if (mslPres > 995) {
-            systemRatingValue = SystemRatingValue.UNSATISFIED;
+            systemRatingValue = SystemRatingValue.TWO;
         } else {
-            systemRatingValue = SystemRatingValue.VERY_UNSATISFIED;
+            systemRatingValue = SystemRatingValue.ONE;
         }
         systemRating.setMslPres(systemRatingValue);
         systemRating.addPoints(systemRatingValue.getPoints());
@@ -358,15 +320,15 @@ public class DefaultRatingService implements RatingService {
         if (precip == null) {
             systemRatingValue = SystemRatingValue.MISSING_DATA;
         } else if (precip == 0.0) {
-            systemRatingValue = SystemRatingValue.VERY_SATISFIED;
+            systemRatingValue = SystemRatingValue.FIVE;
         } else if (precip < 0.02) {
-            systemRatingValue = SystemRatingValue.SATISFIED;
+            systemRatingValue = SystemRatingValue.FOUR;
         } else if (precip < 0.04) {
-            systemRatingValue = SystemRatingValue.NEUTRAL;
+            systemRatingValue = SystemRatingValue.THREE;
         } else if (precip < 0.1) {
-            systemRatingValue = SystemRatingValue.UNSATISFIED;
+            systemRatingValue = SystemRatingValue.TWO;
         } else {
-            systemRatingValue = SystemRatingValue.VERY_UNSATISFIED;
+            systemRatingValue = SystemRatingValue.ONE;
         }
         systemRating.setPrecip(systemRatingValue);
         systemRating.addPoints(systemRatingValue.getPoints());
@@ -377,9 +339,9 @@ public class DefaultRatingService implements RatingService {
         if (snowfall == null) {
             systemRatingValue = SystemRatingValue.MISSING_DATA;
         } else if (snowfall == 0.0) {
-            systemRatingValue = SystemRatingValue.VERY_SATISFIED;
+            systemRatingValue = SystemRatingValue.FIVE;
         } else {
-            systemRatingValue = SystemRatingValue.VERY_UNSATISFIED;
+            systemRatingValue = SystemRatingValue.ONE;
         }
         systemRating.setSnowfall(systemRatingValue);
         systemRating.addPoints(systemRatingValue.getPoints());
@@ -390,15 +352,15 @@ public class DefaultRatingService implements RatingService {
         if (cldCvr == null) {
             systemRatingValue = SystemRatingValue.MISSING_DATA;
         } else if (cldCvr == 0.0) {
-            systemRatingValue = SystemRatingValue.VERY_SATISFIED;
+            systemRatingValue = SystemRatingValue.FIVE;
         } else if (cldCvr < 10) {
-            systemRatingValue = SystemRatingValue.SATISFIED;
+            systemRatingValue = SystemRatingValue.FOUR;
         } else if (cldCvr < 20) {
-            systemRatingValue = SystemRatingValue.NEUTRAL;
+            systemRatingValue = SystemRatingValue.THREE;
         } else if (cldCvr < 30) {
-            systemRatingValue = SystemRatingValue.UNSATISFIED;
+            systemRatingValue = SystemRatingValue.TWO;
         } else {
-            systemRatingValue = SystemRatingValue.VERY_UNSATISFIED;
+            systemRatingValue = SystemRatingValue.ONE;
         }
         systemRating.setCldCvr(systemRatingValue);
         systemRating.addPoints(systemRatingValue.getPoints());
@@ -409,15 +371,15 @@ public class DefaultRatingService implements RatingService {
         if (windSpd == null) {
             systemRatingValue = SystemRatingValue.MISSING_DATA;
         } else if (windSpd < 4) {
-            systemRatingValue = SystemRatingValue.VERY_SATISFIED;
+            systemRatingValue = SystemRatingValue.FIVE;
         } else if (windSpd < 5) {
-            systemRatingValue = SystemRatingValue.SATISFIED;
+            systemRatingValue = SystemRatingValue.FOUR;
         } else if (windSpd < 6) {
-            systemRatingValue = SystemRatingValue.NEUTRAL;
+            systemRatingValue = SystemRatingValue.THREE;
         } else if (windSpd < 7) {
-            systemRatingValue = SystemRatingValue.UNSATISFIED;
+            systemRatingValue = SystemRatingValue.TWO;
         } else {
-            systemRatingValue = SystemRatingValue.VERY_UNSATISFIED;
+            systemRatingValue = SystemRatingValue.ONE;
         }
         systemRating.setWindSpd(systemRatingValue);
         systemRating.addPoints(systemRatingValue.getPoints());
@@ -428,23 +390,23 @@ public class DefaultRatingService implements RatingService {
         if (relHum == null) {
             systemRatingValue = SystemRatingValue.MISSING_DATA;
         } else if (relHum > 95) {
-            systemRatingValue = SystemRatingValue.VERY_UNSATISFIED;
+            systemRatingValue = SystemRatingValue.ONE;
         } else if (relHum > 90) {
-            systemRatingValue = SystemRatingValue.UNSATISFIED;
+            systemRatingValue = SystemRatingValue.TWO;
         } else if (relHum > 87) {
-            systemRatingValue = SystemRatingValue.NEUTRAL;
+            systemRatingValue = SystemRatingValue.THREE;
         } else if (relHum > 85) {
-            systemRatingValue = SystemRatingValue.SATISFIED;
+            systemRatingValue = SystemRatingValue.FOUR;
         } else if (relHum > 80) {
-            systemRatingValue = SystemRatingValue.VERY_SATISFIED;
+            systemRatingValue = SystemRatingValue.FIVE;
         } else if (relHum > 75) {
-            systemRatingValue = SystemRatingValue.SATISFIED;
+            systemRatingValue = SystemRatingValue.FOUR;
         } else if (relHum > 77) {
-            systemRatingValue = SystemRatingValue.NEUTRAL;
+            systemRatingValue = SystemRatingValue.THREE;
         } else if (relHum > 70) {
-            systemRatingValue = SystemRatingValue.UNSATISFIED;
+            systemRatingValue = SystemRatingValue.TWO;
         } else {
-            systemRatingValue = SystemRatingValue.VERY_UNSATISFIED;
+            systemRatingValue = SystemRatingValue.ONE;
         }
         systemRating.setRelHum(systemRatingValue);
         systemRating.addPoints(systemRatingValue.getPoints());
@@ -453,7 +415,6 @@ public class DefaultRatingService implements RatingService {
     private void rateOverallHourlyWeather(HourlyWeather hourlyWeather, SystemRating systemRating) {
         if (hourlyWeather.getTemp() == null
                 || hourlyWeather.getFeelsLike() == null
-                || hourlyWeather.getHeatIndex() == null
                 || hourlyWeather.getMslPres() == null
                 || hourlyWeather.getPrecip() == null
                 || hourlyWeather.getSnowfall() == null

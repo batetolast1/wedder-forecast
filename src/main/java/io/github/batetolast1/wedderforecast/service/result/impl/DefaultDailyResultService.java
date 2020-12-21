@@ -3,62 +3,59 @@ package io.github.batetolast1.wedderforecast.service.result.impl;
 import io.github.batetolast1.wedderforecast.model.location.Location;
 import io.github.batetolast1.wedderforecast.model.results.DailyResult;
 import io.github.batetolast1.wedderforecast.model.user.User;
+import io.github.batetolast1.wedderforecast.model.weather.DailyWeather;
+import io.github.batetolast1.wedderforecast.model.weather.PredictedDailyWeather;
 import io.github.batetolast1.wedderforecast.repository.results.DailyResultRepository;
 import io.github.batetolast1.wedderforecast.repository.user.UserRepository;
-import io.github.batetolast1.wedderforecast.repository.weather.DailyWeatherRepository;
-import io.github.batetolast1.wedderforecast.service.location.LocationService;
-import io.github.batetolast1.wedderforecast.service.weather.WeatherService;
-import io.github.batetolast1.wedderforecast.service.api.WeatherSourceApiService;
 import io.github.batetolast1.wedderforecast.service.result.DailyResultService;
+import io.github.batetolast1.wedderforecast.service.weather.WeatherService;
 import io.github.batetolast1.wedderforecast.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 
 @Log4j2
 @RequiredArgsConstructor
 public class DefaultDailyResultService implements DailyResultService {
 
-    private final LocationService locationService;
     private final WeatherService weatherService;
-    private final WeatherSourceApiService weatherSourceApiService;
 
     private final DailyResultRepository dailyResultRepository;
-    private final DailyWeatherRepository dailyWeatherRepository;
     private final UserRepository userRepository;
 
     public DailyResult getDailyResult(Location location, LocalDateTime localDateTime) {
-        Location persistedLocation = locationService.getPersistedLocation(location);
         User user = userRepository.getByUsername(SecurityUtils.getUsername());
+        return dailyResultRepository.findByUserAndLocationAndLocalDateTime(user, location, localDateTime)
+                .orElse(getNewDailyResult(user, location, localDateTime));
+    }
 
-        Optional<DailyResult> optionalDailyResult = dailyResultRepository.findByUserAndLocationAndLocalDateTime(user, persistedLocation, localDateTime);
-        if (optionalDailyResult.isPresent()) {
-            return optionalDailyResult.get();
-        }
-
-        weatherSourceApiService.getDailyWeathers(persistedLocation, localDateTime.toLocalDate());
+    private DailyResult getNewDailyResult(User user, Location location, LocalDateTime localDateTime) {
+        Set<DailyWeather> dailyWeathers = weatherService.getPastDailyWeathers(location.getPostalCoordinate(), localDateTime);
+        PredictedDailyWeather predictedDailyWeather = weatherService.predictDailyWeather(location.getPostalCoordinate(), localDateTime);
 
         DailyResult dailyResult = new DailyResult();
-        dailyResult.setLocation(persistedLocation);
+        dailyResult.setLocation(location);
         dailyResult.setUser(user);
         dailyResult.setLocalDateTime(localDateTime);
-        dailyResult.setDailyWeathers(weatherService.getDailyWeathersForLocationAndLocalDate(location, localDateTime.toLocalDate()));
-        dailyResult.setPredictedDailyWeather(weatherService.predictDailyWeather(persistedLocation, localDateTime.toLocalDate()));
+        dailyResult.setDailyWeathers(dailyWeathers);
+        dailyResult.setPredictedDailyWeather(predictedDailyWeather);
         return dailyResultRepository.save(dailyResult);
     }
 
     public DailyResult getDailyResult(Long id) {
         User user = userRepository.getByUsername(SecurityUtils.getUsername());
-        Optional<DailyResult> optionalDailyResult = dailyResultRepository.findByIdAndUser(id, user);
-        return optionalDailyResult.orElse(null);
+        return dailyResultRepository.findByIdAndUser(id, user)
+                .orElse(null);
     }
 
     public List<DailyResult> getLatestDailyResults() {

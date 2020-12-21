@@ -1,12 +1,10 @@
 package io.github.batetolast1.wedderforecast.service.api;
 
-import io.github.batetolast1.wedderforecast.model.location.Location;
-
-import java.time.LocalDate;
+import io.github.batetolast1.wedderforecast.model.location.PostalCoordinate;
 
 public interface WeatherSourceApiService {
 
-    void getDailyWeathers(Location location, LocalDate localDate);
+    void fetchDailyWeathers(PostalCoordinate postalCoordinate);
 
-    void getHourlyWeathers(Location location, LocalDate localDate);
+    void fetchHourlyWeathers(PostalCoordinate postalCoordinate);
 }
