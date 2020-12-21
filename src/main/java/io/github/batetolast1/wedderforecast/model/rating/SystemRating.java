@@ -14,7 +14,11 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class SystemRating extends Rating {
+public class SystemRating {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private Integer totalPoints = 0;
 
@@ -24,10 +28,6 @@ public class SystemRating extends Rating {
     @Enumerated(EnumType.STRING)
     @Column(name = "feels_like")
     private SystemRatingValue feelsLike;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "heat_index")
-    private SystemRatingValue heatIndex;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "msl_pres")

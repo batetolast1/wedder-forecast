@@ -8,11 +8,11 @@ import lombok.Getter;
 public enum SystemRatingValue {
 
     MISSING_DATA(0),
-    VERY_UNSATISFIED(1),
-    UNSATISFIED(2),
-    NEUTRAL(3),
-    SATISFIED(4),
-    VERY_SATISFIED(5);
+    ONE(1),
+    TWO(2),
+    THREE(3),
+    FOUR(4),
+    FIVE(5);
 
     private final int points;
 }

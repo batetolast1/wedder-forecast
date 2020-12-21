@@ -4,10 +4,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("PredictedHourlyWeather")
+@DiscriminatorValue(value = "PredictedHourlyWeather")
 
 @NoArgsConstructor
 @Getter
@@ -19,9 +21,6 @@ public class PredictedHourlyWeather extends HourlyWeather {
 
     @Column(name = "feels_like_deviation")
     private Double feelsLikeDeviation;
-
-    @Column(name = "heat_index_deviation")
-    private Double heatIndexDeviation;
 
     @Column(name = "msl_pres_deviation")
     private Double mslPresDeviation;

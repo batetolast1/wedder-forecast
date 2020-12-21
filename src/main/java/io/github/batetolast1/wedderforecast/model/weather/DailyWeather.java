@@ -9,7 +9,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("DailyWeather")
+@DiscriminatorValue(value = "DailyWeather")
 
 @NoArgsConstructor
 @Getter
@@ -29,13 +29,6 @@ public class DailyWeather extends Weather {
      */
     @Column(name = "feels_like_avg")
     private Double feelsLikeAvg;
-
-    /**
-     * The average heat index (degrees Fahrenheit)
-     * sample data: "heatIndexAvg": 22.6
-     */
-    @Column(name = "heat_index_avg")
-    private Double heatIndexAvg;
 
     /**
      * The average Mean Sea Level Pressure (mb (millibars))

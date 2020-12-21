@@ -9,7 +9,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("HourlyWeather")
+@DiscriminatorValue(value = "HourlyWeather")
 
 @NoArgsConstructor
 @Getter
@@ -29,13 +29,6 @@ public class HourlyWeather extends Weather {
      */
     @Column(name = "feels_like")
     private Double feelsLike;
-
-    /**
-     * The heat index (degrees Fahrenheit)
-     * sample data: "heatIndex": 22.6
-     */
-    @Column(name = "heat_index")
-    private Double heatIndex;
 
     /**
      * The Mean Sea Level Pressure (mb (millibars))
