@@ -124,16 +124,16 @@
                   <form id="form"
                         method="post"
                         th:action="@{/user/daily-result-form}"
-                        th:object="${requestGoogleMapsDailyResultDto}">
+                        th:object="${requestDailyResultDto}">
                     <input type="text"
                            id="postalCode"
                            name="postalCode"
-                           th:field="*{locationDto.postalCode}"
+                           th:field="*{locationDto.postalCoordinateDto.postalCode}"
                            hidden>
                     <input type="text"
                            id="countryCode"
                            name="countryCode"
-                           th:field="*{locationDto.countryCode}"
+                           th:field="*{locationDto.postalCoordinateDto.countryCode}"
                            hidden>
                     <input type="text"
                            id="placeId"

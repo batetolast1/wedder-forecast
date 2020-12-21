@@ -73,7 +73,7 @@
     <div class="content">
       <div class="container-fluid">
         <!-- .row -->
-        <div class="row" th:if="${responseSimpleResultDto != null}">
+        <div class="row" th:if="${simpleDailyResultDto != null}">
           <!-- .col Location map -->
           <div class="col-lg-8">
             <!-- .card -->
@@ -81,14 +81,14 @@
               <div class="card-header">
                 <h5 class="m-0">
                   <span th:text="#{pages.result.map-card.header}"></span>: <b><span
-                        th:text="${responseSimpleResultDto.locationDto.name}"></span></b>
+                        th:text="${simpleDailyResultDto.locationDto.name}"></span></b>
                 </h5>
               </div>
               <div class="card-body h-100">
                 <iframe
                         width="100%"
                         style="border:none; height: 100%"
-                        th:src="@{'https://www.google.com/maps/embed/v1/place?key=AIzaSyAibLFtxSmWFtuJPHl90pTl5FZlgJR6AzM&q=place_id:'+${responseSimpleResultDto.locationDto.placeId}}"
+                        th:src="@{'https://www.google.com/maps/embed/v1/place?key=AIzaSyAibLFtxSmWFtuJPHl90pTl5FZlgJR6AzM&q=place_id:'+${simpleDailyResultDto.locationDto.placeId}}"
                         allowfullscreen>
                 </iframe>
               </div>
@@ -102,21 +102,20 @@
               <div class="card-header">
                 <h5 class="m-0">
                   <span th:text="#{pages.result.results-card.title}"></span><b> <span
-                        th:text="${responseSimpleResultDto.localDateTime.toLocalDate()}"></span></b>
+                        th:text="${simpleDailyResultDto.localDateTime.toLocalDate()}"></span></b>
                 </h5>
               </div>
               <div class="card-body">
                 <!-- .table -->
                 <table class="table table-hover mb-2">
-                  <th></th>
                   <tr>
                     <td><i class="fas fa-temperature-low"></i></td>
                     <td th:text="#{pages.result.temp-avg}">Avg temperature</td>
                     <td>
-                      <span th:text="${responseSimpleResultDto.predictedDailyWeatherDto.tempAvg}"></span> °C
+                      <span th:text="${simpleDailyResultDto.simplePredictedDailyWeatherDto.tempAvg}"></span> °C
                     </td>
                     <td>
-                      +/- <span th:text="${responseSimpleResultDto.predictedDailyWeatherDto.tempAvgDeviation}"></span>
+                      +/- <span th:text="${simpleDailyResultDto.simplePredictedDailyWeatherDto.tempAvgDeviation}"></span>
                       °C
                     </td>
                   </tr>
@@ -124,20 +123,20 @@
                     <td><i class="fas fa-cloud-showers-heavy"></i></td>
                     <td th:text="#{pages.result.precip}"></td>
                     <td>
-                      <span th:text="${responseSimpleResultDto.predictedDailyWeatherDto.precip}">Precip value</span> mm
+                      <span th:text="${simpleDailyResultDto.simplePredictedDailyWeatherDto.precip}">Precip value</span> mm
                     </td>
                     <td>
-                      +/- <span th:text="${responseSimpleResultDto.predictedDailyWeatherDto.precipDeviation}"></span> mm
+                      +/- <span th:text="${simpleDailyResultDto.simplePredictedDailyWeatherDto.precipDeviation}"></span> mm
                     </td>
                   </tr>
                   <tr>
                     <td><i class="fas fa-cloud"></i></td>
                     <td th:text="#{pages.result.cld-cvr-avg}"></td>
                     <td>
-                      <span th:text="${responseSimpleResultDto.predictedDailyWeatherDto.cldCvrAvg}"></span> %
+                      <span th:text="${simpleDailyResultDto.simplePredictedDailyWeatherDto.cldCvrAvg}"></span> %
                     </td>
                     <td>
-                      +/- <span th:text="${responseSimpleResultDto.predictedDailyWeatherDto.cldCvrAvgDeviation}"></span>
+                      +/- <span th:text="${simpleDailyResultDto.simplePredictedDailyWeatherDto.cldCvrAvgDeviation}"></span>
                       %
                     </td>
                   </tr>
@@ -147,7 +146,7 @@
                 <div class="small-box bg-primary">
                   <div class="inner">
                     <h3>
-                      <span th:text="${responseSimpleResultDto.predictedDailyWeatherDto.systemRatingDto.overall}"></span>
+                      <span th:text="${simpleDailyResultDto.simplePredictedDailyWeatherDto.simpleSystemRatingDto.overall}"></span>
                       <sup style="font-size: 20px">/TEN</sup>
                     </h3>
                     <p th:text="#{pages.result.overall-rating}">Overall rating</p>

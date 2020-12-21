@@ -36,8 +36,14 @@
                 </h3>
               </div>
               <div class="card-body">
+                <p th:if="${!#strings.equals(exceptionInfo.exceptionClass, 'NotFound')}">
+                  <span th:text="${exceptionInfo.exceptionClass}"></span> - <span
+                        th:text="${exceptionInfo.message}"></span>
+                </p>
+                <p th:if="${#strings.equals(exceptionInfo.exceptionClass, 'NotFound')}">
+                  <span th:text="#{pages.error-500.weathersource-api-error}"></span>
+                </p>
                 <p>
-                  <span th:text="#{pages.error-500.description}"></span>
                   <a th:href="@{/}" th:text="#{pages.error-500.return}"></a>
                 </p>
               </div>

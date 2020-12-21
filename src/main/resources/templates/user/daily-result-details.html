@@ -123,6 +123,10 @@
                     <td>
                       +/- <span th:text="${dailyResultDto.predictedDailyWeatherDto.tempAvgDeviation}"></span> °C
                     </td>
+                    <td>
+                      <span th:text="${dailyResultDto.predictedDailyWeatherDto.systemRatingDto.temp}"></span> / <sup
+                            th:text="#{pages.result.max-system-rating-value}"></sup>
+                    </td>
                   </tr>
                   <tr>
                     <td><i class="far fa-smile"></i></td>
@@ -133,15 +137,9 @@
                     <td>
                       +/- <span th:text="${dailyResultDto.predictedDailyWeatherDto.feelsLikeAvgDeviation}"></span> °C
                     </td>
-                  </tr>
-                  <tr>
-                    <td><i class="fas fa-sun"></i></td>
-                    <td th:text="#{pages.result.heat-index-avg}"></td>
                     <td>
-                      <span th:text="${dailyResultDto.predictedDailyWeatherDto.heatIndexAvg}"></span> °C
-                    </td>
-                    <td>
-                      +/- <span th:text="${dailyResultDto.predictedDailyWeatherDto.heatIndexAvgDeviation}"></span> °C
+                      <span th:text="${dailyResultDto.predictedDailyWeatherDto.systemRatingDto.feelsLike}"></span> / <sup
+                            th:text="#{pages.result.max-system-rating-value}"></sup>
                     </td>
                   </tr>
                   <tr>
@@ -153,6 +151,10 @@
                     <td>
                       +/- <span th:text="${dailyResultDto.predictedDailyWeatherDto.mslPresAvgDeviation}"></span> hPa
                     </td>
+                    <td>
+                      <span th:text="${dailyResultDto.predictedDailyWeatherDto.systemRatingDto.mslPres}"></span> / <sup
+                            th:text="#{pages.result.max-system-rating-value}"></sup>
+                    </td>
                   </tr>
                   <tr>
                     <td><i class="fas fa-cloud-showers-heavy"></i></td>
@@ -162,6 +164,10 @@
                     </td>
                     <td>
                       +/- <span th:text="${dailyResultDto.predictedDailyWeatherDto.precipDeviation}"></span> mm
+                    </td>
+                    <td>
+                      <span th:text="${dailyResultDto.predictedDailyWeatherDto.systemRatingDto.precip}"></span> / <sup
+                            th:text="#{pages.result.max-system-rating-value}"></sup>
                     </td>
                   </tr>
                   <tr>
@@ -173,6 +179,10 @@
                     <td>
                       +/- <span th:text="${dailyResultDto.predictedDailyWeatherDto.snowfallDeviation}"></span> mm
                     </td>
+                    <td>
+                      <span th:text="${dailyResultDto.predictedDailyWeatherDto.systemRatingDto.snowfall}"></span> / <sup
+                            th:text="#{pages.result.max-system-rating-value}"></sup>
+                    </td>
                   </tr>
                   <tr>
                     <td><i class="fas fa-cloud"></i></td>
@@ -182,6 +192,10 @@
                     </td>
                     <td>
                       +/- <span th:text="${dailyResultDto.predictedDailyWeatherDto.cldCvrAvgDeviation}"></span> %
+                    </td>
+                    <td>
+                      <span th:text="${dailyResultDto.predictedDailyWeatherDto.systemRatingDto.cldCvr}"></span> / <sup
+                            th:text="#{pages.result.max-system-rating-value}"></sup>
                     </td>
                   </tr>
                   <tr>
@@ -193,6 +207,10 @@
                     <td>
                       +/- <span th:text="${dailyResultDto.predictedDailyWeatherDto.windSpdAvgDeviation}"></span> km/h
                     </td>
+                    <td>
+                      <span th:text="${dailyResultDto.predictedDailyWeatherDto.systemRatingDto.windSpd}"></span> / <sup
+                            th:text="#{pages.result.max-system-rating-value}"></sup>
+                    </td>
                   </tr>
                   <tr>
                     <td><i class="fas fa-water"></i></td>
@@ -202,6 +220,10 @@
                     </td>
                     <td>
                       +/- <span th:text="${dailyResultDto.predictedDailyWeatherDto.relHumAvgDeviation}"></span> %
+                    </td>
+                    <td>
+                      <span th:text="${dailyResultDto.predictedDailyWeatherDto.systemRatingDto.relHum}"></span> / <sup
+                            th:text="#{pages.result.max-system-rating-value}"></sup>
                     </td>
                   </tr>
                 </table><!-- /.table -->
@@ -242,7 +264,6 @@
                     <th th:text="#{pages.result.date}"></th>
                     <th th:text="#{pages.result.temp-avg}"></th>
                     <th th:text="#{pages.result.feels-like-avg}"></th>
-                    <th th:text="#{pages.result.heat-index-avg}"></th>
                     <th th:text="#{pages.result.pressure-avg}"></th>
                     <th th:text="#{pages.result.precip}"></th>
                     <th th:text="#{pages.result.snowfall}"></th>
@@ -255,16 +276,13 @@
                   <tbody>
                   <tr th:each="dailyWeatherDto: ${dailyResultDto.dailyWeatherDtos}">
                     <td>
-                      <span th:text="${dailyWeatherDto.timestamp.toLocalDate()}"></span>
+                      <span th:text="${dailyWeatherDto.localDateTime.toLocalDate()}"></span>
                     </td>
                     <td>
                       <span th:text="${dailyWeatherDto.tempAvg}"></span> °C
                     </td>
                     <td>
                       <span th:text="${dailyWeatherDto.feelsLikeAvg}"></span> °C
-                    </td>
-                    <td>
-                      <span th:text="${dailyWeatherDto.heatIndexAvg}"></span> °C
                     </td>
                     <td>
                       <span th:text="${dailyWeatherDto.mslPresAvg}"></span> hPa

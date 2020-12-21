@@ -123,6 +123,10 @@
                     <td>
                       +/- <span th:text="${hourlyResultDto.predictedHourlyWeatherDto.tempDeviation}"></span> °C
                     </td>
+                    <td>
+                      <span th:text="${hourlyResultDto.predictedHourlyWeatherDto.systemRatingDto.temp}"></span> / <sup
+                            th:text="#{pages.result.max-system-rating-value}"></sup>
+                    </td>
                   </tr>
                   <tr>
                     <td><i class="far fa-smile"></i></td>
@@ -133,15 +137,9 @@
                     <td>
                       +/- <span th:text="${hourlyResultDto.predictedHourlyWeatherDto.feelsLikeDeviation}"></span> °C
                     </td>
-                  </tr>
-                  <tr>
-                    <td><i class="fas fa-sun"></i></td>
-                    <td th:text="#{pages.result.heat-index}"></td>
                     <td>
-                      <span th:text="${hourlyResultDto.predictedHourlyWeatherDto.heatIndex}"></span> °C
-                    </td>
-                    <td>
-                      +/- <span th:text="${hourlyResultDto.predictedHourlyWeatherDto.heatIndexDeviation}"></span> °C
+                      <span th:text="${hourlyResultDto.predictedHourlyWeatherDto.systemRatingDto.feelsLike}"></span> / <sup
+                            th:text="#{pages.result.max-system-rating-value}"></sup>
                     </td>
                   </tr>
                   <tr>
@@ -153,6 +151,10 @@
                     <td>
                       +/- <span th:text="${hourlyResultDto.predictedHourlyWeatherDto.mslPresDeviation}"></span> hPa
                     </td>
+                    <td>
+                      <span th:text="${hourlyResultDto.predictedHourlyWeatherDto.systemRatingDto.mslPres}"></span> / <sup
+                            th:text="#{pages.result.max-system-rating-value}"></sup>
+                    </td>
                   </tr>
                   <tr>
                     <td><i class="fas fa-cloud-showers-heavy"></i></td>
@@ -162,6 +164,10 @@
                     </td>
                     <td>
                       +/- <span th:text="${hourlyResultDto.predictedHourlyWeatherDto.precipDeviation}"></span> mm
+                    </td>
+                    <td>
+                      <span th:text="${hourlyResultDto.predictedHourlyWeatherDto.systemRatingDto.precip}"></span> / <sup
+                            th:text="#{pages.result.max-system-rating-value}"></sup>
                     </td>
                   </tr>
                   <tr>
@@ -173,6 +179,10 @@
                     <td>
                       +/- <span th:text="${hourlyResultDto.predictedHourlyWeatherDto.snowfallDeviation}"></span> mm
                     </td>
+                    <td>
+                      <span th:text="${hourlyResultDto.predictedHourlyWeatherDto.systemRatingDto.snowfall}"></span> / <sup
+                            th:text="#{pages.result.max-system-rating-value}"></sup>
+                    </td>
                   </tr>
                   <tr>
                     <td><i class="fas fa-cloud"></i></td>
@@ -182,6 +192,10 @@
                     </td>
                     <td>
                       +/- <span th:text="${hourlyResultDto.predictedHourlyWeatherDto.cldCvrDeviation}"></span> %
+                    </td>
+                    <td>
+                      <span th:text="${hourlyResultDto.predictedHourlyWeatherDto.systemRatingDto.cldCvr}"></span> / <sup
+                            th:text="#{pages.result.max-system-rating-value}"></sup>
                     </td>
                   </tr>
                   <tr>
@@ -193,6 +207,10 @@
                     <td>
                       +/- <span th:text="${hourlyResultDto.predictedHourlyWeatherDto.windSpdDeviation}"></span> km/h
                     </td>
+                    <td>
+                      <span th:text="${hourlyResultDto.predictedHourlyWeatherDto.systemRatingDto.windSpd}"></span> / <sup
+                            th:text="#{pages.result.max-system-rating-value}"></sup>
+                    </td>
                   </tr>
                   <tr>
                     <td><i class="fas fa-water"></i></td>
@@ -202,6 +220,10 @@
                     </td>
                     <td>
                       +/- <span th:text="${hourlyResultDto.predictedHourlyWeatherDto.relHumDeviation}"></span> %
+                    </td>
+                    <td>
+                      <span th:text="${hourlyResultDto.predictedHourlyWeatherDto.systemRatingDto.relHum}"></span> / <sup
+                            th:text="#{pages.result.max-system-rating-value}"></sup>
                     </td>
                   </tr>
                 </table><!-- /.table -->
@@ -242,7 +264,6 @@
                     <th th:text="#{pages.result.date}"></th>
                     <th th:text="#{pages.result.temp}"></th>
                     <th th:text="#{pages.result.feels-like}"></th>
-                    <th th:text="#{pages.result.heat-index}"></th>
                     <th th:text="#{pages.result.pressure}"></th>
                     <th th:text="#{pages.result.precip}"></th>
                     <th th:text="#{pages.result.snowfall}"></th>
@@ -255,16 +276,13 @@
                   <tbody>
                   <tr th:each="hourlyWeatherDto: ${hourlyResultDto.hourlyWeatherDtos}">
                     <td>
-                      <span th:text="${hourlyWeatherDto.timestamp.toLocalDate()}"></span>
+                      <span th:text="${hourlyWeatherDto.localDateTime}"></span>
                     </td>
                     <td>
                       <span th:text="${hourlyWeatherDto.temp}"></span> °C
                     </td>
                     <td>
                       <span th:text="${hourlyWeatherDto.feelsLike}"></span> °C
-                    </td>
-                    <td>
-                      <span th:text="${hourlyWeatherDto.heatIndex}"></span> °C
                     </td>
                     <td>
                       <span th:text="${hourlyWeatherDto.mslPres}"></span> hPa
